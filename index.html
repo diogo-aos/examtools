@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExamTools</title>
+<style>
+  :root { --pink:#F6E2E9; --cream:#FEFAF3; --sagel:#B8CFB3; --sage:#84A282; --ink:#2B3A2A; --soft:#5B6F59; --pinkdeep:#D9A9BA; }
+  * { box-sizing: border-box; margin: 0; }
+  body { min-height: 100vh; background: var(--cream); color: var(--ink); font-family: "Avenir Next","Segoe UI",system-ui,sans-serif; display: grid; place-items: center; padding: 24px 16px; position: relative; overflow-x: hidden; }
+  .blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+  .a { width: 46vmax; height: 46vmax; background: var(--pink); top: -18vmax; right: -14vmax; opacity: .85; }
+  .b { width: 38vmax; height: 38vmax; background: var(--sagel); bottom: -20vmax; left: -12vmax; opacity: .55; }
+  main { position: relative; z-index: 1; width: min(860px, 100%); }
+  h1 { font-size: clamp(2rem, 6vw, 3.2rem); letter-spacing: -.03em; display: flex; align-items: center; gap: 12px; }
+  h1::before { content: ""; width: 16px; height: 16px; border-radius: 50%; background: var(--sage); }
+  .sub { color: var(--soft); margin: 8px 0 28px; font-size: clamp(1rem, 2.4vw, 1.15rem); }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  a.card { display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: inherit; background: rgba(254,250,243,.9); border: 2px solid var(--sagel); border-radius: 24px; padding: 22px; transition: transform .15s, box-shadow .15s, background .15s; box-shadow: 0 8px 24px rgba(70,95,68,.1); }
+  a.card:hover, a.card:focus-visible { transform: translateY(-4px); background: var(--pink); border-color: var(--sage); box-shadow: 0 12px 28px rgba(70,95,68,.18); outline: none; }
+  .tag { align-self: flex-start; background: var(--sagel); border-radius: 999px; padding: 2px 12px; font-size: .75rem; font-weight: 700; }
+  h2 { font-size: 1.3rem; }
+  p { color: var(--soft); line-height: 1.4; }
+  .go { margin-top: auto; padding-top: 8px; font-weight: 700; color: var(--sage); }
+  footer { margin-top: 28px; font-size: .85rem; color: var(--soft); }
+  footer a { color: var(--soft); }
+</style>
+</head>
+<body>
+<div class="blob a"></div><div class="blob b"></div>
+<main>
+  <h1>ExamTools</h1>
+  <p class="sub">Single-file tools for building, filling and presenting exams — everything runs in your browser.</p>
+  <div class="grid">
+    <a class="card" href="exam-bench-v9.html">
+      <span class="tag">Build</span><h2>Exam Bench</h2>
+      <p>Write and manage a JSON question bank and export exam versions.</p>
+      <span class="go">Open →</span>
+    </a>
+    <a class="card" href="odt-template-filler.html">
+      <span class="tag">Fill</span><h2>ODT Template Filler</h2>
+      <p>Fill an .odt template with one JSON per version and download the results.</p>
+      <span class="go">Open →</span>
+    </a>
+    <a class="card" href="exam-presenter.html">
+      <span class="tag">Present</span><h2>Exam Presenter</h2>
+      <p>Turn a question bank into a slide show to go through the correction with students.</p>
+      <span class="go">Open →</span>
+    </a>
+  </div>
+  <footer>Manual: <a href="exam-bench-manual-v9.odt">exam-bench-manual-v9.odt</a> · <a href="https://github.com/diogo-aos/examtools">Source on GitHub</a></footer>
+</main>
+</body>
+</html>
