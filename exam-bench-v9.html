@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Bench — JSON question bank</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+
+<!-- Theme applied before paint, so there's no light->dark flash on load -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('exam-bench-theme');
+      var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.classList.add('dark');
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.13 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:IBM Plex Mono,ui-monospace,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}html{scroll-behavior:smooth}body{--tw-bg-opacity:1;background-color:rgb(247 244 237/var(--tw-bg-opacity));font-family:Space Grotesk,system-ui,sans-serif;--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity));-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}body:is(.dark *){--tw-bg-opacity:1;background-color:rgb(14 18 24/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(247 244 237/var(--tw-text-opacity))}::-moz-selection{background-color:rgba(232,179,60,.4)}::selection{background-color:rgba(232,179,60,.4)}.btn-primary{height:2rem;border-radius:.375rem;padding-left:.875rem;padding-right:.875rem;font-size:12px;font-weight:600;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;--tw-bg-opacity:1;background-color:rgb(232 179 60/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.btn-primary:hover{--tw-brightness:brightness(1.1);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.btn-neutral{height:2rem;border-radius:.375rem;padding-left:.875rem;padding-right:.875rem;font-size:12px;font-weight:600;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;--tw-bg-opacity:1;background-color:rgb(235 238 241/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.btn-neutral:hover{--tw-bg-opacity:1;background-color:rgb(216 221 228/var(--tw-bg-opacity))}.btn-neutral:is(.dark *){--tw-bg-opacity:1;background-color:rgb(42 51 64/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(247 244 237/var(--tw-text-opacity))}.btn-neutral:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(60 71 87/var(--tw-bg-opacity))}.btn-ghost{height:2rem;border-radius:.375rem;font-size:12px;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;padding-left:.625rem;padding-right:.625rem;font-weight:500;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}.btn-ghost:hover{--tw-bg-opacity:1;background-color:rgb(235 238 241/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.btn-ghost:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.btn-ghost:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(29 36 46/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(247 244 237/var(--tw-text-opacity))}.btn-icon{display:grid;height:2rem;width:2rem;place-items:center;border-radius:.375rem;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity));transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.btn-icon:hover{--tw-bg-opacity:1;background-color:rgb(235 238 241/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.btn-icon:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.btn-icon:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(29 36 46/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(247 244 237/var(--tw-text-opacity))}.mini-btn{height:1.5rem;border-radius:.25rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(216 221 228/var(--tw-border-opacity));padding-left:.625rem;padding-right:.625rem;font-family:IBM Plex Mono,ui-monospace,monospace;font-size:10.5px;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity));transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.mini-btn:hover{--tw-border-opacity:1;border-color:rgb(232 179 60/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(232 179 60/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.mini-btn:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity));--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.mini-btn:hover:is(.dark *){--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity))}.surface{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.surface:is(.dark *){--tw-bg-opacity:1;background-color:rgb(21 26 34/var(--tw-bg-opacity))}.surface-deep{--tw-bg-opacity:1;background-color:rgb(239 234 224/var(--tw-bg-opacity))}.surface-deep:is(.dark *){--tw-bg-opacity:1;background-color:rgb(29 36 46/var(--tw-bg-opacity))}.surface-sunk{--tw-bg-opacity:1;background-color:rgb(247 244 237/var(--tw-bg-opacity))}.surface-sunk:is(.dark *){--tw-bg-opacity:1;background-color:rgb(14 18 24/var(--tw-bg-opacity))}.edge{--tw-border-opacity:1;border-color:rgb(230 224 211/var(--tw-border-opacity))}.edge:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity))}.edge-soft{border-color:hsla(41,28%,86%,.7)}.edge-soft:is(.dark *){--tw-border-opacity:1;border-color:rgb(29 36 46/var(--tw-border-opacity))}.pane-label{font-family:IBM Plex Mono,ui-monospace,monospace;font-size:10px;letter-spacing:.18em;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}.pane-label:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.field-input{height:2.25rem;width:100%;border-radius:.375rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(216 221 228/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity));padding-left:.75rem;padding-right:.75rem;font-family:IBM Plex Mono,ui-monospace,monospace;font-size:13px;--tw-text-opacity:1;color:rgb(14 18 24/var(--tw-text-opacity));outline:2px solid transparent;outline-offset:2px}.field-input:focus{--tw-border-opacity:1;border-color:rgb(232 179 60/var(--tw-border-opacity))}.field-input:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(14 18 24/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(247 244 237/var(--tw-text-opacity))}.field-label{font-family:IBM Plex Mono,ui-monospace,monospace;font-size:10px;letter-spacing:.16em;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}.field-label:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.toggle-row{display:flex;cursor:pointer;align-items:center;gap:.5rem;font-size:12px;--tw-text-opacity:1;color:rgb(71 85 105/var(--tw-text-opacity))}.toggle-row:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}@keyframes fade{0%{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.qcard{animation:fade .28s ease both;overflow:hidden;border-radius:.5rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(230 224 211/var(--tw-border-opacity));background-color:hsla(0,0%,100%,.7)}.qcard:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity));background-color:rgba(21,26,34,.7)}.qcard-bad{border-color:rgba(216,84,60,.5);background-color:rgba(216,84,60,.05)}.qcard-bad:is(.dark *){background-color:rgba(216,84,60,.1)}.bubble{display:grid;height:1rem;width:1rem;place-items:center;border-radius:9999px;border-width:1.5px;--tw-border-opacity:1;border-color:rgb(183 191 201/var(--tw-border-opacity));font-family:IBM Plex Mono,ui-monospace,monospace;font-size:9px;line-height:1;--tw-text-opacity:1;color:rgb(90 102 117/var(--tw-text-opacity))}.bubble:is(.dark *){--tw-border-opacity:1;border-color:rgb(60 71 87/var(--tw-border-opacity));--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.bubble-on{--tw-border-opacity:1;border-color:rgb(165 121 28/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(232 179 60/var(--tw-bg-opacity));font-weight:600;--tw-text-opacity:1;color:rgb(58 44 8/var(--tw-text-opacity))}.modal-box{margin-left:auto;margin-right:auto;max-width:48rem;overflow:hidden;border-radius:.75rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(230 224 211/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity));--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.modal-box:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(21 26 34/var(--tw-bg-opacity))}.chip{border-radius:.25rem;border-width:1px;--tw-border-opacity:1;border-color:rgb(230 224 211/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(247 244 237/var(--tw-bg-opacity));padding:.25rem .375rem;font-family:IBM Plex Mono,ui-monospace,monospace;font-size:10.5px;--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}.chip:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity));--tw-bg-opacity:1;background-color:rgb(14 18 24/var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.rule{height:1px;background-image:repeating-linear-gradient(90deg,#e6e0d3 0 6px,transparent 6px 12px)}.dark .rule{background-image:repeating-linear-gradient(90deg,#2a3340 0 6px,transparent 6px 12px)}.fixed{position:fixed}.inset-0{inset:0}.bottom-5{bottom:1.25rem}.left-1\/2{left:50%}.z-40{z-index:40}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1\.5{margin-bottom:.375rem}.mb-2{margin-bottom:.5rem}.mb-2\.5{margin-bottom:.625rem}.mb-4{margin-bottom:1rem}.ml-auto{margin-left:auto}.mt-1{margin-top:.25rem}.mt-1\.5{margin-top:.375rem}.mt-2\.5{margin-top:.625rem}.mt-3{margin-top:.75rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-11{height:2.75rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-3\.5{height:.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\[calc\(100vh-3\.5rem\)\]{height:calc(100vh - 3.5rem)}.h-full{height:100%}.max-h-40{max-height:10rem}.min-h-0{min-height:0}.w-11{width:2.75rem}.w-24{width:6rem}.w-3\.5{width:.875rem}.w-4{width:1rem}.w-full{width:100%}.w-px{width:1px}.min-w-0{min-width:0}.max-w-xl{max-width:36rem}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.resize-none{resize:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.place-items-center{place-items:center}.items-end{align-items:flex-end}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-end{justify-content:flex-end}.justify-between{justify-content:space-between}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-2\.5{gap:.625rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-1\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.375rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.375rem*var(--tw-space-y-reverse))}.space-y-2\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.625rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.625rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem*var(--tw-space-y-reverse))}.space-y-6>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem*var(--tw-space-y-reverse))}.self-stretch{align-self:stretch}.overflow-auto{overflow:auto}.overflow-hidden,.truncate{overflow:hidden}.truncate{text-overflow:ellipsis;white-space:nowrap}.whitespace-pre-wrap{white-space:pre-wrap}.rounded{border-radius:.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-r{border-right-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-ink-200{--tw-border-opacity:1;border-color:rgb(216 221 228/var(--tw-border-opacity))}.border-paper-edge{--tw-border-opacity:1;border-color:rgb(230 224 211/var(--tw-border-opacity))}.border-teal\/40{border-color:rgba(79,168,165,.4)}.bg-ink-900\/70{background-color:rgba(14,18,24,.7)}.bg-paper-edge{--tw-bg-opacity:1;background-color:rgb(230 224 211/var(--tw-bg-opacity))}.bg-teal\/15{background-color:rgba(79,168,165,.15)}.bg-teal\/20{background-color:rgba(79,168,165,.2)}.bg-teal\/5{background-color:rgba(79,168,165,.05)}.bg-transparent{background-color:transparent}.p-4{padding:1rem}.p-5{padding:1.25rem}.px-1\.5{padding-left:.375rem;padding-right:.375rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-8{padding-left:2rem;padding-right:2rem}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-3\.5{padding-top:.875rem;padding-bottom:.875rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-0\.5{padding-bottom:.125rem}.pt-0\.5{padding-top:.125rem}.pt-3{padding-top:.75rem}.text-center{text-align:center}.font-display{font-family:Space Grotesk,system-ui,sans-serif}.font-mono{font-family:IBM Plex Mono,ui-monospace,monospace}.font-serif{font-family:"Source Serif 4",Georgia,serif}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[11\.5px\]{font-size:11.5px}.text-\[11px\]{font-size:11px}.text-\[12\.5px\]{font-size:12.5px}.text-\[12px\]{font-size:12px}.text-\[13\.5px\]{font-size:13.5px}.text-\[13px\]{font-size:13px}.text-\[14px\]{font-size:14px}.text-\[15px\]{font-size:15px}.text-\[17px\]{font-size:17px}.text-\[19px\]{font-size:19px}.font-bold{font-weight:700}.font-semibold{font-weight:600}.italic{font-style:italic}.leading-\[1\.65\]{line-height:1.65}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.tracking-\[0\.14em\]{letter-spacing:.14em}.tracking-\[0\.22em\]{letter-spacing:.22em}.tracking-tight{letter-spacing:-.025em}.text-ink-300{--tw-text-opacity:1;color:rgb(183 191 201/var(--tw-text-opacity))}.text-ink-400{--tw-text-opacity:1;color:rgb(90 102 117/var(--tw-text-opacity))}.text-ink-500{--tw-text-opacity:1;color:rgb(60 71 87/var(--tw-text-opacity))}.text-ink-600{--tw-text-opacity:1;color:rgb(42 51 64/var(--tw-text-opacity))}.text-ink-700{--tw-text-opacity:1;color:rgb(29 36 46/var(--tw-text-opacity))}.text-rust{--tw-text-opacity:1;color:rgb(216 84 60/var(--tw-text-opacity))}.text-signal-deep{--tw-text-opacity:1;color:rgb(165 121 28/var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105/var(--tw-text-opacity))}.text-teal-deep{--tw-text-opacity:1;color:rgb(46 112 110/var(--tw-text-opacity))}.accent-signal{accent-color:#e8b33c}.shadow-xl{--tw-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.scroll-thin::-webkit-scrollbar{width:9px;height:9px}.scroll-thin::-webkit-scrollbar-thumb{border-radius:9999px;--tw-bg-opacity:1;background-color:rgb(216 221 228/var(--tw-bg-opacity))}.scroll-thin:is(.dark *)::-webkit-scrollbar-thumb{--tw-bg-opacity:1;background-color:rgb(42 51 64/var(--tw-bg-opacity))}.scroll-thin::-webkit-scrollbar-track{background:transparent}.placeholder\:text-ink-300::-moz-placeholder{--tw-text-opacity:1;color:rgb(183 191 201/var(--tw-text-opacity))}.placeholder\:text-ink-300::placeholder{--tw-text-opacity:1;color:rgb(183 191 201/var(--tw-text-opacity))}.last\:border-0:last-child{border-width:0}.hover\:text-signal-deep:hover{--tw-text-opacity:1;color:rgb(165 121 28/var(--tw-text-opacity))}.dark\:border-ink-500:is(.dark *){--tw-border-opacity:1;border-color:rgb(60 71 87/var(--tw-border-opacity))}.dark\:border-ink-600:is(.dark *){--tw-border-opacity:1;border-color:rgb(42 51 64/var(--tw-border-opacity))}.dark\:border-teal\/30:is(.dark *){border-color:rgba(79,168,165,.3)}.dark\:bg-ink-600:is(.dark *){--tw-bg-opacity:1;background-color:rgb(42 51 64/var(--tw-bg-opacity))}.dark\:bg-ink-900\/85:is(.dark *){background-color:rgba(14,18,24,.85)}.dark\:bg-teal\/10:is(.dark *){background-color:rgba(79,168,165,.1)}.dark\:text-ink-500:is(.dark *){--tw-text-opacity:1;color:rgb(60 71 87/var(--tw-text-opacity))}.dark\:text-paper\/70:is(.dark *){color:hsla(42,38%,95%,.7)}.dark\:text-paper\/80:is(.dark *){color:hsla(42,38%,95%,.8)}.dark\:text-signal:is(.dark *){--tw-text-opacity:1;color:rgb(232 179 60/var(--tw-text-opacity))}.dark\:text-slate2:is(.dark *){--tw-text-opacity:1;color:rgb(138 148 163/var(--tw-text-opacity))}.dark\:text-teal:is(.dark *){--tw-text-opacity:1;color:rgb(79 168 165/var(--tw-text-opacity))}.dark\:placeholder\:text-ink-500:is(.dark *)::-moz-placeholder{--tw-text-opacity:1;color:rgb(60 71 87/var(--tw-text-opacity))}.dark\:placeholder\:text-ink-500:is(.dark *)::placeholder{--tw-text-opacity:1;color:rgb(60 71 87/var(--tw-text-opacity))}.dark\:hover\:text-signal:hover:is(.dark *){--tw-text-opacity:1;color:rgb(232 179 60/var(--tw-text-opacity))}@media (min-width:640px){.sm\:block{display:block}.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.sm\:p-8{padding:2rem}}@media (min-width:1024px){.lg\:grid-cols-\[minmax\(0\2c 44fr\)_minmax\(0\2c 56fr\)\]{grid-template-columns:minmax(0,44fr) minmax(0,56fr)}}
+</style>
+<style>
+/* v9 additions — utilities the pre-compiled stylesheet above does not contain */
+.gap-1{gap:.25rem}.mt-2{margin-top:.5rem}.mt-0\.5{margin-top:.125rem}.ml-\[26px\]{margin-left:26px}.text-\[9\.5px\]{font-size:9.5px}
+.bg-rust\/20{background-color:rgba(216,84,60,.2)}
+.mini-btn.tag-on,.dark .mini-btn.tag-on{background-color:#e8b33c;border-color:#a5791c;color:#3a2c08;font-weight:600}
+.drag-over{outline:2px dashed #e8b33c;outline-offset:-8px;background-color:rgba(232,179,60,.07)}
+.mini-btn:disabled{cursor:default;opacity:.85}
+.field-input option{font-family:inherit}
+@media (min-width:640px){.sm\:col-span-2{grid-column:span 2/span 2}}
+</style>
+</head>
+
+<body class="bg-paper text-ink-900 dark:bg-ink-900 dark:text-paper font-display antialiased transition-colors duration-150">
+
+<!-- ══════════════════════════ HEADER ══════════════════════════ -->
+<header class="h-14 flex items-center gap-4 px-4 border-b surface-deep edge shrink-0">
+  <div class="flex items-baseline gap-2.5">
+    <span class="font-mono text-[11px] tracking-[0.22em] text-signal-deep dark:text-signal">EXAM</span>
+    <span class="font-display font-bold text-[17px] tracking-tight">Bench</span>
+  </div>
+  <div class="h-5 w-px bg-paper-edge dark:bg-ink-600"></div>
+  <div id="stats" class="font-mono text-[11px] text-slate-500 dark:text-slate2 hidden sm:block">no questions yet</div>
+
+  <div class="ml-auto flex items-center gap-2">
+    <button id="btn-theme" class="btn-icon" title="Toggle light/dark" aria-label="Toggle theme">
+      <svg id="icon-sun" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+      <svg id="icon-moon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"></path>
+      </svg>
+    </button>
+    <input id="file-in" type="file" accept=".json,application/json" class="hidden">
+    <button id="btn-open" class="btn-ghost" title="Open a .json bank">Open</button>
+    <button id="btn-save" class="btn-ghost" title="Save the bank as .json">Save</button>
+    <button id="btn-format" class="btn-ghost" title="Re-indent the JSON">Format</button>
+    <button id="btn-sample" class="btn-ghost">Load sample</button>
+    <button id="btn-scoring" class="btn-neutral">Scoring</button>
+    <button id="btn-versions" class="btn-neutral">Versions</button>
+    <button id="btn-export" class="btn-primary">Export</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════ MAIN ══════════════════════════ -->
+<main class="grid lg:grid-cols-[minmax(0,44fr)_minmax(0,56fr)] h-[calc(100vh-3.5rem)]">
+
+  <!-- LEFT: source -->
+  <section class="flex flex-col min-h-0 border-r edge surface-sunk">
+    <div class="flex items-center gap-3 px-4 h-9 border-b edge-soft shrink-0">
+      <span class="pane-label">SOURCE · JSON BANK</span>
+      <span id="save-state" class="ml-auto font-mono text-[10px] text-ink-300 dark:text-ink-500">—</span>
+      <button id="btn-help" class="font-mono text-[10px] text-slate-500 dark:text-slate2 hover:text-signal-deep dark:hover:text-signal transition">syntax ?</button>
+    </div>
+
+    <div id="help" class="hidden px-4 py-3 border-b edge-soft surface-deep text-[12px] leading-relaxed text-slate-600 dark:text-slate2 font-mono max-h-40 overflow-auto scroll-thin">
+      <div class="text-ink-900 dark:text-paper mb-1.5">Bank</div>
+<pre class="text-[11.5px] whitespace-pre-wrap">{ "format": "exam-bench-bank", "format_version": 1,
+  "meta":     { "title", "presentation", "front_page": [], "answer_sheet": [],
+               "symbols": { "multiple": "Ψ", "penalty": "" } },
+  "defaults": { "points": 1, "wrong_discounts": false, "penalty_fraction": 0.5 },
+  "taxonomy": { … },            // optional, documents / checks uc: values
+  "groups":   [ { "id", "tag", "symbol", "title", "intro", "outro", "keep_together", "order" } ],
+  "questions": [ … ] }</pre>
+      <div class="text-ink-900 dark:text-paper mt-3 mb-1.5">Question</div>
+<pre class="text-[11.5px] whitespace-pre-wrap">{ "id": "def-threat", "type": "single",        // single | multiple | open
+  "active": true,                              // false = kept, never exported
+  "tags": ["uc:defensive", "topic:threat-concepts"],
+  "group": "case-1",                           // optional: join a group by id
+  "text": "…",
+  "score": { "points": 1, "wrong_discounts": true, "penalty": 0.5 },
+  "choices": [ { "text": "…", "correct": true, "justification": "" },
+               { "text": "None of the others.", "correct": false, "fixed": true } ],
+  "notes": "author-only, never printed" }</pre>
+      <ul class="space-y-1 text-[11.5px] mt-3">
+        <li><span class="text-signal-deep dark:text-signal">score.wrong_discounts</span> — a wrong answer costs <span class="text-signal-deep dark:text-signal">penalty</span> points (default: points × defaults.penalty_fraction)</li>
+        <li><span class="text-signal-deep dark:text-signal">tags</span> — lowercase, <span class="text-signal-deep dark:text-signal">namespace:value</span>. Questions sharing a group's tag, or a tag ticked in Versions → "Keep together by tag", are never separated</li>
+        <li><span class="text-signal-deep dark:text-signal">groups[].symbol</span> — optional mark (e.g. ★) exported as <span class="text-signal-deep dark:text-signal">group_symbol</span> on every member, for the template to append to the question</li>
+        <li><span class="text-signal-deep dark:text-signal">fixed</span> — choice keeps its place (last) when choices are shuffled; "None of the others/above" is fixed automatically</li>
+        <li><span class="text-signal-deep dark:text-signal">open</span> questions have <span class="text-signal-deep dark:text-signal">answer_lines</span>, <span class="text-signal-deep dark:text-signal">expected_answer</span>, <span class="text-signal-deep dark:text-signal">rubric</span> and no choices; they are not on the ZipGrade sheet</li>
+        <li>Full reference: exam-bank-spec.md</li>
+      </ul>
+    </div>
+
+    <textarea id="editor" spellcheck="false"
+      class="flex-1 min-h-0 w-full resize-none bg-transparent font-mono text-[13px] leading-[1.65] px-4 py-4 outline-none scroll-thin placeholder:text-ink-300 dark:placeholder:text-ink-500"
+      placeholder="Paste a JSON question bank, press Open, or Load sample."></textarea>
+
+    <div id="problems" class="shrink-0 max-h-40 overflow-auto scroll-thin border-t edge-soft"></div>
+  </section>
+
+  <!-- RIGHT: preview -->
+  <section class="flex flex-col min-h-0 surface">
+    <div class="flex items-center gap-3 px-5 h-9 border-b edge-soft surface-deep shrink-0">
+      <span class="pane-label">PAPER · PREVIEW</span>
+      <span id="preview-meta" class="ml-auto font-mono text-[10px] text-slate-500 dark:text-slate2"></span>
+    </div>
+    <div id="preview" class="flex-1 min-h-0 overflow-auto scroll-thin px-5 py-6 space-y-5"></div>
+  </section>
+</main>
+
+<!-- ══════════════════════════ VERSIONS MODAL ══════════════════════════ -->
+<div id="modal" class="hidden fixed inset-0 z-40 bg-ink-900/70 dark:bg-ink-900/85 backdrop-blur-sm p-4 sm:p-8 overflow-auto">
+  <div class="modal-box">
+    <div class="flex items-center gap-3 px-5 h-12 border-b edge">
+      <span class="font-display font-bold text-[15px]">Versions</span>
+      <span id="ver-sub" class="font-mono text-[11px] text-slate-500 dark:text-slate2"></span>
+      <button id="btn-close" class="btn-icon ml-auto" aria-label="Close">✕</button>
+    </div>
+
+    <div class="p-5 space-y-5">
+      <div class="grid sm:grid-cols-3 gap-4">
+        <label class="block">
+          <span class="field-label">HOW MANY</span>
+          <input id="in-count" type="number" min="1" max="12" value="3" class="field-input mt-1.5">
+        </label>
+        <label class="block">
+          <span class="field-label">SHUFFLE SEED</span>
+          <input id="in-seed" type="text" value="1" class="field-input mt-1.5">
+        </label>
+        <div class="flex flex-col justify-end gap-2 pb-0.5">
+          <label class="toggle-row"><input id="in-shuffle-q" type="checkbox" checked class="accent-signal w-3.5 h-3.5"> shuffle questions &amp; groups</label>
+          <label class="toggle-row"><input id="in-shuffle-g" type="checkbox" checked class="accent-signal w-3.5 h-3.5"> shuffle within groups</label>
+          <label class="toggle-row"><input id="in-shuffle-c" type="checkbox" checked class="accent-signal w-3.5 h-3.5"> shuffle choices</label>
+        </div>
+      </div>
+      <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2">"Shuffle questions &amp; groups" reorders standalone questions and bound blocks relative to each other — a block always stays together. "Shuffle within groups" additionally reorders the questions inside each block (unless the group says <span class="text-ink-900 dark:text-paper">"order": "fixed"</span>). Choices marked fixed (e.g. "None of the others") stay last.</p>
+
+      <div>
+        <div class="field-label mb-2">KEEP TOGETHER BY TAG</div>
+        <div id="bind-tags" class="flex flex-wrap gap-1.5"></div>
+        <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2 mt-2">Questions that share a ticked tag are never separated (🔒 = already bound by a bank group). Only tags shared by two or more ready questions are listed.</p>
+      </div>
+
+      <label class="block">
+        <span class="field-label">ZIPGRADE TAG NAMESPACES</span>
+        <input id="in-tagns" type="text" value="uc" placeholder="comma-separated; empty = question id" class="field-input mt-1.5">
+      </label>
+
+      <div class="flex items-center gap-3 flex-wrap">
+        <button id="btn-generate" class="btn-primary">Generate</button>
+        <span class="font-mono text-[11px] text-slate-500 dark:text-slate2">Same seed always rebuilds the same versions.</span>
+      </div>
+
+      <div id="ver-out" class="space-y-3"></div>
+
+      <div>
+        <div class="field-label mb-2">FILES</div>
+        <div id="file-out" class="flex flex-col border edge rounded-lg overflow-hidden"></div>
+        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2 mt-3">Export downloads all of these as one .zip. If your browser blocks it, grab them one at a time here.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="scoring-modal" class="hidden fixed inset-0 z-40 bg-ink-900/70 dark:bg-ink-900/85 backdrop-blur-sm p-4 sm:p-8 overflow-auto">
+  <div class="modal-box max-w-xl">
+    <div class="flex items-center gap-3 px-5 h-12 border-b edge">
+      <span class="font-display font-bold text-[15px]">Scoring</span>
+      <span id="scoring-note" class="font-mono text-[11px] text-slate-500 dark:text-slate2"></span>
+      <button id="btn-scoring-close" class="btn-icon ml-auto" aria-label="Close">✕</button>
+    </div>
+    <div class="p-5 space-y-6">
+
+      <section class="space-y-2.5">
+        <span class="field-label">APPLY TO</span>
+        <select id="score-scope" class="field-input"></select>
+        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2">Only active questions carrying the selected tag are changed. The JSON is rewritten with 2-space indentation.</p>
+      </section>
+
+      <div class="edge border-t"></div>
+
+      <section class="space-y-2.5">
+        <span class="field-label">SCORE</span>
+        <div class="flex items-end gap-2.5 flex-wrap">
+          <label class="block">
+            <span class="field-label">POINTS</span>
+            <input id="score-value" type="number" step="0.25" value="1" class="field-input mt-1.5 w-24">
+          </label>
+          <button id="btn-score-apply" class="btn-primary">Apply</button>
+        </div>
+      </section>
+
+      <div class="edge border-t"></div>
+
+      <section class="space-y-2.5">
+        <span class="field-label">WRONG-ANSWER DISCOUNT</span>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="btn-neutral" data-penalty-pct="0">No discount</button>
+          <button class="btn-neutral" data-penalty-pct="0.25">25% of score</button>
+          <button class="btn-neutral" data-penalty-pct="0.5">50% of score</button>
+        </div>
+        <div class="flex items-end gap-2.5 flex-wrap">
+          <label class="block">
+            <span class="field-label">FIXED PENALTY</span>
+            <input id="penalty-value" type="number" step="0.25" value="0" class="field-input mt-1.5 w-24">
+          </label>
+          <button id="btn-penalty-apply" class="btn-neutral">Apply fixed</button>
+        </div>
+      </section>
+
+      <div class="edge border-t"></div>
+
+      <section class="space-y-2.5">
+        <span class="field-label">NORMALIZE TOTAL</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button class="btn-neutral" data-normalize="20">20 pts total</button>
+          <button class="btn-neutral" data-normalize="100">100 pts total</button>
+        </div>
+        <div class="flex items-end gap-2.5 flex-wrap">
+          <label class="block">
+            <span class="field-label">CUSTOM TOTAL</span>
+            <input id="normalize-value" type="number" step="0.5" value="20" class="field-input mt-1.5 w-24">
+          </label>
+          <button id="btn-normalize-apply" class="btn-primary">Normalize</button>
+        </div>
+        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2">Scales every score proportionally so all questions add up to the target.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div id="drop-modal" class="hidden fixed inset-0 z-40 bg-ink-900/70 dark:bg-ink-900/85 backdrop-blur-sm p-4 sm:p-8 overflow-auto">
+  <div class="modal-box max-w-xl">
+    <div class="flex items-center gap-3 px-5 h-12 border-b edge">
+      <span class="font-display font-bold text-[15px]">Dropped JSON</span>
+      <button id="btn-drop-close" class="btn-icon ml-auto" aria-label="Close">✕</button>
+    </div>
+    <div class="p-5 space-y-3">
+      <div id="drop-summary" class="font-mono text-[12px] text-slate-600 dark:text-slate2 space-y-1"></div>
+      <p class="font-mono text-[11px] text-slate-500 dark:text-slate2"><b>Append</b> adds the dropped questions (and groups) after the current ones; questions whose id already exists are skipped. <b>Replace</b> discards the current text.</p>
+      <div class="flex items-center gap-2.5 flex-wrap pt-1">
+        <button id="btn-drop-append" class="btn-primary">Append questions</button>
+        <button id="btn-drop-replace" class="btn-neutral">Replace entire text</button>
+        <button id="btn-drop-cancel" class="btn-ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-lg border shadow-xl font-mono text-[12px] surface border-paper-edge dark:border-ink-500"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   1. BankParser — JSON question bank → normalised question objects
+   Format: see exam-bank-spec.md (format "exam-bench-bank", version 1)
+   ════════════════════════════════════════════════════════════════════ */
+const BankParser = (() => {
+  const MAX_CHOICES = 5;                       // ZipGrade standard forms go A–E
+  const TYPES = ['single', 'multiple', 'open'];
+  const TAG_RE = /^[a-z0-9][a-z0-9_-]*(:[a-z0-9][a-z0-9_.-]*)?$/;
+  const NONE_RE = /^none of the (others|above)\.?$/i;
+  const esc = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  const isNum = v => typeof v === 'number' && Number.isFinite(v);
+  const str = v => (typeof v === 'string' ? v : v == null ? '' : String(v));
+
+  function jsonError(err) {
+    const m = /position (\d+)/.exec(err.message);
+    return { m, msg: 'JSON syntax — ' + err.message };
+  }
+
+  function parse(text) {
+    const res = { meta: {}, defaults: {}, taxonomy: {}, groups: [], questions: [], problems: [], ok: true, bank: null };
+    const problem = (line, level, msg) => { res.problems.push({ line, level, msg }); if (level === 'error') res.ok = false; };
+    if (!(text || '').trim()) return res;
+
+    const lineOf = id => {
+      if (!id) return 1;
+      const m = new RegExp(`"id"\\s*:\\s*"${esc(id)}"`).exec(text);
+      return m ? text.slice(0, m.index).split('\n').length : 1;
+    };
+
+    let bank;
+    try { bank = JSON.parse(text); }
+    catch (err) {
+      const j = jsonError(err);
+      problem(j.m ? text.slice(0, Number(j.m[1])).split('\n').length : 1, 'error', j.msg);
+      return res;
+    }
+    if (!bank || typeof bank !== 'object' || Array.isArray(bank)) { problem(1, 'error', 'The root must be a JSON object with a "questions" array.'); return res; }
+    if (bank.format && bank.format !== 'exam-bench-bank') problem(1, 'warn', `Unknown format "${bank.format}" — expected "exam-bench-bank".`);
+    if (!Array.isArray(bank.questions)) { problem(1, 'error', 'Missing "questions" array.'); return res; }
+
+    res.bank = bank;
+    res.meta = bank.meta && typeof bank.meta === 'object' ? bank.meta : {};
+    res.taxonomy = bank.taxonomy && typeof bank.taxonomy === 'object' ? bank.taxonomy : {};
+    const d = bank.defaults || {};
+    res.defaults = {
+      points: isNum(d.points) && d.points > 0 ? d.points : 1,
+      wrong_discounts: d.wrong_discounts === true,
+      penalty_fraction: isNum(d.penalty_fraction) && d.penalty_fraction >= 0 ? d.penalty_fraction : 0.5
+    };
+
+    const syms = res.meta.symbols;
+    if (syms != null && (typeof syms !== 'object' || Array.isArray(syms) || Object.values(syms).some(v => typeof v !== 'string')))
+      problem(1, 'error', 'meta.symbols must be an object of strings, e.g. {"multiple": "Ψ"}.');
+    else Object.keys(syms || {}).filter(k => !['multiple', 'penalty'].includes(k))
+      .forEach(k => problem(1, 'warn', `meta.symbols.${k} is not a known symbol (known: multiple, penalty).`));
+
+    const seen = new Set();
+    bank.questions.forEach((raw, idx) => {
+      const n = idx + 1;
+      raw = raw && typeof raw === 'object' ? raw : {};
+      let id = str(raw.id).trim();
+      const line = lineOf(id);
+      if (!id) { id = `q${n}`; problem(1, 'warn', `Q${n} has no "id" — using "${id}".`); }
+      if (seen.has(id)) problem(line, 'error', `${id}: duplicate id.`);
+      seen.add(id);
+
+      const type = raw.type == null ? 'single' : raw.type;
+      if (!TYPES.includes(type)) problem(line, 'error', `${id}: type "${type}" must be one of ${TYPES.join(', ')}.`);
+
+      const sc = raw.score && typeof raw.score === 'object' ? raw.score : {};
+      const points = sc.points == null ? res.defaults.points : sc.points;
+      if (!isNum(points) || points <= 0) problem(line, 'error', `${id}: score.points must be a positive number.`);
+      const wd = sc.wrong_discounts == null ? res.defaults.wrong_discounts : sc.wrong_discounts === true;
+      if (sc.wrong_discounts != null && typeof sc.wrong_discounts !== 'boolean') problem(line, 'warn', `${id}: score.wrong_discounts should be true or false.`);
+      const pen = wd && isNum(points) ? -Math.abs(isNum(sc.penalty) ? sc.penalty : points * res.defaults.penalty_fraction) : 0;
+
+      const tags = Array.isArray(raw.tags) ? raw.tags.map(str) : [];
+      if (raw.tags != null && !Array.isArray(raw.tags)) problem(line, 'error', `${id}: "tags" must be an array of strings.`);
+      tags.forEach(t => { if (!TAG_RE.test(t)) problem(line, 'warn', `${id}: tag "${t}" should be lowercase [a-z0-9_-], optionally "namespace:value".`); });
+      if (!tags.length) problem(line, 'warn', `${id}: no tags — it will not appear in any category.`);
+      const ucTax = res.taxonomy.uc && Array.isArray(res.taxonomy.uc.values) ? res.taxonomy.uc.values : null;
+      if (ucTax) tags.filter(t => t.startsWith('uc:') && !ucTax.includes(t.slice(3)))
+        .forEach(t => problem(line, 'warn', `${id}: "${t}" is not in taxonomy.uc.values.`));
+
+      const qText = str(raw.text).trim();
+      if (!qText) problem(line, 'error', `${id}: empty "text".`);
+
+      const q = {
+        number: n, line, id, type, active: raw.active !== false, tags,
+        text: qText, points: isNum(points) ? points : 1, wrongDiscounts: wd, penalty: pen,
+        notes: str(raw.notes), choices: [], groupId: null, valid: true,
+        answerLines: isNum(raw.answer_lines) ? raw.answer_lines : null,
+        expected: str(raw.expected_answer), rubric: str(raw.rubric), groupRef: str(raw.group).trim()
+      };
+
+      if (type !== 'open') {
+        const arr = Array.isArray(raw.choices) ? raw.choices : [];
+        if (!arr.length) problem(line, 'error', `${id}: no choices.`);
+        q.choices = arr.map(c => {
+          c = c && typeof c === 'object' ? c : { text: c };
+          const t = str(c.text).trim();
+          return { text: t, correct: c.correct === true, justification: str(c.justification), fixed: c.fixed === true || NONE_RE.test(t) };
+        });
+        q.choices.forEach((c, i) => { if (!c.text) problem(line, 'error', `${id}: choice ${i + 1} is empty.`); });
+        const nc = q.choices.filter(c => c.correct).length;
+        if (arr.length && nc === 0) problem(line, 'error', `${id}: no correct choice.`);
+        if (type === 'single' && nc > 1) problem(line, 'error', `${id}: type "single" has ${nc} correct choices — use "multiple".`);
+        if (q.choices.length > MAX_CHOICES) problem(line, 'error', `${id}: ${q.choices.length} choices — ZipGrade standard forms hold ${MAX_CHOICES}.`);
+        if (type === 'single' && q.choices.length && q.choices.length < 2) problem(line, 'warn', `${id}: only one choice.`);
+        if (type === 'multiple' && nc === 1) problem(line, 'warn', `${id}: type "multiple" with a single correct choice (fine if intentional).`);
+      }
+      res.questions.push(q);
+    });
+
+    // Groups: a group is a tag + metadata. Members = questions carrying that tag.
+    const gs = Array.isArray(bank.groups) ? bank.groups : [];
+    gs.forEach((g, i) => {
+      g = g && typeof g === 'object' ? g : {};
+      const grp = {
+        id: str(g.id) || `g${i + 1}`, tag: str(g.tag), title: str(g.title), symbol: str(g.symbol), intro: str(g.intro), outro: str(g.outro),
+        keepTogether: g.keep_together !== false, order: g.order === 'fixed' ? 'fixed' : 'free', members: []
+      };
+      if (!grp.tag) { problem(1, 'error', `Group "${grp.id}" has no "tag".`); return; }
+      // membership: carries the group's tag, or names the group in "group"; the tag is then added so binding sees it
+      grp.members = res.questions.filter(q => q.tags.includes(grp.tag) || q.groupRef === grp.id);
+      grp.members.forEach(q => { if (!q.tags.includes(grp.tag)) q.tags.push(grp.tag); });
+      if (!grp.members.length) problem(1, 'warn', `Group "${grp.id}": no question carries tag "${grp.tag}" or names this group.`);
+      grp.members.forEach(q => { if (!q.groupId) q.groupId = grp.id; });
+      res.groups.push(grp);
+    });
+
+    res.questions.forEach(q => {
+      if (q.groupRef && !res.groups.some(g => g.id === q.groupRef)) problem(q.line, 'warn', `${q.id}: "group" refers to unknown group "${q.groupRef}".`);
+      q.valid = !res.problems.some(p => p.level === 'error' && p.msg.startsWith(q.id + ':'))
+        && !!q.text && (q.type === 'open' || (q.choices.length > 0 && q.choices.length <= MAX_CHOICES
+          && q.choices.every(c => c.text) && q.choices.some(c => c.correct)
+          && !(q.type === 'single' && q.choices.filter(c => c.correct).length > 1)))
+        && TYPES.includes(q.type) && q.points > 0;
+    });
+    return res;
+  }
+
+  /* tag → number of ready (valid + active) questions carrying it */
+  function tagCounts(questions, only = q => true) {
+    const m = new Map();
+    questions.filter(q => q.valid && q.active && only(q)).forEach(q => q.tags.forEach(t => m.set(t, (m.get(t) || 0) + 1)));
+    return m;
+  }
+
+  return { parse, tagCounts, MAX_CHOICES };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   2. Store — IndexedDB persistence
+   ════════════════════════════════════════════════════════════════════ */
+const Store = (() => {
+  const DB = 'exam-bench', STORE = 'state', KEY = 'current-bank', VERSION = 1;
+  let dbp = null;
+
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open(DB, VERSION);
+    r.onupgradeneeded = () => r.result.createObjectStore(STORE);
+    r.onsuccess = () => res(r.result);
+    r.onerror   = () => rej(r.error);
+  }));
+
+  const tx = async (mode, fn) => {
+    const db = await open();
+    return new Promise((res, rej) => {
+      const t = db.transaction(STORE, mode);
+      const req = fn(t.objectStore(STORE));
+      req.onsuccess = () => res(req.result);
+      req.onerror   = () => rej(req.error);
+    });
+  };
+
+  return {
+    load: ()      => tx('readonly',  s => s.get(KEY)),
+    save: (state) => tx('readwrite', s => s.put(state, KEY))
+  };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   3. Rand — seeded, reproducible shuffling
+   ════════════════════════════════════════════════════════════════════ */
+const Rand = (() => {
+  const hash = str => {                        // string → 32-bit seed
+    let h = 2166136261;
+    for (const ch of String(str)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  };
+  const mulberry32 = a => () => {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+  const shuffled = (arr, rng) => {             // Fisher–Yates on a copy
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  return { hash, mulberry32, shuffled };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   4. Versions — build shuffled variants of a question set
+   Blocks = units that are shuffled as a whole. A block is either one
+   question, or several questions bound together by a shared tag (a bank
+   group's tag, or any tag ticked under "Keep together by tag").
+   ════════════════════════════════════════════════════════════════════ */
+const Versions = (() => {
+  const LETTERS = 'ABCDEFGHIJKL'.split('');
+
+  /* Union-find over the ready MCQ questions: any two that share a bound
+     tag end up in the same block, transitively. Bank order is preserved. */
+  function makeBlocks(parsed, bindTags = []) {
+    const qs = parsed.questions.filter(q => q.valid && q.active && q.type !== 'open');
+    const bank = parsed.groups.filter(g => g.keepTogether);
+    const bound = new Set([...bindTags, ...bank.map(g => g.tag)]);
+    const parent = qs.map((_, i) => i);
+    const find = i => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+    const first = new Map();
+    qs.forEach((q, i) => q.tags.forEach(t => {
+      if (!bound.has(t)) return;
+      if (first.has(t)) parent[find(i)] = find(first.get(t)); else first.set(t, i);
+    }));
+    const byRoot = new Map();
+    qs.forEach((q, i) => { const r = find(i); if (!byRoot.has(r)) byRoot.set(r, []); byRoot.get(r).push(q); });
+
+    return [...byRoot.values()].map(members => {
+      const gs = bank.filter(g => members.some(q => q.tags.includes(g.tag)));
+      if (members.length === 1 && !gs.length) return { type: 'q', q: members[0] };
+      const shared = [...bound].filter(t => members.filter(q => q.tags.includes(t)).length > 1);
+      return {
+        type: 'group', questions: members,
+        id: gs.length ? gs.map(g => g.id).join('+') : (shared.join(', ') || 'bound'),
+        title: gs.map(g => g.title).filter(Boolean).join(' / '),
+        symbol: gs.map(g => g.symbol).filter(Boolean).join(' '),
+        intro: gs.map(g => g.intro).filter(Boolean).join('\n\n'),
+        outro: gs.map(g => g.outro).filter(Boolean).join('\n\n'),
+        fixedOrder: gs.some(g => g.order === 'fixed')
+      };
+    });
+  }
+
+  /* "None of the others"-style choices (fixed:true) stay last. */
+  const shuffleChoicesOf = (choices, rng) =>
+    Rand.shuffled(choices.filter(c => !c.fixed), rng).concat(choices.filter(c => c.fixed));
+
+  /* Question symbols. One rule per symbol, printed in this order next to the
+     question number. A rule applies when its test is true AND a symbol is
+     defined for it (meta.symbols[key]; the group rule uses the group's own
+     symbol). To add a new kind of mark, add a rule here and a key to
+     meta.symbols — the export and the template field need no other change. */
+  const SYMBOL_RULES = [
+    { key: 'group',    symbol: (q, block) => block.symbol || '' },
+    { key: 'multiple', symbol: (q, block, syms) => (q.type === 'multiple' ? syms.multiple || '' : '') },
+    { key: 'penalty',  symbol: (q, block, syms) => (q.penalty ? syms.penalty || '' : '') }
+  ];
+
+  function makeItem(q, n, choices, block, pos, size, syms) {
+    const letters = choices.map((c, i) => c.correct ? LETTERS[i] : null).filter(Boolean);
+    return {
+      number: n, source: q, id: q.id, text: q.text, tags: q.tags,
+      symbols: Object.fromEntries(SYMBOL_RULES.map(r => [r.key, r.symbol(q, block, syms)])),
+      points: q.points, penalty: q.penalty, multiple: q.type === 'multiple', choices,
+      answerLetters: letters, answerLetter: letters.join(''), answerKey: letters.join(','),
+      group: block.type === 'group' ? { id: block.id, title: block.title, symbol: block.symbol, intro: block.intro, outro: block.outro, first: pos === 0, last: pos === size - 1 } : null
+    };
+  }
+
+  function build(parsed, { count = 3, seed = '1', shuffleQuestions = true, shuffleWithinGroups = true, shuffleChoices = true,
+                           bindTags = [] } = {}) {
+    const blocks = makeBlocks(parsed, bindTags);
+    const open = parsed.questions.filter(q => q.valid && q.active && q.type === 'open');
+    return LETTERS.slice(0, count).map((letter, v) => {
+      const rng = Rand.mulberry32(Rand.hash(`${seed}::${letter}::${v}`));
+      const order = shuffleQuestions ? Rand.shuffled(blocks, rng) : blocks.slice();
+      const items = [];
+      order.forEach(block => {
+        const inner = block.type === 'q' ? [block.q]
+          : (shuffleWithinGroups && !block.fixedOrder ? Rand.shuffled(block.questions, rng) : block.questions.slice());
+        inner.forEach((q, pos) => {
+          const choices = shuffleChoices ? shuffleChoicesOf(q.choices, rng) : q.choices.slice();
+          items.push(makeItem(q, items.length + 1, choices, block, pos, inner.length, parsed.meta.symbols || {}));
+        });
+      });
+      const openItems = open.map((q, i) => ({ number: i + 1, source: q, id: q.id, text: q.text, tags: q.tags,
+        points: q.points, answerLines: q.answerLines }));
+      return { letter, items, open: openItems };
+    });
+  }
+
+  return { build, makeBlocks, LETTERS };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   4b. ScoreOps — batch-edit scores in the JSON source
+   Source text stays the single source of truth: these parse the bank,
+   change score.points / score.wrong_discounts / score.penalty on the
+   in-scope active questions, and write the JSON back (2-space indent).
+   scope = '' (all questions) or a tag; only questions carrying it change.
+   ════════════════════════════════════════════════════════════════════ */
+const ScoreOps = (() => {
+  const round = n => Math.round(n * 10000) / 10000;
+  const defaultPoints = bank => (bank.defaults && bank.defaults.points > 0 ? bank.defaults.points : 1);
+  const inScope = (q, scope) => q && q.active !== false && (!scope || (Array.isArray(q.tags) && q.tags.includes(scope)));
+  const ptsOf = (q, dPts) => (q.score && q.score.points > 0 ? q.score.points : dPts);
+  const out = bank => JSON.stringify(bank, null, 2) + '\n';
+
+  function apply(text, scope, fn) {
+    const bank = JSON.parse(text), dPts = defaultPoints(bank);
+    (bank.questions || []).filter(q => inScope(q, scope)).forEach(q => {
+      q.score = q.score && typeof q.score === 'object' ? q.score : {};
+      fn(q.score, ptsOf(q, dPts));
+    });
+    return out(bank);
+  }
+
+  const setScore = (text, scope, value) => apply(text, scope, s => { s.points = round(value); });
+
+  const setPenaltyPct = (text, scope, pct) => apply(text, scope, (s, pts) => {
+    s.wrong_discounts = pct > 0;
+    if (pct > 0) s.penalty = round(pts * pct); else delete s.penalty;
+  });
+
+  const setPenaltyFixed = (text, scope, value) => apply(text, scope, s => {
+    s.wrong_discounts = value > 0;
+    if (value > 0) s.penalty = round(value); else delete s.penalty;
+  });
+
+  /* Rescale in-scope points so they sum to target (explicit penalties scale too). */
+  function normalizeToSum(text, scope, target) {
+    const bank = JSON.parse(text), dPts = defaultPoints(bank);
+    const qs = (bank.questions || []).filter(q => inScope(q, scope));
+    const sum = qs.reduce((s, q) => s + ptsOf(q, dPts), 0);
+    if (!sum) return text;
+    const f = target / sum;
+    qs.forEach(q => {
+      q.score = q.score && typeof q.score === 'object' ? q.score : {};
+      q.score.points = round(ptsOf(q, dPts) * f);
+      if (q.score.penalty > 0) q.score.penalty = round(q.score.penalty * f);
+    });
+    return out(bank);
+  }
+
+  return { setScore, setPenaltyFixed, setPenaltyPct, normalizeToSum };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   5. Exporters — ZipGrade CSV + per-version JSON
+   ════════════════════════════════════════════════════════════════════ */
+const Exporters = (() => {
+  const csvField = v => {
+    const s = String(v ?? '');
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const num = n => (Number.isInteger(n) ? String(n) : String(Number(n.toFixed(4))));
+
+  /* ZipGrade Tags column: values (namespace stripped) of the tags whose
+     namespace is listed in tagNs; falls back to the question id if no
+     namespace is configured.                                            */
+  const tagField = (it, tagNs) => {
+    if (!tagNs.length) return it.id || '';
+    return it.tags.filter(t => t.includes(':') && tagNs.includes(t.split(':')[0]))
+      .map(t => t.slice(t.indexOf(':') + 1)).join(',');
+  };
+
+  /* ZipGrade answer-key CSV.
+     Columns: Key, Question Number, Response/Mapping, Point Value, Tags
+     Single answer:    one row, the correct letter, full points.
+     Several correct:  one row per correct letter, each worth points / n
+                       (partial credit: all n correct = full points).
+     A penalty becomes one extra row whose response is the literal [a&i]
+     — ZipGrade's "attempted but incorrect" point value. Open questions
+     have no bubbles and are not part of the CSV.                        */
+  function zipgradeCsv(versions, tagNs = []) {
+    const rows = [['Key', 'Question', 'Response/Mapping', 'Points', 'Tags']];
+    versions.forEach(v => v.items.forEach(it => {
+      const n = it.answerLetters.length, each = Math.round(it.points / n * 10000) / 10000;
+      it.answerLetters.forEach((l, i) => {
+        const pts = i === n - 1 ? it.points - each * (n - 1) : each;     // last row absorbs rounding, so all n sum to points
+        rows.push([v.letter, it.number, l, num(Math.round(pts * 10000) / 10000), i === 0 ? tagField(it, tagNs) : '']);
+      });
+      if (it.penalty) rows.push([v.letter, it.number, '[a&i]', num(it.penalty), '']);
+    }));
+    return rows.map(r => r.map(csvField).join(',')).join('\r\n') + '\r\n';
+  }
+
+  /* One JSON document per version (consumed by the ODT builder).
+     The v8 keys are unchanged; v9 only adds keys. The correct answer is
+     deliberately NOT included.                                          */
+  function versionJson(version, meta) {
+    const mcq = version.items.map(it => ({
+      question_number: it.number,
+      question_id: it.id,
+      question_text: it.text,
+      question_score: it.points,
+      question_penalty: Math.abs(it.penalty),      // positive magnitude — templates print the minus sign
+      multiple: it.multiple,
+      tags: it.tags,
+      group_id: it.group ? it.group.id : '',
+      group_title: it.group ? it.group.title : '',
+      group_symbol: it.symbols.group,
+      multiple_symbol: it.symbols.multiple,
+      penalty_symbol: it.symbols.penalty,
+      question_symbols: Object.values(it.symbols).filter(Boolean).join(' '),
+      group_intro: it.group ? it.group.intro : '',
+      group_outro: it.group ? it.group.outro : '',
+      group_first: it.group ? it.group.first : false,
+      group_last: it.group ? it.group.last : false,
+      options: it.choices.map((c, i) => ({ option_index: i + 1, option_number: Versions.LETTERS[i], option_text: c.text }))
+    }));
+    const open = version.open.map(it => ({
+      question_number: it.number, question_id: it.id, question_text: it.text,
+      question_score: it.points, answer_lines: it.answerLines, tags: it.tags
+    }));
+    return JSON.stringify({
+      version: version.letter,
+      title: meta.title || '', presentation: meta.presentation || '', symbols: meta.symbols || {},
+      front_page: meta.front_page || [], answer_sheet: meta.answer_sheet || [],
+      mcq, open
+    }, null, 2) + '\n';
+  }
+
+  const keyTable = version => ([
+    '| # | Id | Answer | Points | Penalty | Group | Tags |',
+    '|---|----|--------|--------|---------|-------|------|',
+    ...version.items.map(it =>
+      `| ${it.number} | ${it.id} | ${it.answerKey}${it.multiple ? ' (multi)' : ''} | ${num(it.points)} | ${it.penalty ? num(it.penalty) : '—'} | ${it.group ? it.group.id : '—'} | ${it.tags.join(' ')} |`)
+  ]);
+
+  /* One combined key document for the instructor (Markdown). */
+  function keysMarkdown(versions, meta) {
+    const yq = s => String(s).replace(/"/g, '\\"');
+    const out = [
+      '---', `title: "${yq(meta.title || 'Exam')} — Answer keys"`,
+      'geometry: margin=2cm', 'papersize: a4', '---', ''
+    ];
+    versions.forEach(v => {
+      out.push(`## Version ${v.letter}`, '', ...keyTable(v), '');
+      if (v.open.length) out.push(`Open questions (not on the answer sheet): ${v.open.map(o => `${o.id} (${num(o.points)} pt)`).join(', ')}`, '');
+    });
+    return out.join('\n');
+  }
+
+  return { zipgradeCsv, versionJson, keysMarkdown, num };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   6. Zip — minimal stored-mode ZIP writer (no dependencies)
+   Browsers cancel back-to-back downloads, so everything ships as one
+   archive instead of one click per file.
+   ════════════════════════════════════════════════════════════════════ */
+const Zip = (() => {
+  const TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let i = 0; i < 256; i++) {
+      let c = i;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[i] = c >>> 0;
+    }
+    return t;
+  })();
+  const crc32 = buf => {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < buf.length; i++) c = TABLE[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  };
+  const dosTime = d => ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF;
+  const dosDate = d => (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF;
+
+  function build(files) {
+    const enc = new TextEncoder(), now = new Date();
+    const time = dosTime(now), date = dosDate(now);
+    const parts = [], central = [];
+    let offset = 0;
+
+    files.forEach(f => {
+      const name = enc.encode(f.name), data = enc.encode(f.text), crc = crc32(data);
+
+      const lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true);
+      lh.setUint16(4, 20, true);
+      lh.setUint16(6, 0x0800, true);
+      lh.setUint16(8, 0, true);
+      lh.setUint16(10, time, true); lh.setUint16(12, date, true);
+      lh.setUint32(14, crc, true);
+      lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true);
+      lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+      parts.push(new Uint8Array(lh.buffer), name, data);
+
+      const ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true);
+      ch.setUint16(4, 20, true); ch.setUint16(6, 20, true);
+      ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true);
+      ch.setUint16(12, time, true); ch.setUint16(14, date, true);
+      ch.setUint32(16, crc, true);
+      ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true);
+      ch.setUint16(28, name.length, true);
+      ch.setUint32(42, offset, true);
+      central.push(new Uint8Array(ch.buffer), name);
+
+      offset += 30 + name.length + data.length;
+    });
+
+    const cdSize = central.reduce((s, a) => s + a.length, 0);
+    const eo = new DataView(new ArrayBuffer(22));
+    eo.setUint32(0, 0x06054b50, true);
+    eo.setUint16(8, files.length, true); eo.setUint16(10, files.length, true);
+    eo.setUint32(12, cdSize, true); eo.setUint32(16, offset, true);
+
+    return new Blob([...parts, ...central, new Uint8Array(eo.buffer)], { type: 'application/zip' });
+  }
+
+  return { build };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   7. Download — browser file delivery, with a blocked-download fallback
+   ════════════════════════════════════════════════════════════════════ */
+const Download = (() => {
+  const blob = (name, b) => {
+    const url = URL.createObjectURL(b);
+    const a = Object.assign(document.createElement('a'), { href: url, download: name, rel: 'noopener' });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 8000);
+  };
+  const text = (name, s, mime = 'text/plain;charset=utf-8') => blob(name, new Blob([s], { type: mime }));
+  const openTab = (s, mime = 'text/plain;charset=utf-8') => {
+    const url = URL.createObjectURL(new Blob([s], { type: mime }));
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+  };
+  const copy = async s => {
+    try { await navigator.clipboard.writeText(s); return true; }
+    catch {
+      const ta = Object.assign(document.createElement('textarea'), { value: s });
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy'); ta.remove(); return ok;
+    }
+  };
+  return { blob, text, openTab, copy };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   8. Theme — light/dark toggle, persisted
+   ════════════════════════════════════════════════════════════════════ */
+const Theme = (() => {
+  const root = document.documentElement;
+  const sun = document.getElementById('icon-sun');
+  const moon = document.getElementById('icon-moon');
+
+  const isDark = () => root.classList.contains('dark');
+
+  function sync() {
+    sun.classList.toggle('hidden', !isDark());   // dark mode → show sun (switch-to-light)
+    moon.classList.toggle('hidden', isDark());   // light mode → show moon (switch-to-dark)
+  }
+
+  function set(dark) {
+    root.classList.toggle('dark', dark);
+    try { localStorage.setItem('exam-bench-theme', dark ? 'dark' : 'light'); } catch {}
+    sync();
+  }
+
+  function toggle() { set(!isDark()); }
+
+  return { sync, toggle };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   9. Preview — render the parsed bank on the paper pane
+   ════════════════════════════════════════════════════════════════════ */
+const Preview = (() => {
+  const el = document.getElementById('preview');
+  const metaEl = document.getElementById('preview-meta');
+  const L = Versions.LETTERS;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function empty(msg) {
+    el.innerHTML = `
+      <div class="h-full grid place-items-center text-center px-8">
+        <div class="max-w-xs">
+          <div class="mx-auto w-11 h-11 rounded-full border-2 border-dashed border-ink-200 dark:border-ink-600 grid place-items-center mb-4">
+            <span class="font-mono text-[13px] text-ink-300 dark:text-ink-500">{ }</span>
+          </div>
+          <p class="font-serif text-[15px] text-ink-700 dark:text-paper/80 leading-relaxed">${msg || 'Paste or open a JSON question bank on the left.'}</p>
+          <p class="font-mono text-[11px] text-ink-400 dark:text-ink-500 mt-2.5">Press <b>Load sample</b> to see the format, or <b>syntax ?</b> for the field list.</p>
+        </div>
+      </div>`;
+    metaEl.textContent = '';
+  }
+
+  function render(parsed) {
+    currentSyms = parsed.meta.symbols && typeof parsed.meta.symbols === 'object' ? parsed.meta.symbols : {};
+    const qs = parsed.questions;
+    if (!qs.length) return empty(parsed.ok ? '' : 'Nothing to show yet — see the problems below the editor.');
+
+    const ready = qs.filter(q => q.valid && q.active);
+    const total = ready.reduce((s, q) => s + q.points, 0);
+    const inactive = qs.filter(q => !q.active).length;
+    metaEl.textContent = `${ready.length} q${parsed.groups.length ? ` · ${parsed.groups.length} group${parsed.groups.length === 1 ? '' : 's'}` : ''}${inactive ? ` · ${inactive} inactive` : ''} · ${Exporters.num(total)} pts`;
+
+    const m = parsed.meta;
+    const header = m.title ? `
+      <div>
+        <h1 class="font-display font-bold text-[19px] tracking-tight">${esc(m.title)}</h1>
+        ${m.presentation ? `<p class="font-serif text-[13.5px] text-ink-500 dark:text-slate2 mt-1 leading-snug">${esc(m.presentation)}</p>` : ''}
+        <div class="rule mt-3"></div>
+      </div>` : '';
+
+    const byId = new Map(parsed.groups.map(g => [g.id, g]));
+    const done = new Set();
+    const body = [];
+    qs.forEach(q => {
+      if (q.groupId && byId.has(q.groupId)) {
+        if (done.has(q.groupId)) return;
+        done.add(q.groupId);
+        body.push(groupBox(byId.get(q.groupId), qs));
+      } else body.push(card(q));
+    });
+    el.innerHTML = header + body.join('');
+  }
+
+  function groupBox(g, all) {
+    const members = all.filter(q => q.groupId === g.id);
+    return `
+      <section class="rounded-xl border-2 border-teal/40 dark:border-teal/30 bg-teal/5 dark:bg-teal/10 p-4 space-y-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-teal/20 text-teal-deep font-semibold tracking-[0.14em]">GROUP</span>
+          <span class="font-mono text-[10px] text-ink-400 dark:text-slate2">${esc(g.id)} · ${esc(g.tag)}${g.keepTogether ? '' : ' · not bound'}${g.order === 'fixed' ? ' · fixed order' : ''}</span>
+        </div>
+        ${g.title || g.symbol ? `<h2 class="font-display font-semibold text-[14px]">${esc((g.symbol ? g.symbol + ' ' : '') + g.title)}</h2>` : ''}
+        ${g.intro ? `<p class="font-serif text-[13.5px] italic text-ink-700 dark:text-paper/80 leading-snug whitespace-pre-wrap">${esc(g.intro)}</p>`
+                  : '<p class="font-mono text-[11px] text-ink-400 dark:text-ink-500">no intro text</p>'}
+        <div class="space-y-3">${members.map(card).join('')}</div>
+        ${g.outro ? `<p class="font-serif text-[12.5px] italic text-ink-500 dark:text-slate2 leading-snug border-t edge-soft pt-3 whitespace-pre-wrap">${esc(g.outro)}</p>` : ''}
+      </section>`;
+  }
+
+  const badge = (t, cls = '') => `<span class="font-mono text-[10px] px-1.5 py-0.5 rounded ${cls || 'bg-paper-edge text-ink-500 dark:bg-ink-600 dark:text-slate2'}">${esc(t)}</span>`;
+
+  let currentSyms = {};
+
+  function card(q) {
+    const bad = !q.valid;
+    const isOpen = q.type === 'open';
+
+    const gutter = q.choices.map((c, i) =>
+      `<div class="bubble ${c.correct && !bad ? 'bubble-on' : ''}">${L[i] || '?'}</div>`).join('');
+
+    const choices = q.choices.map((c, i) => `
+      <li>
+        <div class="flex gap-2.5 items-baseline">
+          <span class="font-mono text-[11px] w-4 shrink-0 ${c.correct ? 'text-signal-deep dark:text-signal font-semibold' : 'text-ink-400 dark:text-slate2'}">${L[i] || '?'}</span>
+          <span class="font-serif text-[14px] leading-snug ${c.correct ? 'font-semibold' : 'text-ink-600 dark:text-paper/70'}">${esc(c.text) || '<em class="text-rust not-italic">empty choice</em>'}${c.fixed ? ' <span class="font-mono text-[9.5px] text-ink-400 dark:text-slate2">· fixed</span>' : ''}</span>
+        </div>
+        ${c.justification ? `<p class="font-serif text-[12px] leading-snug text-ink-400 dark:text-slate2 ml-[26px] mt-0.5">${esc(c.justification)}</p>` : ''}
+      </li>`).join('');
+
+    const score = q.penalty
+      ? `${Exporters.num(q.points)} pt · ${Exporters.num(q.penalty)} if wrong`
+      : `${Exporters.num(q.points)} pt`;
+
+    const openBody = isOpen ? `
+      <div class="font-mono text-[11px] text-ink-400 dark:text-slate2 space-y-1">
+        ${q.answerLines ? `<div>answer space: ${q.answerLines} lines</div>` : ''}
+        ${q.expected ? `<div><b>expected:</b> ${esc(q.expected)}</div>` : ''}
+        ${q.rubric ? `<div><b>rubric:</b> ${esc(q.rubric)}</div>` : ''}
+      </div>` : `<ul class="space-y-1.5">${choices}</ul>`;
+
+    return `
+      <article class="qcard ${bad ? 'qcard-bad' : ''}" ${q.active ? '' : 'style="opacity:.55"'}>
+        <div class="flex items-center gap-2 px-4 h-8 border-b edge-soft surface-deep/60">
+          <span class="font-mono text-[11px] font-semibold">${String(q.number).padStart(2, '0')}</span>
+          <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-teal/15 text-teal-deep truncate">${esc(q.id)}</span>
+          ${q.type === 'multiple' ? badge('multi' + (currentSyms.multiple ? ' ' + currentSyms.multiple : '')) : ''}${isOpen ? badge('open') : ''}${q.active ? '' : badge('inactive', 'bg-rust/20 text-rust')}
+          <span class="ml-auto font-mono text-[10px] text-slate-500 dark:text-slate2 shrink-0">${score}</span>
+        </div>
+        <div class="flex gap-4 px-4 py-3.5">
+          ${isOpen ? '' : `<div class="flex flex-col gap-1.5 pt-0.5 shrink-0">${gutter}</div>`}
+          <div class="min-w-0 flex-1">
+            <p class="font-serif text-[15px] leading-snug mb-2.5">${esc(q.text) || '<em class="text-rust not-italic">no question text</em>'}</p>
+            ${openBody}
+            ${q.notes ? `<p class="font-mono text-[10.5px] text-ink-400 dark:text-slate2 mt-2.5 italic">note: ${esc(q.notes)}</p>` : ''}
+            <div class="flex flex-wrap gap-1 mt-3">${q.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  return { render, empty };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   10. Problems — inline diagnostics under the editor
+   ════════════════════════════════════════════════════════════════════ */
+const Problems = (() => {
+  const el = document.getElementById('problems');
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  return {
+    render(list) {
+      el.innerHTML = list.map(p => `
+        <div class="flex gap-2.5 items-baseline px-4 py-1.5 border-b edge-soft last:border-0">
+          <span class="font-mono text-[10px] shrink-0 ${p.level === 'error' ? 'text-rust' : 'text-signal-deep dark:text-signal'}">L${p.line}</span>
+          <span class="font-mono text-[11px] text-slate-600 dark:text-slate2 leading-snug">${esc(p.msg)}</span>
+        </div>`).join('');
+    }
+  };
+})();
+
+
+/* ════════════════════════════════════════════════════════════════════
+   11. App — wiring
+   ════════════════════════════════════════════════════════════════════ */
+const App = (() => {
+  const $ = id => document.getElementById(id);
+  const editor = $('editor');
+
+  let parsed = { meta: {}, questions: [], groups: [], problems: [], ok: true };
+  let versions = [];
+  let bindTags = [];               // tags ticked under "Keep together by tag"
+  let saveTimer = null;
+
+  const SAMPLE = JSON.stringify({
+    format: 'exam-bench-bank', format_version: 1,
+    meta: { title: 'Cyber Warfare — Mid-term', presentation: '6 questions, 45 minutes, no materials.' },
+    defaults: { points: 1, wrong_discounts: false, penalty_fraction: 0.5 },
+    groups: [{ id: 'enigma', tag: 'group:enigma', title: 'Enigma', intro: 'Questions about the Enigma machine.', outro: '', keep_together: true, order: 'free' }],
+    questions: [
+      { id: 'osi-tls', type: 'single', tags: ['uc:fundamentals', 'topic:osi'], text: 'At which OSI layer does a TLS session terminate?',
+        score: { points: 2, wrong_discounts: true },
+        choices: [{ text: 'Presentation', correct: true, justification: '' }, { text: 'Network', correct: false }, { text: 'Data link', correct: false }, { text: 'None of the others.', correct: false }] },
+      { id: 'passive-recon', type: 'single', tags: ['uc:tools-tactics', 'topic:reconnaissance'], text: 'Which technique gathers information without touching the target?',
+        score: { points: 1, wrong_discounts: false },
+        choices: [{ text: 'Passive reconnaissance', correct: true }, { text: 'Port scanning', correct: false }, { text: 'Banner grabbing', correct: false }] },
+      { id: 'cia-triad', type: 'multiple', tags: ['uc:fundamentals', 'topic:cia-triad'], text: 'Which of the following belong to the CIA triad?',
+        score: { points: 1, wrong_discounts: false },
+        choices: [{ text: 'Confidentiality', correct: true }, { text: 'Integrity', correct: true }, { text: 'Authenticity', correct: false }, { text: 'Availability', correct: true }] },
+      { id: 'enigma-device', type: 'single', tags: ['uc:setting-environment', 'topic:crypto-history', 'group:enigma'], text: 'What kind of cipher device was the Enigma?',
+        score: { points: 1, wrong_discounts: false },
+        choices: [{ text: 'Electromechanical rotor cipher', correct: true }, { text: 'Digital block cipher', correct: false }, { text: 'One-time pad generator', correct: false }] },
+      { id: 'enigma-bletchley', type: 'single', tags: ['uc:setting-environment', 'topic:crypto-history', 'group:enigma'], text: 'Who led the British effort to break Enigma at Bletchley Park?',
+        score: { points: 1, wrong_discounts: false },
+        choices: [{ text: 'Alan Turing', correct: true }, { text: 'Winston Churchill', correct: false }, { text: 'Claude Shannon', correct: false }] },
+      { id: 'osint-open', type: 'open', active: false, tags: ['uc:open-questions', 'topic:osint'], text: 'Write what OSINT means, and briefly explain what it is.',
+        score: { points: 2, wrong_discounts: false }, answer_lines: 5, rubric: '0: does not know; 1: meaning OR explanation; 2: both.' }
+    ]
+  }, null, 2) + '\n';
+
+  const toast = (msg, ms = 2400) => {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.remove('hidden');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.add('hidden'), ms);
+  };
+
+  const ready = () => parsed.questions.filter(q => q.valid && q.active);
+
+  function refresh() {
+    parsed = BankParser.parse(editor.value);
+    Preview.render(parsed);
+    Problems.render(parsed.problems);
+    const r = ready();
+    const act = parsed.questions.filter(q => q.active);
+    $('stats').textContent = parsed.questions.length
+      ? `${r.length}/${act.length} ready · ${Exporters.num(r.reduce((s, q) => s + q.points, 0))} pts`
+      : 'no questions yet';
+  }
+
+  const readSettings = () => ({
+    count: Math.max(1, Math.min(12, Number($('in-count').value) || 3)),
+    seed: $('in-seed').value || '1',
+    shuffleQuestions: $('in-shuffle-q').checked,
+    shuffleWithinGroups: $('in-shuffle-g').checked,
+    shuffleChoices: $('in-shuffle-c').checked,
+    bindTags: bindTags.slice(),
+    tagNs: $('in-tagns').value.split(',').map(s => s.trim()).filter(Boolean)
+  });
+
+  function scheduleSave() {
+    $('save-state').textContent = 'saving…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        await Store.save({ source: editor.value, settings: readSettings(), savedAt: Date.now() });
+        $('save-state').textContent = 'saved';
+      } catch { $('save-state').textContent = 'save failed'; }
+    }, 500);
+  }
+
+  /* ── tags: "keep together" chips + scoring scope ── */
+  function renderBindTags() {
+    const mcq = q => q.type !== 'open';
+    const counts = BankParser.tagCounts(parsed.questions, mcq);
+    const bankTags = new Set(parsed.groups.filter(g => g.keepTogether).map(g => g.tag));
+    bindTags = bindTags.filter(t => counts.get(t) > 1 && !bankTags.has(t));
+    const tags = [...counts].filter(([t, n]) => n > 1 || bankTags.has(t)).sort((a, b) => a[0].localeCompare(b[0]));
+    $('bind-tags').innerHTML = tags.length ? tags.map(([t, n]) => {
+      const locked = bankTags.has(t), on = locked || bindTags.includes(t);
+      return `<button class="mini-btn ${on ? 'bubble-on' : ''}" data-tag="${t}" ${locked ? 'disabled title="Bound by a bank group"' : ''}>${t} · ${n}${locked ? ' 🔒' : ''}</button>`;
+    }).join('') : '<span class="font-mono text-[11px] text-slate-500 dark:text-slate2">No tag is shared by two or more ready questions.</span>';
+    $('bind-tags').querySelectorAll('button[data-tag]').forEach(b => b.onclick = () => {
+      const t = b.dataset.tag;
+      bindTags = bindTags.includes(t) ? bindTags.filter(x => x !== t) : [...bindTags, t];
+      renderBindTags(); generate();
+    });
+  }
+
+  function renderScope() {
+    const sel = $('score-scope'), cur = sel.value;
+    const counts = BankParser.tagCounts(parsed.questions);
+    sel.innerHTML = `<option value="">All active questions (${ready().length})</option>` +
+      [...counts].sort((a, b) => a[0].localeCompare(b[0])).map(([t, n]) => `<option value="${t}">${t} (${n})</option>`).join('');
+    if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+  }
+
+  function applyScoring(fn, msg) {
+    if (!parsed.ok && !parsed.bank) { toast('Fix the JSON first — see the problems panel.'); return; }
+    let next;
+    try { next = fn(editor.value); } catch { toast('Fix the JSON first — see the problems panel.'); return; }
+    if (next !== editor.value) {
+      editor.value = next;
+      refresh();
+      scheduleSave();
+      versions = [];               // stale — scores changed underneath them
+      renderVersions();
+    }
+    scoringNote(); renderScope();
+    toast(msg);
+  }
+
+  function scoringNote() {
+    const scope = $('score-scope').value;
+    const qs = ready().filter(q => !scope || q.tags.includes(scope));
+    const sum = qs.reduce((s, q) => s + q.points, 0);
+    $('scoring-note').textContent = qs.length ? `${qs.length} questions · ${Exporters.num(sum)} pts now` : 'no questions yet';
+  }
+
+  function generate() {
+    if (!ready().length) { toast('Nothing to shuffle — fix the questions first.'); versions = []; renderVersions(); return; }
+    versions = Versions.build(parsed, readSettings());
+    renderVersions();
+    scheduleSave();
+  }
+
+  function renderVersions() {
+    const out = $('ver-out');
+    $('ver-sub').textContent = versions.length
+      ? `${versions.length} built · ${versions[0].items.length} questions each` : '';
+    out.innerHTML = versions.map(v => `
+      <div class="rounded-lg border edge surface-sunk overflow-hidden">
+        <div class="flex items-center gap-3 px-4 h-9 border-b edge-soft">
+          <span class="font-display font-bold text-[13px]">Version ${v.letter}</span>
+          <span class="ml-auto font-mono text-[10.5px] text-slate-500 dark:text-slate2">${v.items.length} q${v.open.length ? ` + ${v.open.length} open` : ''} · ${Exporters.num(v.items.reduce((s, i) => s + i.points, 0) + v.open.reduce((s, i) => s + i.points, 0))} pts</span>
+        </div>
+        <div class="px-4 py-3 flex flex-wrap gap-1.5">
+          ${v.items.map(chipFor).join('')}
+        </div>
+      </div>`).join('');
+    renderFiles();
+  }
+
+  function chipFor(it) {
+    const seg = (content, extra = '') => `<span class="${extra}">${content}</span>`;
+    const div = '<span class="w-px self-stretch bg-paper-edge dark:bg-ink-600"></span>';
+    const parts = [];
+    if (it.group) parts.push(seg(it.group.id, 'text-teal-deep dark:text-teal'));
+    parts.push(seg(`Q${it.source.number}`));
+    parts.push(seg(it.answerLetter, 'text-signal-deep dark:text-signal font-semibold'));
+    return `<span class="chip inline-flex items-center gap-1.5">${parts.join(div)}</span>`;
+  }
+
+  const slug = () => (parsed.meta.title || 'exam').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'exam';
+
+  /* The full deliverable set for the current versions. */
+  function buildFiles() {
+    if (!versions.length) return [];
+    const s = slug(), st = readSettings();
+    return [
+      { name: `${s}-zipgrade-keys.csv`, mime: 'text/csv;charset=utf-8',
+        text: Exporters.zipgradeCsv(versions, st.tagNs) },
+      ...versions.map(v => ({
+        name: `${s}-version-${v.letter}.json`, mime: 'application/json;charset=utf-8',
+        text: Exporters.versionJson(v, parsed.meta) })),
+      { name: `${s}-answer-keys.md`, mime: 'text/markdown;charset=utf-8',
+        text: Exporters.keysMarkdown(versions, parsed.meta) }
+    ];
+  }
+
+  function renderFiles() {
+    const out = $('file-out');
+    const files = buildFiles();
+    if (!files.length) { out.innerHTML = ''; return; }
+    out.innerHTML = files.map((f, i) => `
+      <div class="flex items-center gap-3 px-3 h-9 border-b edge-soft last:border-0 surface-sunk">
+        <span class="font-mono text-[11.5px] truncate">${f.name}</span>
+        <span class="font-mono text-[10px] text-ink-400 dark:text-ink-500 ml-auto shrink-0">${(new Blob([f.text]).size / 1024).toFixed(1)} kB</span>
+        <button class="mini-btn" data-act="save" data-i="${i}">save</button>
+        <button class="mini-btn" data-act="view" data-i="${i}">view</button>
+        <button class="mini-btn" data-act="copy" data-i="${i}">copy</button>
+      </div>`).join('');
+
+    out.querySelectorAll('.mini-btn').forEach(btn => {
+      btn.onclick = async () => {
+        const f = buildFiles()[Number(btn.dataset.i)];
+        if (btn.dataset.act === 'save') { Download.text(f.name, f.text, f.mime); toast(`Saved ${f.name}`); }
+        if (btn.dataset.act === 'view') Download.openTab(f.text, f.mime);
+        if (btn.dataset.act === 'copy') toast(await Download.copy(f.text) ? `Copied ${f.name}` : 'Copy blocked — use view instead');
+      };
+    });
+  }
+
+  function exportAll() {
+    if (!versions.length) generate();
+    const files = buildFiles();
+    if (!files.length) { toast('Nothing to export — fix the questions first.'); return; }
+    try {
+      Download.blob(`${slug()}-exam-pack.zip`, Zip.build(files));
+      toast(`${files.length} files in ${slug()}-exam-pack.zip`, 3400);
+    } catch {
+      $('modal').classList.remove('hidden');
+      toast('Zip failed — save the files one by one below.', 4000);
+    }
+  }
+
+  function setSource(text) {
+    editor.value = text; refresh(); scheduleSave();
+    versions = []; renderVersions();
+  }
+
+  /* ── drag & drop of .json files onto the editor ── */
+  let pendingDrop = null;               // { files: [{ name, bank }] }
+
+  /* Append the questions and groups of `incoming` to `base` (both parsed banks).
+     Existing ids win: duplicates are skipped and counted. */
+  function mergeBanks(base, incoming) {
+    const out = { ...base, questions: [...(base.questions || [])], groups: [...(base.groups || [])] };
+    const qIds = new Set(out.questions.map(q => q && q.id));
+    const gIds = new Set(out.groups.map(g => g && g.id));
+    let added = 0, skipped = 0, groups = 0;
+    (incoming.questions || []).forEach(q => { if (q && qIds.has(q.id)) skipped++; else { out.questions.push(q); qIds.add(q && q.id); added++; } });
+    (incoming.groups || []).forEach(g => { if (g && !gIds.has(g.id)) { out.groups.push(g); gIds.add(g.id); groups++; } });
+    if (!out.groups.length) delete out.groups;
+    return { bank: out, added, skipped, groups };
+  }
+
+  const closeDrop = () => { $('drop-modal').classList.add('hidden'); pendingDrop = null; };
+
+  async function handleDroppedFiles(fileList) {
+    const files = Array.from(fileList).filter(f => /\.json$/i.test(f.name) || f.type === 'application/json')
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+    if (!files.length) { toast('Only .json files can be dropped here.'); return; }
+    const loaded = [];
+    for (const f of files) {
+      try {
+        const bank = JSON.parse(await f.text());
+        if (!bank || typeof bank !== 'object' || !Array.isArray(bank.questions)) throw new Error('no "questions" array');
+        loaded.push({ name: f.name, bank });
+      } catch (err) { toast(`${f.name}: not a question bank (${err.message}).`, 4200); return; }
+    }
+    if (!editor.value.trim()) { applyDrop('replace', loaded); return; }     // nothing to lose
+    pendingDrop = { files: loaded };
+    let current = null;
+    try { current = JSON.parse(editor.value); } catch {}
+    const canAppend = !!(current && Array.isArray(current.questions));
+    $('drop-summary').innerHTML = loaded.map(f => `<div>${f.name.replace(/[<&]/g, '')} — ${f.bank.questions.length} question${f.bank.questions.length === 1 ? '' : 's'}</div>`).join('')
+      + (canAppend ? '' : '<div class="text-rust">The current text is not a valid bank, so it cannot be appended to.</div>');
+    $('btn-drop-append').disabled = !canAppend;
+    $('drop-modal').classList.remove('hidden');
+  }
+
+  function applyDrop(mode, files) {
+    let base;
+    if (mode === 'append') base = JSON.parse(editor.value);
+    else base = files[0].bank;
+    let added = mode === 'append' ? 0 : files[0].bank.questions.length, skipped = 0;
+    (mode === 'append' ? files : files.slice(1)).forEach(f => {
+      const r = mergeBanks(base, f.bank);
+      base = r.bank; added += r.added; skipped += r.skipped;
+    });
+    setSource(JSON.stringify(base, null, 2) + '\n');
+    toast(mode === 'append'
+      ? `Appended ${added} question${added === 1 ? '' : 's'}${skipped ? `, skipped ${skipped} with an existing id` : ''}.`
+      : `Replaced the text${files.length > 1 ? ` (${files.length} files merged)` : ''}${skipped ? `, skipped ${skipped} duplicate id${skipped === 1 ? '' : 's'}` : ''}.`, 3600);
+  }
+
+  function bindDrop() {
+    const isFiles = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+    editor.addEventListener('dragover', e => { if (isFiles(e)) { e.preventDefault(); editor.classList.add('drag-over'); } });
+    editor.addEventListener('dragleave', () => editor.classList.remove('drag-over'));
+    editor.addEventListener('drop', e => {
+      editor.classList.remove('drag-over');
+      if (!isFiles(e)) return;                       // plain text drops keep the browser's default behaviour
+      e.preventDefault();
+      handleDroppedFiles(e.dataTransfer.files);
+    });
+    $('btn-drop-append').onclick  = () => { const f = pendingDrop.files; closeDrop(); applyDrop('append', f); };
+    $('btn-drop-replace').onclick = () => { const f = pendingDrop.files; closeDrop(); applyDrop('replace', f); };
+    $('btn-drop-cancel').onclick = $('btn-drop-close').onclick = closeDrop;
+    $('drop-modal').addEventListener('click', e => { if (e.target === $('drop-modal')) closeDrop(); });
+  }
+
+  function bind() {
+    bindDrop();
+    editor.addEventListener('input', () => { refresh(); scheduleSave(); });
+
+    $('btn-theme').onclick = () => Theme.toggle();
+
+    $('btn-help').onclick = () => $('help').classList.toggle('hidden');
+    $('btn-sample').onclick = () => {
+      if (editor.value.trim() && !confirm('Replace the current bank with the sample?')) return;
+      setSource(SAMPLE);
+    };
+
+    $('btn-open').onclick = () => $('file-in').click();
+    $('file-in').onchange = async e => {
+      const f = e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      if (editor.value.trim() && !confirm(`Replace the current bank with ${f.name}?`)) return;
+      setSource(await f.text());
+      toast(`Opened ${f.name}`);
+    };
+    $('btn-save').onclick = () => { Download.text(`${slug()}.json`, editor.value, 'application/json;charset=utf-8'); toast(`Saved ${slug()}.json`); };
+    $('btn-format').onclick = () => {
+      try { setSource(JSON.stringify(JSON.parse(editor.value), null, 2) + '\n'); toast('JSON formatted.'); }
+      catch { toast('Cannot format — the JSON has a syntax error.'); }
+    };
+
+    $('btn-versions').onclick = () => { $('modal').classList.remove('hidden'); renderBindTags(); generate(); };
+    $('btn-close').onclick    = () => $('modal').classList.add('hidden');
+    $('modal').addEventListener('click', e => { if (e.target === $('modal')) $('modal').classList.add('hidden'); });
+
+    $('btn-scoring').onclick = () => { $('scoring-modal').classList.remove('hidden'); renderScope(); scoringNote(); };
+    $('btn-scoring-close').onclick = () => $('scoring-modal').classList.add('hidden');
+    $('scoring-modal').addEventListener('click', e => { if (e.target === $('scoring-modal')) $('scoring-modal').classList.add('hidden'); });
+    $('score-scope').onchange = scoringNote;
+
+    const scope = () => $('score-scope').value;
+    const where = () => (scope() ? `questions tagged ${scope()}` : 'every active question');
+
+    $('btn-score-apply').onclick = () => {
+      const v = Number($('score-value').value);
+      if (!isFinite(v) || v <= 0) { toast('Enter a positive score.'); return; }
+      applyScoring(t => ScoreOps.setScore(t, scope(), v), `Score set to ${v} pt on ${where()}.`);
+    };
+
+    document.querySelectorAll('[data-penalty-pct]').forEach(btn => btn.onclick = () => {
+      const pct = Number(btn.dataset.penaltyPct);
+      applyScoring(t => ScoreOps.setPenaltyPct(t, scope(), pct),
+        pct === 0 ? `Wrong answers no longer discount on ${where()}.` : `Wrong answers discount ${pct * 100}% of the score on ${where()}.`);
+    });
+    $('btn-penalty-apply').onclick = () => {
+      const v = Number($('penalty-value').value);
+      if (!isFinite(v) || v < 0) { toast('Enter a penalty of 0 or more.'); return; }
+      applyScoring(t => ScoreOps.setPenaltyFixed(t, scope(), v), `Penalty set to ${v} on ${where()}.`);
+    };
+
+    const doNormalize = target => {
+      if (!isFinite(target) || target <= 0) { toast('Enter a positive total.'); return; }
+      if (!ready().length) { toast('Nothing to normalize — add questions first.'); return; }
+      applyScoring(t => ScoreOps.normalizeToSum(t, scope(), target), `Scores rescaled to total ${target} pts on ${where()}.`);
+    };
+    document.querySelectorAll('[data-normalize]').forEach(btn => btn.onclick = () => {
+      $('normalize-value').value = btn.dataset.normalize;
+      doNormalize(Number(btn.dataset.normalize));
+    });
+    $('btn-normalize-apply').onclick = () => doNormalize(Number($('normalize-value').value));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { $('modal').classList.add('hidden'); $('scoring-modal').classList.add('hidden'); closeDrop(); }
+    });
+
+    $('btn-generate').onclick = generate;
+    $('btn-export').onclick   = exportAll;
+
+    ['in-count', 'in-seed', 'in-shuffle-q', 'in-shuffle-g', 'in-shuffle-c', 'in-tagns']
+      .forEach(id => $(id).addEventListener('change', generate));
+  }
+
+  async function init() {
+    bind();
+    Theme.sync();
+    try {
+      const state = await Store.load();
+      if (state) {
+        editor.value = state.source || '';
+        const s = state.settings || {};
+        if (s.count) $('in-count').value = s.count;
+        if (s.seed)  $('in-seed').value  = s.seed;
+        if ('shuffleQuestions' in s)     $('in-shuffle-q').checked = s.shuffleQuestions;
+        if ('shuffleWithinGroups' in s)  $('in-shuffle-g').checked = s.shuffleWithinGroups;
+        if ('shuffleChoices'  in s)      $('in-shuffle-c').checked = s.shuffleChoices;
+        if (Array.isArray(s.bindTags))   bindTags = s.bindTags;
+        if (typeof s.tagNs === 'object' && s.tagNs) $('in-tagns').value = s.tagNs.join(',');
+        $('save-state').textContent = 'restored';
+      }
+    } catch { $('save-state').textContent = 'storage off'; }
+    refresh();
+  }
+
+  return { init };
+})();
+
+App.init();
+</script>
+</body>
+</html>

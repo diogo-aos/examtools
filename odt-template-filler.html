@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODT Template Filler</title>
+<style>
+  :root{
+    --paper:#f6f4ef;
+    --ink:#1c1d1a;
+    --ink-soft:#5b5c56;
+    --rule:#d8d4c8;
+    --accent:#2f5233;
+    --accent-soft:#e4ece1;
+    --err:#8c2f1f;
+    --err-soft:#f6e6e2;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --serif: 'IBM Plex Serif', Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    line-height:1.5;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  header{
+    padding:2.2rem clamp(1.2rem,4vw,3rem) 1.4rem;
+    border-bottom:1px solid var(--rule);
+  }
+  header h1{
+    font-size:1.5rem;
+    font-weight:600;
+    margin:0 0 0.3rem;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    max-width:66ch;
+  }
+  code{
+    font-family:var(--mono);
+    background:var(--accent-soft);
+    padding:0.05em 0.35em;
+    border-radius:3px;
+    font-size:0.88em;
+  }
+
+  main{
+    max-width:1180px;
+    margin:0 auto;
+    padding:2rem clamp(1.2rem,4vw,3rem) 4rem;
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    gap:2rem;
+  }
+  @media (max-width:900px){
+    main{grid-template-columns:1fr;}
+  }
+
+  section{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+  .step-label{
+    display:flex;
+    align-items:baseline;
+    gap:0.6rem;
+    margin-bottom:0.7rem;
+  }
+  .step-num{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:50%;
+    width:1.5rem;
+    height:1.5rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:none;
+  }
+  .step-label h2{
+    font-size:1.05rem;
+    font-weight:600;
+    margin:0;
+  }
+  .step-hint{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin:0 0 0.9rem 2.1rem;
+  }
+
+  .dropzone{
+    margin-left:2.1rem;
+    border:1.5px dashed var(--rule);
+    border-radius:6px;
+    background:#fff;
+    padding:1.4rem;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .dropzone:hover, .dropzone.drag{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
+  .dropzone input{display:none;}
+  .dropzone .dz-title{
+    font-weight:500;
+    font-size:0.95rem;
+  }
+  .dropzone .dz-sub{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    margin-top:0.25rem;
+  }
+  .file-chip{
+    margin-left:2.1rem;
+    margin-top:0.7rem;
+    display:none;
+    align-items:center;
+    gap:0.5rem;
+    font-family:var(--mono);
+    font-size:0.82rem;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:0.45rem 0.7rem;
+  }
+  .file-chip.show{display:inline-flex;}
+  .file-chip .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .file-chip button{
+    margin-left:auto;
+    background:none;border:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:0.9rem;
+    font-family:var(--mono);
+  }
+  .file-chip button:hover{color:var(--err);}
+
+  /* JSON version cards */
+  .versions{
+    margin-left:2.1rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.7rem;
+  }
+  .version-card{
+    border:1px solid var(--rule);
+    border-radius:6px;
+    background:#fff;
+    overflow:hidden;
+  }
+  .version-card.invalid{border-color:var(--err);}
+  .version-head{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    padding:0.6rem 0.8rem;
+    cursor:pointer;
+    user-select:none;
+  }
+  .version-head .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .version-card.invalid .version-head .dot{background:var(--err);}
+  .version-name{
+    font-family:var(--mono);
+    font-size:0.85rem;
+    font-weight:500;
+    flex:1;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .version-tag{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:var(--ink-soft);
+  }
+  .version-tag.err{color:var(--err);}
+  .version-head .chevron{
+    font-family:var(--mono);
+    color:var(--ink-soft);
+    font-size:0.75rem;
+    transition:transform .15s ease;
+    flex:none;
+  }
+  .version-card.open .chevron{transform:rotate(90deg);}
+  .version-remove{
+    background:none;border:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.85rem;
+    flex:none;
+  }
+  .version-remove:hover{color:var(--err);}
+  .version-body{
+    display:none;
+    border-top:1px solid var(--rule);
+  }
+  .version-card.open .version-body{display:block;}
+  .version-body textarea{
+    display:block;
+    width:100%;
+    min-height:260px;
+    resize:vertical;
+    font-family:var(--mono);
+    font-size:0.8rem;
+    line-height:1.5;
+    padding:0.8rem;
+    border:none;
+    background:#fdfcf9;
+    color:var(--ink);
+  }
+  .version-body textarea:focus{outline:none;background:#fff;}
+  .version-error{
+    font-family:var(--mono);
+    font-size:0.75rem;
+    color:var(--err);
+    padding:0.4rem 0.8rem 0.6rem;
+    background:var(--err-soft);
+  }
+
+  .versions-empty{
+    margin-left:2.1rem;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    font-style:italic;
+    padding:0.4rem 0;
+  }
+
+  .add-row{
+    margin-left:2.1rem;
+    margin-top:0.8rem;
+    display:flex;
+    gap:0.7rem;
+    flex-wrap:wrap;
+  }
+  .ghost-btn{
+    font-family:var(--mono);
+    font-size:0.8rem;
+    background:#fff;
+    border:1px solid var(--rule);
+    color:var(--ink);
+    padding:0.5rem 0.8rem;
+    border-radius:5px;
+    cursor:pointer;
+  }
+  .ghost-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .ghost-btn input{display:none;}
+
+  .export-panel{
+    grid-column:1 / -1;
+    border-top:1px solid var(--rule);
+    padding-top:1.8rem;
+    margin-top:0.4rem;
+  }
+  .export-row{
+    margin-left:2.1rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  button.primary{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:0.95rem;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:0.75rem 1.6rem;
+    border-radius:5px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  button.primary:hover:not(:disabled){background:#254128;}
+  button.primary:active:not(:disabled){transform:translateY(1px);}
+  button.primary:disabled{
+    background:#b9b6a9;
+    cursor:not-allowed;
+  }
+  button.secondary{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:0.9rem;
+    background:#fff;
+    color:var(--accent);
+    border:1.5px solid var(--accent);
+    padding:0.68rem 1.3rem;
+    border-radius:5px;
+    cursor:pointer;
+  }
+  button.secondary:hover:not(:disabled){background:var(--accent-soft);}
+  button.secondary:disabled{
+    color:var(--ink-soft);
+    border-color:var(--rule);
+    cursor:not-allowed;
+  }
+  .status-msg{
+    font-family:var(--mono);
+    font-size:0.83rem;
+  }
+  .status-msg.err{color:var(--err);}
+  .status-msg.ok{color:var(--accent);}
+
+  .results{
+    margin-left:2.1rem;
+    margin-top:1.2rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+  }
+  .result-row{
+    display:flex;
+    align-items:center;
+    gap:0.7rem;
+    border:1px solid var(--rule);
+    background:#fff;
+    border-radius:6px;
+    padding:0.55rem 0.8rem;
+  }
+  .result-row .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .result-row.failed .dot{background:var(--err);}
+  .result-name{
+    font-family:var(--mono);
+    font-size:0.85rem;
+    flex:1;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .result-note{
+    font-family:var(--mono);
+    font-size:0.75rem;
+    color:var(--ink-soft);
+  }
+  .result-row.failed .result-note{color:var(--err);}
+  .dl-btn{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    background:var(--accent-soft);
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:0.35rem 0.7rem;
+    border-radius:4px;
+    cursor:pointer;
+    flex:none;
+    text-decoration:none;
+  }
+  .dl-btn:hover{background:var(--accent);color:#fff;}
+
+  .log{
+    margin-left:2.1rem;
+    margin-top:1rem;
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:0.8rem 1rem;
+    display:none;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .log.show{display:block;}
+  .log.err{color:var(--err); border-color:#e2b8ac; background:var(--err-soft);}
+
+  footer{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 clamp(1.2rem,4vw,3rem) 3rem;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+  }
+  footer a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ODT Template Filler</h1>
+  <p>Upload an ODF (.odt) template built with <code>{placeholders}</code> and <code>{#loop}…{/loop}</code> blocks, then upload one JSON file per version (e.g. one per exam version). Export each filled .odt individually or all together as a zip — everything runs locally in your browser via <a href="https://www.npmjs.com/package/odf-kit" target="_blank" rel="noopener">odf-kit</a>. No files leave your machine.</p>
+</header>
+
+<main>
+  <section>
+    <div class="step-label"><span class="step-num">1</span><h2>Template</h2></div>
+    <p class="step-hint">The .odt file created in LibreOffice Writer with your styling and placeholders.</p>
+
+    <label class="dropzone" id="dropzone" for="fileInput">
+      <input type="file" id="fileInput" accept=".odt,application/vnd.oasis.opendocument.text">
+      <div class="dz-title">Click to choose, or drop a .odt file here</div>
+      <div class="dz-sub">Must be saved as ODF Text Document (.odt)</div>
+    </label>
+
+    <div class="file-chip" id="fileChip">
+      <span class="dot"></span>
+      <span id="fileName"></span>
+      <button id="clearFile" title="Remove file">✕</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="step-label"><span class="step-num">2</span><h2>Data — one JSON per version</h2></div>
+    <p class="step-hint">Drop several .json files at once (or click to choose them), or add a blank one and edit it directly. Each becomes one filled .odt.</p>
+
+    <label class="dropzone" id="jsonDropzone" for="jsonInput" style="margin-bottom:1rem">
+      <input type="file" id="jsonInput" accept=".json,application/json" multiple>
+      <div class="dz-title">Click to choose, or drop one or more .json version files here</div>
+      <div class="dz-sub">Files are added to the list below, sorted by name; non-.json files are ignored.</div>
+    </label>
+
+    <div class="versions" id="versions"></div>
+    <div class="versions-empty" id="versionsEmpty">No versions yet — drop JSON files above or add one manually below.</div>
+
+    <div class="add-row">
+      <button class="ghost-btn" id="addBlankBtn">+ Add blank version</button>
+    </div>
+  </section>
+
+  <section class="export-panel">
+    <div class="step-label"><span class="step-num">3</span><h2>Export</h2></div>
+    <p class="step-hint">Fills the template once per version. Each result gets its own download button; use "Download all" for a single zip.</p>
+    <div class="export-row">
+      <button class="primary" id="fillAllBtn" disabled>Fill all versions</button>
+      <button class="secondary" id="downloadZipBtn" disabled>Download all (.zip)</button>
+      <span class="status-msg" id="exportStatus"></span>
+    </div>
+    <div class="results" id="results"></div>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+
+<footer>
+  Built for a template shaped like <code>{#mcq}…{/mcq}</code> with a nested <code>{#options}…{/options}</code> loop — but works with any odf-kit-compatible .odt template.
+</footer>
+
+<script type="module">
+  import { fillTemplate } from "https://esm.sh/odf-kit@latest";
+  import { zipSync, strToU8 } from "https://esm.sh/fflate@latest";
+
+  const dropzone      = document.getElementById('dropzone');
+  const fileInput     = document.getElementById('fileInput');
+  const fileChip      = document.getElementById('fileChip');
+  const fileNameEl    = document.getElementById('fileName');
+  const clearFile     = document.getElementById('clearFile');
+
+  const jsonInput      = document.getElementById('jsonInput');
+  const addBlankBtn    = document.getElementById('addBlankBtn');
+  const versionsEl     = document.getElementById('versions');
+  const versionsEmpty  = document.getElementById('versionsEmpty');
+
+  const fillAllBtn    = document.getElementById('fillAllBtn');
+  const downloadZipBtn= document.getElementById('downloadZipBtn');
+  const exportStatus  = document.getElementById('exportStatus');
+  const resultsEl      = document.getElementById('results');
+  const logBox         = document.getElementById('log');
+
+  let templateBytes = null;
+  let templateFileName = 'template.odt';
+
+  // versions: [{ id, name, text, data, error, open }]
+  let versions = [];
+  let versionSeq = 0;
+
+  // results: [{ id, name, outName, bytes, error }]
+  let results = [];
+
+  const mockData = {
+    exam_title: "Sample Exam — Version A",
+    mcq: [
+      {
+        question_number: 1,
+        question_score: 2,
+        question_text: "What is the SI unit of electrical resistance?",
+        options: [
+          { option_number: "a", option: "Ampere" },
+          { option_number: "b", option: "Ohm" },
+          { option_number: "c", option: "Volt" },
+          { option_number: "d", option: "Watt" }
+        ]
+      },
+      {
+        question_number: 2,
+        question_score: 3,
+        question_text: "Which sensor is most commonly used for UAV altitude estimation in GNSS-denied environments?",
+        options: [
+          { option_number: "a", option: "Barometric altimeter" },
+          { option_number: "b", option: "Magnetometer" },
+          { option_number: "c", option: "Hall effect sensor" },
+          { option_number: "d", option: "Photodiode" }
+        ]
+      },
+      {
+        question_number: 3,
+        question_score: 1,
+        question_text: "In Ohm's Law, V = I × R, what does 'I' represent?",
+        options: [
+          { option_number: "a", option: "Voltage" },
+          { option_number: "b", option: "Current" },
+          { option_number: "c", option: "Resistance" },
+          { option_number: "d", option: "Impedance" }
+        ]
+      }
+    ]
+  };
+
+  function makeVersion(name, text) {
+    versionSeq += 1;
+    const v = { id: 'v' + versionSeq, name, text, data: null, error: null, open: false };
+    validateVersion(v);
+    return v;
+  }
+
+  function validateVersion(v) {
+    try {
+      v.data = JSON.parse(v.text);
+      v.error = null;
+    } catch (e) {
+      v.data = null;
+      v.error = e.message;
+    }
+  }
+
+  // Seed with one mock version so the tool is usable immediately
+  versions.push(makeVersion('version-a.json', JSON.stringify(mockData, null, 2)));
+
+  function renderVersions() {
+    versionsEl.innerHTML = '';
+    versionsEmpty.style.display = versions.length ? 'none' : 'block';
+
+    versions.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'version-card' + (v.error ? ' invalid' : '') + (v.open ? ' open' : '');
+
+      const head = document.createElement('div');
+      head.className = 'version-head';
+      head.innerHTML = `
+        <span class="dot"></span>
+        <span class="version-name">${escapeHtml(v.name)}</span>
+        <span class="version-tag ${v.error ? 'err' : ''}">${v.error ? 'invalid JSON' : summarizeVersion(v.data)}</span>
+        <button class="version-remove" title="Remove">✕</button>
+        <span class="chevron">▸</span>
+      `;
+      head.addEventListener('click', (e) => {
+        if (e.target.closest('.version-remove')) return;
+        v.open = !v.open;
+        renderVersions();
+      });
+      head.querySelector('.version-remove').addEventListener('click', (e) => {
+        e.stopPropagation();
+        versions = versions.filter(x => x.id !== v.id);
+        renderVersions();
+        updateFillEnabled();
+      });
+
+      const body = document.createElement('div');
+      body.className = 'version-body';
+      const ta = document.createElement('textarea');
+      ta.value = v.text;
+      ta.spellcheck = false;
+      ta.addEventListener('input', () => {
+        v.text = ta.value;
+        validateVersion(v);
+        updateTagOnly(card, v);
+        updateFillEnabled();
+      });
+      body.appendChild(ta);
+      if (v.error) {
+        const errEl = document.createElement('div');
+        errEl.className = 'version-error';
+        errEl.textContent = v.error;
+        body.appendChild(errEl);
+      }
+
+      card.appendChild(head);
+      card.appendChild(body);
+      versionsEl.appendChild(card);
+    });
+
+    updateFillEnabled();
+  }
+
+  function updateTagOnly(card, v) {
+    card.classList.toggle('invalid', !!v.error);
+    const tag = card.querySelector('.version-tag');
+    tag.className = 'version-tag ' + (v.error ? 'err' : '');
+    tag.textContent = v.error ? 'invalid JSON' : summarizeVersion(v.data);
+    const errExisting = card.querySelector('.version-error');
+    if (v.error && !errExisting) {
+      const errEl = document.createElement('div');
+      errEl.className = 'version-error';
+      errEl.textContent = v.error;
+      card.querySelector('.version-body').appendChild(errEl);
+    } else if (v.error && errExisting) {
+      errExisting.textContent = v.error;
+    } else if (!v.error && errExisting) {
+      errExisting.remove();
+    }
+  }
+
+  function summarizeVersion(data) {
+    if (!data || typeof data !== 'object') return 'valid';
+    const arrKey = Object.keys(data).find(k => Array.isArray(data[k]));
+    if (arrKey) return `${data[arrKey].length} item(s) in "${arrKey}"`;
+    return 'valid';
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function safeStem(name) {
+    return name.replace(/\.json$/i, '').replace(/[^a-z0-9._-]+/gi, '_') || 'version';
+  }
+
+  // --- JSON file uploads ---
+  async function addJsonFiles(fileList) {
+    const all = Array.from(fileList || []);
+    const files = all.filter(f => /\.json$/i.test(f.name) || f.type === 'application/json')
+                     .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+    for (const file of files) versions.push(makeVersion(file.name, await file.text()));
+    renderVersions();
+    const skipped = all.length - files.length;
+    if (skipped) exportStatus.textContent = `${skipped} non-JSON file(s) ignored.`;
+  }
+
+  jsonInput.addEventListener('change', async (e) => {
+    await addJsonFiles(e.target.files);
+    jsonInput.value = '';
+  });
+
+  const jsonDropzone = document.getElementById('jsonDropzone');
+  jsonDropzone.addEventListener('dragover', (e) => { e.preventDefault(); jsonDropzone.classList.add('drag'); });
+  ['dragleave', 'drop'].forEach(evt =>
+    jsonDropzone.addEventListener(evt, (e) => { e.preventDefault(); jsonDropzone.classList.remove('drag'); }));
+  jsonDropzone.addEventListener('drop', (e) => addJsonFiles(e.dataTransfer && e.dataTransfer.files));
+
+  addBlankBtn.addEventListener('click', () => {
+    versions.push(makeVersion(`version-${versions.length + 1}.json`, JSON.stringify({}, null, 2)));
+    renderVersions();
+  });
+
+  renderVersions();
+
+  // --- Template file handling ---
+  async function handleFile(file) {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith('.odt')) {
+      exportStatus.textContent = 'Please choose a .odt file.';
+      exportStatus.className = 'status-msg err';
+      return;
+    }
+    templateBytes = new Uint8Array(await file.arrayBuffer());
+    templateFileName = file.name;
+    fileNameEl.textContent = file.name;
+    fileChip.classList.add('show');
+    exportStatus.textContent = '';
+    exportStatus.className = 'status-msg';
+    updateFillEnabled();
+  }
+
+  fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+  ['dragover'].forEach(evt =>
+    dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); })
+  );
+  ['dragleave', 'drop'].forEach(evt =>
+    dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); })
+  );
+  dropzone.addEventListener('drop', (e) => {
+    const file = e.dataTransfer.files[0];
+    handleFile(file);
+  });
+
+  clearFile.addEventListener('click', (e) => {
+    e.preventDefault();
+    templateBytes = null;
+    fileInput.value = '';
+    fileChip.classList.remove('show');
+    updateFillEnabled();
+  });
+
+  function updateFillEnabled() {
+    const hasValidVersion = versions.some(v => !v.error);
+    fillAllBtn.disabled = !(templateBytes && hasValidVersion);
+  }
+
+
+  // --- Fill all versions ---
+  fillAllBtn.addEventListener('click', () => {
+    if (!templateBytes) return;
+
+    results = [];
+    resultsEl.innerHTML = '';
+    logBox.classList.remove('show', 'err');
+    downloadZipBtn.disabled = true;
+
+    const validVersions = versions.filter(v => !v.error);
+    if (!validVersions.length) {
+      exportStatus.textContent = 'No valid JSON versions to fill.';
+      exportStatus.className = 'status-msg err';
+      return;
+    }
+
+    let okCount = 0;
+    let errLines = [];
+
+    for (const v of validVersions) {
+      const outName = safeStem(v.name) + '-filled.odt';
+      try {
+        const bytes = fillTemplate(templateBytes, v.data);
+        results.push({ id: v.id, name: v.name, outName, bytes, error: null });
+        okCount += 1;
+      } catch (err) {
+        results.push({ id: v.id, name: v.name, outName, bytes: null, error: err.message || String(err) });
+        errLines.push(`${v.name}: ${err.message || err}`);
+      }
+    }
+
+    renderResults();
+
+    if (errLines.length) {
+      exportStatus.textContent = `${okCount} filled, ${errLines.length} failed.`;
+      exportStatus.className = 'status-msg err';
+      logBox.textContent = errLines.join('\n');
+      logBox.classList.add('show', 'err');
+    } else {
+      exportStatus.textContent = `${okCount} version(s) filled successfully.`;
+      exportStatus.className = 'status-msg ok';
+    }
+
+    downloadZipBtn.disabled = !results.some(r => r.bytes);
+  });
+
+  function renderResults() {
+    resultsEl.innerHTML = '';
+    results.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'result-row' + (r.error ? ' failed' : '');
+      row.innerHTML = `
+        <span class="dot"></span>
+        <span class="result-name">${escapeHtml(r.outName)}</span>
+        <span class="result-note">${r.error ? escapeHtml(r.error) : 'ready'}</span>
+      `;
+      if (!r.error) {
+        const btn = document.createElement('button');
+        btn.className = 'dl-btn';
+        btn.textContent = 'Download';
+        btn.addEventListener('click', () => downloadSingle(r));
+        row.appendChild(btn);
+      }
+      resultsEl.appendChild(row);
+    });
+  }
+
+  function downloadSingle(r) {
+    const blob = new Blob([r.bytes], { type: 'application/vnd.oasis.opendocument.text' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = r.outName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  downloadZipBtn.addEventListener('click', () => {
+    const okResults = results.filter(r => r.bytes);
+    if (!okResults.length) return;
+
+    const zipInput = {};
+    const usedNames = new Set();
+    okResults.forEach(r => {
+      let name = r.outName;
+      let n = 1;
+      while (usedNames.has(name)) {
+        name = r.outName.replace(/\.odt$/i, `-${++n}.odt`);
+      }
+      usedNames.add(name);
+      zipInput[name] = r.bytes;
+    });
+
+    const zipped = zipSync(zipInput, { level: 6 });
+    const blob = new Blob([zipped], { type: 'application/zip' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const base = templateFileName.replace(/\.odt$/i, '') || 'templates';
+    a.href = url;
+    a.download = `${base}-filled-all.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+</script>
+
+</body>
+</html>
