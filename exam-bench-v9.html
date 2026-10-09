@@ -189,8 +189,8 @@
 
       <section class="space-y-2.5">
         <span class="field-label">APPLY TO</span>
-        <select id="score-scope" class="field-input"></select>
-        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2">Only active questions carrying the selected tag are changed. The JSON is rewritten with 2-space indentation.</p>
+        <div id="score-scope" class="flex flex-wrap gap-1.5"></div>
+        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2">Click to highlight one or more groups — question types (e.g. multi) or tags. Only active questions in at least one highlighted group are changed; with none highlighted, every active question is. The JSON is rewritten with 2-space indentation.</p>
       </section>
 
       <div class="edge border-t"></div>
@@ -577,12 +577,16 @@ const Versions = (() => {
    Source text stays the single source of truth: these parse the bank,
    change score.points / score.wrong_discounts / score.penalty on the
    in-scope active questions, and write the JSON back (2-space indent).
-   scope = '' (all questions) or a tag; only questions carrying it change.
+   scope = list of groups; a question is in scope when it belongs to at
+   least one. A group is a tag, or '@single' / '@multiple' / '@open' for a
+   question type. An empty list (or '') means all questions.
    ════════════════════════════════════════════════════════════════════ */
 const ScoreOps = (() => {
   const round = n => Math.round(n * 10000) / 10000;
   const defaultPoints = bank => (bank.defaults && bank.defaults.points > 0 ? bank.defaults.points : 1);
-  const inScope = (q, scope) => q && q.active !== false && (!scope || (Array.isArray(q.tags) && q.tags.includes(scope)));
+  const inGroup = (type, tags, g) => (g[0] === '@' ? (type == null ? 'single' : type) === g.slice(1) : Array.isArray(tags) && tags.includes(g));
+  const matches = (type, tags, scope) => { const gs = [].concat(scope || []); return !gs.length || gs.some(g => inGroup(type, tags, g)); };
+  const inScope = (q, scope) => q && q.active !== false && matches(q.type, q.tags, scope);
   const ptsOf = (q, dPts) => (q.score && q.score.points > 0 ? q.score.points : dPts);
   const out = bank => JSON.stringify(bank, null, 2) + '\n';
 
@@ -622,7 +626,7 @@ const ScoreOps = (() => {
     return out(bank);
   }
 
-  return { setScore, setPenaltyFixed, setPenaltyPct, normalizeToSum };
+  return { setScore, setPenaltyFixed, setPenaltyPct, normalizeToSum, matches };
 })();
 
 
@@ -1006,6 +1010,7 @@ const App = (() => {
   let parsed = { meta: {}, questions: [], groups: [], problems: [], ok: true };
   let versions = [];
   let bindTags = [];               // tags ticked under "Keep together by tag"
+  let scoreScope = [];             // groups highlighted in Scoring → "Apply to" (empty = all active)
   let saveTimer = null;
 
   const SAMPLE = JSON.stringify({
@@ -1095,11 +1100,18 @@ const App = (() => {
   }
 
   function renderScope() {
-    const sel = $('score-scope'), cur = sel.value;
-    const counts = BankParser.tagCounts(parsed.questions);
-    sel.innerHTML = `<option value="">All active questions (${ready().length})</option>` +
-      [...counts].sort((a, b) => a[0].localeCompare(b[0])).map(([t, n]) => `<option value="${t}">${t} (${n})</option>`).join('');
-    if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+    const box = $('score-scope'), syms = (parsed.bank && parsed.bank.meta && parsed.bank.meta.symbols) || {};
+    const typeLabels = { single: 'single', multiple: 'multi' + (syms.multiple ? ' ' + syms.multiple : ''), open: 'open' };
+    const groups = Object.keys(typeLabels).map(t => ['@' + t, typeLabels[t], ready().filter(q => q.type === t).length]).filter(g => g[2])
+      .concat([...BankParser.tagCounts(parsed.questions)].sort((a, b) => a[0].localeCompare(b[0])).map(([t, n]) => [t, t, n]));
+    scoreScope = scoreScope.filter(k => groups.some(g => g[0] === k));
+    box.innerHTML = `<button class="mini-btn ${scoreScope.length ? '' : 'bubble-on'}" data-scope="">all active · ${ready().length}</button>` +
+      groups.map(([k, label, n]) => `<button class="mini-btn ${scoreScope.includes(k) ? 'bubble-on' : ''}" data-scope="${k}">${label} · ${n}</button>`).join('');
+    box.querySelectorAll('button[data-scope]').forEach(b => b.onclick = () => {
+      const k = b.dataset.scope;
+      scoreScope = !k ? [] : scoreScope.includes(k) ? scoreScope.filter(x => x !== k) : [...scoreScope, k];
+      renderScope(); scoringNote();
+    });
   }
 
   function applyScoring(fn, msg) {
@@ -1118,8 +1130,7 @@ const App = (() => {
   }
 
   function scoringNote() {
-    const scope = $('score-scope').value;
-    const qs = ready().filter(q => !scope || q.tags.includes(scope));
+    const qs = ready().filter(q => ScoreOps.matches(q.type, q.tags, scoreScope));
     const sum = qs.reduce((s, q) => s + q.points, 0);
     $('scoring-note').textContent = qs.length ? `${qs.length} questions · ${Exporters.num(sum)} pts now` : 'no questions yet';
   }
@@ -1323,10 +1334,10 @@ const App = (() => {
     $('btn-scoring').onclick = () => { $('scoring-modal').classList.remove('hidden'); renderScope(); scoringNote(); };
     $('btn-scoring-close').onclick = () => $('scoring-modal').classList.add('hidden');
     $('scoring-modal').addEventListener('click', e => { if (e.target === $('scoring-modal')) $('scoring-modal').classList.add('hidden'); });
-    $('score-scope').onchange = scoringNote;
 
-    const scope = () => $('score-scope').value;
-    const where = () => (scope() ? `questions tagged ${scope()}` : 'every active question');
+    const scope = () => scoreScope.slice();
+    const scopeName = k => (k[0] === '@' ? (k === '@multiple' ? 'multi' : k.slice(1)) + ' questions' : k);
+    const where = () => (scoreScope.length ? `questions in ${scoreScope.map(scopeName).join(' / ')}` : 'every active question');
 
     $('btn-score-apply').onclick = () => {
       const v = Number($('score-value').value);
