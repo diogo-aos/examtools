@@ -83,7 +83,7 @@
 <pre class="text-[11.5px] whitespace-pre-wrap">{ "format": "exam-bench-bank", "format_version": 1,
   "meta":     { "title", "presentation", "front_page": [], "answer_sheet": [],
                "symbols": { "multiple": "Ψ", "penalty": "" } },
-  "defaults": { "points": 1, "wrong_discounts": false, "penalty_fraction": 0.5 },
+  "defaults": { "points": 1, "wrong_discounts": false, "penalty_fraction": 0.5, "penalty_per_option": false },
   "taxonomy": { … },            // optional, documents / checks uc: values
   "groups":   [ { "id", "tag", "symbol", "title", "intro", "outro", "keep_together", "order" } ],
   "questions": [ … ] }</pre>
@@ -99,6 +99,7 @@
   "notes": "author-only, never printed" }</pre>
       <ul class="space-y-1 text-[11.5px] mt-3">
         <li><span class="text-signal-deep dark:text-signal">score.wrong_discounts</span> — a wrong answer costs <span class="text-signal-deep dark:text-signal">penalty</span> points (default: points × defaults.penalty_fraction)</li>
+        <li><span class="text-signal-deep dark:text-signal">score.penalty_per_option</span> — on a <span class="text-signal-deep dark:text-signal">multiple</span> question, charge the penalty for each wrong option marked instead of once; the ZipGrade key then lists every combination of options with its points</li>
         <li><span class="text-signal-deep dark:text-signal">tags</span> — lowercase, <span class="text-signal-deep dark:text-signal">namespace:value</span>. Questions sharing a group's tag, or a tag ticked in Versions → "Keep together by tag", are never separated</li>
         <li><span class="text-signal-deep dark:text-signal">groups[].symbol</span> — optional mark (e.g. ★) exported as <span class="text-signal-deep dark:text-signal">group_symbol</span> on every member, for the template to append to the question</li>
         <li><span class="text-signal-deep dark:text-signal">fixed</span> — choice keeps its place (last) when choices are shuffled; "None of the others/above" is fixed automatically</li>
@@ -210,6 +211,10 @@
 
       <section class="space-y-2.5">
         <span class="field-label">WRONG-ANSWER DISCOUNT</span>
+        <label class="flex gap-2 font-mono text-[11px] text-slate-500 dark:text-slate2" style="align-items:flex-start;cursor:pointer">
+          <input id="penalty-per-option" type="checkbox" class="mt-0.5">
+          <span>Charge the penalty for each incorrect option marked (multi questions only). Unticked: charged once per question, however many wrong options are marked.</span>
+        </label>
         <div class="grid grid-cols-3 gap-2">
           <button class="btn-neutral" data-penalty-pct="0">No discount</button>
           <button class="btn-neutral" data-penalty-pct="0.25">25% of score</button>
@@ -315,7 +320,8 @@ const BankParser = (() => {
     res.defaults = {
       points: isNum(d.points) && d.points > 0 ? d.points : 1,
       wrong_discounts: d.wrong_discounts === true,
-      penalty_fraction: isNum(d.penalty_fraction) && d.penalty_fraction >= 0 ? d.penalty_fraction : 0.5
+      penalty_fraction: isNum(d.penalty_fraction) && d.penalty_fraction >= 0 ? d.penalty_fraction : 0.5,
+      penalty_per_option: d.penalty_per_option === true
     };
 
     const syms = res.meta.symbols;
@@ -343,6 +349,9 @@ const BankParser = (() => {
       const wd = sc.wrong_discounts == null ? res.defaults.wrong_discounts : sc.wrong_discounts === true;
       if (sc.wrong_discounts != null && typeof sc.wrong_discounts !== 'boolean') problem(line, 'warn', `${id}: score.wrong_discounts should be true or false.`);
       const pen = wd && isNum(points) ? -Math.abs(isNum(sc.penalty) ? sc.penalty : points * res.defaults.penalty_fraction) : 0;
+      if (sc.penalty_per_option != null && typeof sc.penalty_per_option !== 'boolean') problem(line, 'warn', `${id}: score.penalty_per_option should be true or false.`);
+      // per-option penalties only make sense where several options can be marked
+      const perOpt = type === 'multiple' && !!pen && (sc.penalty_per_option == null ? res.defaults.penalty_per_option : sc.penalty_per_option === true);
 
       const tags = Array.isArray(raw.tags) ? raw.tags.map(str) : [];
       if (raw.tags != null && !Array.isArray(raw.tags)) problem(line, 'error', `${id}: "tags" must be an array of strings.`);
@@ -357,7 +366,7 @@ const BankParser = (() => {
 
       const q = {
         number: n, line, id, type, active: raw.active !== false, tags,
-        text: qText, points: isNum(points) ? points : 1, wrongDiscounts: wd, penalty: pen,
+        text: qText, points: isNum(points) ? points : 1, wrongDiscounts: wd, penalty: pen, penaltyPerOption: perOpt,
         notes: str(raw.notes), choices: [], groupId: null, valid: true,
         answerLines: isNum(raw.answer_lines) ? raw.answer_lines : null,
         expected: str(raw.expected_answer), rubric: str(raw.rubric), groupRef: str(raw.group).trim()
@@ -540,7 +549,7 @@ const Versions = (() => {
     return {
       number: n, source: q, id: q.id, text: q.text, tags: q.tags,
       symbols: Object.fromEntries(SYMBOL_RULES.map(r => [r.key, r.symbol(q, block, syms)])),
-      points: q.points, penalty: q.penalty, multiple: q.type === 'multiple', choices,
+      points: q.points, penalty: q.penalty, penaltyPerOption: q.penaltyPerOption, multiple: q.type === 'multiple', choices,
       answerLetters: letters, answerLetter: letters.join(''), answerKey: letters.join(','),
       group: block.type === 'group' ? { id: block.id, title: block.title, symbol: block.symbol, intro: block.intro, outro: block.outro, first: pos === 0, last: pos === size - 1 } : null
     };
@@ -594,21 +603,29 @@ const ScoreOps = (() => {
     const bank = JSON.parse(text), dPts = defaultPoints(bank);
     (bank.questions || []).filter(q => inScope(q, scope)).forEach(q => {
       q.score = q.score && typeof q.score === 'object' ? q.score : {};
-      fn(q.score, ptsOf(q, dPts));
+      fn(q.score, ptsOf(q, dPts), q);
     });
     return out(bank);
   }
 
   const setScore = (text, scope, value) => apply(text, scope, s => { s.points = round(value); });
 
-  const setPenaltyPct = (text, scope, pct) => apply(text, scope, (s, pts) => {
+  /* perOption: the penalty is charged for each wrong option marked (multiple-answer
+     questions only) instead of once per question. Stored as score.penalty_per_option. */
+  const setMode = (s, q, on, perOption) => {
+    if (on && perOption && q.type === 'multiple') s.penalty_per_option = true; else delete s.penalty_per_option;
+  };
+
+  const setPenaltyPct = (text, scope, pct, perOption = false) => apply(text, scope, (s, pts, q) => {
     s.wrong_discounts = pct > 0;
     if (pct > 0) s.penalty = round(pts * pct); else delete s.penalty;
+    setMode(s, q, pct > 0, perOption);
   });
 
-  const setPenaltyFixed = (text, scope, value) => apply(text, scope, s => {
+  const setPenaltyFixed = (text, scope, value, perOption = false) => apply(text, scope, (s, pts, q) => {
     s.wrong_discounts = value > 0;
     if (value > 0) s.penalty = round(value); else delete s.penalty;
+    setMode(s, q, value > 0, perOption);
   });
 
   /* Rescale in-scope points so they sum to target (explicit penalties scale too). */
@@ -650,22 +667,43 @@ const Exporters = (() => {
   };
 
   /* ZipGrade answer-key CSV.
-     Columns: Key, Question Number, Response/Mapping, Point Value, Tags
+     Columns: Key Letter, Question Number, Response/Mapping, Point Value, Tags
+     ZipGrade matches the whole marked response against the mapping rows, so
+     every combination that should score needs its own row.
      Single answer:    one row, the correct letter, full points.
-     Several correct:  one row per correct letter, each worth points / n
-                       (partial credit: all n correct = full points).
-     A penalty becomes one extra row whose response is the literal [a&i]
-     — ZipGrade's "attempted but incorrect" point value. Open questions
-     have no bubbles and are not part of the CSV.                        */
-  function zipgradeCsv(versions, tagNs = []) {
-    const rows = [['Key', 'Question', 'Response/Mapping', 'Points', 'Tags']];
-    versions.forEach(v => v.items.forEach(it => {
-      const n = it.answerLetters.length, each = Math.round(it.points / n * 10000) / 10000;
-      it.answerLetters.forEach((l, i) => {
-        const pts = i === n - 1 ? it.points - each * (n - 1) : each;     // last row absorbs rounding, so all n sum to points
-        rows.push([v.letter, it.number, l, num(Math.round(pts * 10000) / 10000), i === 0 ? tagField(it, tagNs) : '']);
+     Several correct:  one row per combination of correct letters, worth
+                       points × (correct marked / n) — all n = full points.
+     Penalty, once:    one extra row whose response is the literal [a&i] —
+                       ZipGrade's "attempted but incorrect" value, charged a
+                       single time however many wrong options are marked.
+     Penalty, per option (multiple-answer questions): no [a&i]; instead one
+                       row for every combination of options, worth the partial
+                       credit minus the penalty × wrong options marked.
+     Open questions have no bubbles and are not part of the CSV.         */
+  const r4 = n => Math.round(n * 10000) / 10000;
+  const subsets = arr => {                       // non-empty, smallest first, then alphabetical
+    const out = [];
+    for (let m = 1; m < 1 << arr.length; m++) out.push(arr.filter((_, i) => m & (1 << i)));
+    return out.sort((a, b) => a.length - b.length || a.join('').localeCompare(b.join('')));
+  };
+  function zipgradeRows(it) {
+    const correct = it.answerLetters, n = correct.length;
+    const credit = k => (k === n ? it.points : r4(it.points * k / n));
+    if (it.penaltyPerOption) {
+      const letters = it.choices.map((_, i) => Versions.LETTERS[i]);
+      return subsets(letters).map(sub => {
+        const k = sub.filter(l => correct.includes(l)).length;
+        return [sub.join(''), r4(credit(k) + it.penalty * (sub.length - k))];
       });
-      if (it.penalty) rows.push([v.letter, it.number, '[a&i]', num(it.penalty), '']);
+    }
+    const rows = subsets(correct).map(sub => [sub.join(''), credit(sub.length)]);
+    if (it.penalty) rows.push(['[a&i]', it.penalty]);
+    return rows;
+  }
+  function zipgradeCsv(versions, tagNs = []) {
+    const rows = [['Key Letter', 'Question Number', 'Response/Mapping', 'Point Value', 'Tags']];
+    versions.forEach(v => v.items.forEach(it => {
+      zipgradeRows(it).forEach(([resp, pts], i) => rows.push([v.letter, it.number, resp, num(pts), i === 0 ? tagField(it, tagNs) : '']));
     }));
     return rows.map(r => r.map(csvField).join(',')).join('\r\n') + '\r\n';
   }
@@ -680,6 +718,7 @@ const Exporters = (() => {
       question_text: it.text,
       question_score: it.points,
       question_penalty: Math.abs(it.penalty),      // positive magnitude — templates print the minus sign
+      penalty_per_option: it.penaltyPerOption,     // true = charged for each wrong option marked
       multiple: it.multiple,
       tags: it.tags,
       group_id: it.group ? it.group.id : '',
@@ -710,7 +749,7 @@ const Exporters = (() => {
     '| # | Id | Answer | Points | Penalty | Group | Tags |',
     '|---|----|--------|--------|---------|-------|------|',
     ...version.items.map(it =>
-      `| ${it.number} | ${it.id} | ${it.answerKey}${it.multiple ? ' (multi)' : ''} | ${num(it.points)} | ${it.penalty ? num(it.penalty) : '—'} | ${it.group ? it.group.id : '—'} | ${it.tags.join(' ')} |`)
+      `| ${it.number} | ${it.id} | ${it.answerKey}${it.multiple ? ' (multi)' : ''} | ${num(it.points)} | ${it.penalty ? num(it.penalty) + (it.penaltyPerOption ? ' per wrong option' : '') : '—'} | ${it.group ? it.group.id : '—'} | ${it.tags.join(' ')} |`)
   ]);
 
   /* One combined key document for the instructor (Markdown). */
@@ -948,7 +987,7 @@ const Preview = (() => {
       </li>`).join('');
 
     const score = q.penalty
-      ? `${Exporters.num(q.points)} pt · ${Exporters.num(q.penalty)} if wrong`
+      ? `${Exporters.num(q.points)} pt · ${Exporters.num(q.penalty)} ${q.penaltyPerOption ? 'per wrong option' : 'if wrong'}`
       : `${Exporters.num(q.points)} pt`;
 
     const openBody = isOpen ? `
@@ -1345,15 +1384,17 @@ const App = (() => {
       applyScoring(t => ScoreOps.setScore(t, scope(), v), `Score set to ${v} pt on ${where()}.`);
     };
 
+    const perOption = () => $('penalty-per-option').checked;
+    const how = () => (perOption() ? ' per wrong option (multi questions; once elsewhere)' : ', once per question,');
     document.querySelectorAll('[data-penalty-pct]').forEach(btn => btn.onclick = () => {
       const pct = Number(btn.dataset.penaltyPct);
-      applyScoring(t => ScoreOps.setPenaltyPct(t, scope(), pct),
-        pct === 0 ? `Wrong answers no longer discount on ${where()}.` : `Wrong answers discount ${pct * 100}% of the score on ${where()}.`);
+      applyScoring(t => ScoreOps.setPenaltyPct(t, scope(), pct, perOption()),
+        pct === 0 ? `Wrong answers no longer discount on ${where()}.` : `Wrong answers discount ${pct * 100}% of the score${how()} on ${where()}.`);
     });
     $('btn-penalty-apply').onclick = () => {
       const v = Number($('penalty-value').value);
       if (!isFinite(v) || v < 0) { toast('Enter a penalty of 0 or more.'); return; }
-      applyScoring(t => ScoreOps.setPenaltyFixed(t, scope(), v), `Penalty set to ${v} on ${where()}.`);
+      applyScoring(t => ScoreOps.setPenaltyFixed(t, scope(), v, perOption()), `Penalty set to ${v}${v > 0 ? how() : ''} on ${where()}.`);
     };
 
     const doNormalize = target => {
