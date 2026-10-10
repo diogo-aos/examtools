@@ -679,6 +679,8 @@ const Exporters = (() => {
      Penalty, per option (multiple-answer questions): no [a&i]; instead one
                        row for every combination of options, worth the partial
                        credit minus the penalty × wrong options marked.
+     Each question's first row is always the full-score response; partial
+     credit and penalties follow.
      Open questions have no bubbles and are not part of the CSV.         */
   const r4 = n => Math.round(n * 10000) / 10000;
   const subsets = arr => {                       // non-empty, smallest first, then alphabetical
@@ -687,16 +689,17 @@ const Exporters = (() => {
     return out.sort((a, b) => a.length - b.length || a.join('').localeCompare(b.join('')));
   };
   function zipgradeRows(it) {
-    const correct = it.answerLetters, n = correct.length;
+    const correct = it.answerLetters, n = correct.length, full = correct.join('');
+    const fullFirst = rows => [...rows.filter(r => r[0] === full), ...rows.filter(r => r[0] !== full)];
     const credit = k => (k === n ? it.points : r4(it.points * k / n));
     if (it.penaltyPerOption) {
       const letters = it.choices.map((_, i) => Versions.LETTERS[i]);
-      return subsets(letters).map(sub => {
+      return fullFirst(subsets(letters).map(sub => {
         const k = sub.filter(l => correct.includes(l)).length;
         return [sub.join(''), r4(credit(k) + it.penalty * (sub.length - k))];
-      });
+      }));
     }
-    const rows = subsets(correct).map(sub => [sub.join(''), credit(sub.length)]);
+    const rows = fullFirst(subsets(correct).map(sub => [sub.join(''), credit(sub.length)]));
     if (it.penalty) rows.push(['[a&i]', it.penalty]);
     return rows;
   }
