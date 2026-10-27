@@ -489,42 +489,55 @@
   // results: [{ id, name, outName, bytes, error }]
   let results = [];
 
+  // Same shape as Exam Bench's per-version JSON export (fills exam-template.odt).
   const mockData = {
-    exam_title: "Sample Exam — Version A",
+    version: "A",
+    title: "Sample Exam",
+    presentation: "4 questions, 30 minutes, no materials.",
+    symbols: { multiple: "Ψ", penalty: "" },
     mcq: [
       {
         question_number: 1,
         question_score: 2,
+        question_penalty: 0.5,
         question_text: "What is the SI unit of electrical resistance?",
+        question_symbols: "",
         options: [
-          { option_number: "a", option: "Ampere" },
-          { option_number: "b", option: "Ohm" },
-          { option_number: "c", option: "Volt" },
-          { option_number: "d", option: "Watt" }
+          { option_number: "A", option_text: "Ampere" },
+          { option_number: "B", option_text: "Ohm" },
+          { option_number: "C", option_text: "Volt" },
+          { option_number: "D", option_text: "Watt" }
         ]
       },
       {
         question_number: 2,
         question_score: 3,
-        question_text: "Which sensor is most commonly used for UAV altitude estimation in GNSS-denied environments?",
+        question_penalty: 0,
+        question_text: "Which sensors can estimate UAV altitude in GNSS-denied environments?",
+        question_symbols: "Ψ",
         options: [
-          { option_number: "a", option: "Barometric altimeter" },
-          { option_number: "b", option: "Magnetometer" },
-          { option_number: "c", option: "Hall effect sensor" },
-          { option_number: "d", option: "Photodiode" }
+          { option_number: "A", option_text: "Barometric altimeter" },
+          { option_number: "B", option_text: "Magnetometer" },
+          { option_number: "C", option_text: "Lidar rangefinder" },
+          { option_number: "D", option_text: "Photodiode" }
         ]
       },
       {
         question_number: 3,
         question_score: 1,
+        question_penalty: 0,
         question_text: "In Ohm's Law, V = I × R, what does 'I' represent?",
+        question_symbols: "",
         options: [
-          { option_number: "a", option: "Voltage" },
-          { option_number: "b", option: "Current" },
-          { option_number: "c", option: "Resistance" },
-          { option_number: "d", option: "Impedance" }
+          { option_number: "A", option_text: "Voltage" },
+          { option_number: "B", option_text: "Current" },
+          { option_number: "C", option_text: "Resistance" },
+          { option_number: "D", option_text: "Impedance" }
         ]
       }
+    ],
+    open: [
+      { question_number: 4, question_score: 4, question_text: "Explain why a multimeter in current mode must be connected in series." }
     ]
   };
 
