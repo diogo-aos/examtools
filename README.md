@@ -4,7 +4,7 @@ Single-file, offline-friendly web tools for building, filling and presenting exa
 
 | File | What it does |
 |---|---|
-| `exam-bench-v9.html` | JSON question bank editor / builder (Exam Bench). |
+| `exam-bench-v9.html` | Exam Bench: turns a JSON question bank into shuffled exam versions (per-version JSON) and ZipGrade answer-key CSVs. |
 | `odt-template-filler.html` | Fills an ODT template from data. |
 | `exam-presenter.html` | Slide-show style presenter for exam corrections: load an `exam-bench-bank` JSON (drop or paste), click **Present**, then `Space`/`→` next, `←` previous, `R` hide/reveal answers, `F` fullscreen, `Esc` exit. Tailwind is inlined, so it works offline. |
 | `exam-bench-manual-v9.odt` | Manual for Exam Bench. |
