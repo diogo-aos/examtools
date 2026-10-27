@@ -395,7 +395,7 @@
     color:var(--ink-soft);
     font-size:0.8rem;
   }
-  footer a{color:var(--accent);}
+  footer a, .step-hint a{color:var(--accent);}
 </style>
 </head>
 <body>
@@ -408,7 +408,7 @@
 <main>
   <section>
     <div class="step-label"><span class="step-num">1</span><h2>Template</h2></div>
-    <p class="step-hint">The .odt file created in LibreOffice Writer with your styling and placeholders.</p>
+    <p class="step-hint">The .odt file created in LibreOffice Writer with your styling and placeholders. No template yet? <a href="exam-template.odt" download>Download a sample exam template</a> (cover page + questions) built for Exam Bench's version JSON, and edit it in LibreOffice.</p>
 
     <label class="dropzone" id="dropzone" for="fileInput">
       <input type="file" id="fileInput" accept=".odt,application/vnd.oasis.opendocument.text">
