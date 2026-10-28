@@ -14,7 +14,7 @@ ExamTools is three single-file web apps. Each one runs entirely in your browser,
 
 The workflow, in order:
 
-1. Open your bank in **Exam Bench** (**Open**, drag a `.json` file onto the editor, or paste it). The format is in Section 2.
+1. Open your bank in **Exam Bench** (**Open**, drag a `.json` file onto the editor, or paste it). On a first visit the editor holds a small sample bank to start from; **Load sample** brings it back. The format is in Section 2.
 2. Fix every error (red) in the Problems panel under the editor. Warnings (amber) do not block anything.
 3. Optionally batch-edit scores and penalties in **Scoring** (Section 3).
 4. Open **Versions**, choose how many versions and how they are shuffled, and generate them (Section 4).
@@ -82,7 +82,7 @@ Only `questions` is required. Every other top-level field is optional.
 | `id` | yes | Unique, stable name (kebab-case). It identifies the question in the Problems panel, the answer-key table and the exports. |
 | `type` | no | `single` (exactly one correct choice, the default) or `multiple` (one or more correct choices). |
 | `text` | yes | The question, as printed. |
-| `tags` | no | Categories, see Section 2.4. A question without tags gets a warning. |
+| `tags` | no | Categories, see Section 2.4. Leave it out for an untagged question. |
 | `score` | no | `points` and `penalty`, see Section 2.3. Missing values come from `defaults`. |
 | `choices` | yes | 2 to 5 choices. Each has `text` and `correct`, plus optional `justification` and `fixed`. |
 | `active` | no | `false` keeps the question in the bank but leaves it out of totals, versions and exports. |
@@ -169,7 +169,7 @@ Older banks may still contain `groups`, `taxonomy`, `score.wrong_discounts` or `
 Each message shows the line of the offending question.
 
 - **Errors** make the question not ready: it is shown in red, left out of the totals in the header and left out of versions and exports. Examples: invalid JSON, duplicate `id`, empty text, no correct choice, several correct choices in a `single` question, more than five choices, an open question.
-- **Warnings** do not block anything. Examples: missing `id`, no tags, a malformed tag, a tag definition that no question carries, a field that is no longer used.
+- **Warnings** do not block anything. Examples: missing `id`, a malformed tag, a tag definition that no question carries, a field that is no longer used.
 
 ### 2.8 Dropping JSON files onto the editor
 

@@ -364,7 +364,6 @@ const BankParser = (() => {
       const tags = Array.isArray(raw.tags) ? raw.tags.map(str) : [];
       if (raw.tags != null && !Array.isArray(raw.tags)) problem(line, 'error', `${id}: "tags" must be an array of strings.`);
       tags.forEach(t => { if (!TAG_RE.test(t)) problem(line, 'warn', `${id}: tag "${t}" should be lowercase [a-z0-9_-], optionally "namespace:value".`); });
-      if (!tags.length) problem(line, 'warn', `${id}: no tags — it will not appear in any category.`);
 
       const qText = str(raw.text).trim();
       if (!qText) problem(line, 'error', `${id}: empty "text".`);
@@ -965,21 +964,20 @@ const App = (() => {
 
   const SAMPLE = JSON.stringify({
     format: 'exam-bench-bank',
-    meta: { title: 'Cyber Warfare — Mid-term', symbols: { multiple: 'Ψ' } },
+    meta: { title: 'Sample exam', symbols: { multiple: 'Ψ' } },
     defaults: { points: 1, penalty: { single: 0, multiple: 0.25 } },
-    tags: { 'case:enigma': { symbol: '🔷', title: 'Enigma case study', keep_together: true } },
+    tags: { 'case:enigma': { symbol: '🔷', title: 'Enigma case study' } },
     questions: [
-      { id: 'osi-tls', type: 'single', tags: ['uc:fundamentals', 'topic:osi'], text: 'At which OSI layer does a TLS session terminate?',
+      { id: 'passive-recon', type: 'single', text: 'Which technique gathers information without touching the target?',
+        choices: [{ text: 'Passive reconnaissance', correct: true }, { text: 'Port scanning', correct: false }, { text: 'Banner grabbing', correct: false }, { text: 'None of the others.', correct: false }] },
+      { id: 'enigma-device', type: 'single', tags: ['case:enigma'], text: 'What kind of cipher device was the Enigma?',
         score: { points: 2, penalty: 0.5 },
-        choices: [{ text: 'Presentation', correct: true, justification: 'TLS sits above TCP and below the application protocol.' }, { text: 'Network', correct: false }, { text: 'Data link', correct: false }, { text: 'None of the others.', correct: false }] },
-      { id: 'passive-recon', type: 'single', tags: ['uc:tools-tactics', 'topic:reconnaissance'], text: 'Which technique gathers information without touching the target?',
-        choices: [{ text: 'Passive reconnaissance', correct: true }, { text: 'Port scanning', correct: false }, { text: 'Banner grabbing', correct: false }] },
-      { id: 'cia-triad', type: 'multiple', tags: ['uc:fundamentals', 'topic:cia-triad'], text: 'Which of the following belong to the CIA triad?',
-        choices: [{ text: 'Confidentiality', correct: true }, { text: 'Integrity', correct: true }, { text: 'Authenticity', correct: false }, { text: 'Availability', correct: true }] },
-      { id: 'enigma-device', type: 'single', tags: ['uc:setting-environment', 'case:enigma'], text: 'What kind of cipher device was the Enigma?',
-        choices: [{ text: 'Electromechanical rotor cipher', correct: true }, { text: 'Digital block cipher', correct: false }, { text: 'One-time pad generator', correct: false }] },
-      { id: 'enigma-bletchley', type: 'single', tags: ['uc:setting-environment', 'case:enigma'], text: 'Who led the British effort to break Enigma at Bletchley Park?',
-        choices: [{ text: 'Alan Turing', correct: true }, { text: 'Winston Churchill', correct: false }, { text: 'Claude Shannon', correct: false }] }
+        choices: [
+          { text: 'Electromechanical rotor cipher', correct: true, justification: 'Each key press stepped a set of rotors that changed the substitution.' },
+          { text: 'Digital block cipher', correct: false, justification: 'Block ciphers came with computers, decades later.' },
+          { text: 'One-time pad generator', correct: false, justification: 'The Enigma reused its settings for a whole day of messages.' }] },
+      { id: 'cia-triad', type: 'multiple', text: 'Which of the following belong to the CIA triad?',
+        choices: [{ text: 'Confidentiality', correct: true }, { text: 'Integrity', correct: true }, { text: 'Authenticity', correct: false }, { text: 'Availability', correct: true }] }
     ]
   }, null, 2) + '\n';
 
@@ -1326,7 +1324,7 @@ const App = (() => {
     try {
       const state = await Store.load();
       if (state) {
-        editor.value = state.source || '';
+        editor.value = state.source && state.source.trim() ? state.source : SAMPLE;
         const s = state.settings || {};
         if (s.count) $('in-count').value = s.count;
         if (s.seed)  $('in-seed').value  = s.seed;
@@ -1336,8 +1334,8 @@ const App = (() => {
         if (Array.isArray(s.bindTags))   bindTags = s.bindTags;
         if (typeof s.tagNs === 'object' && s.tagNs) $('in-tagns').value = s.tagNs.join(',');
         $('save-state').textContent = 'restored';
-      }
-    } catch { $('save-state').textContent = 'storage off'; }
+      } else editor.value = SAMPLE;                  // first visit: start from the sample bank
+    } catch { $('save-state').textContent = 'storage off'; editor.value = SAMPLE; }
     refresh();
   }
 
