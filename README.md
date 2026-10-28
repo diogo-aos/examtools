@@ -8,6 +8,6 @@ Single-file, offline-friendly web tools for building, filling and presenting exa
 | `odt-template-filler.html` | Fills an ODT template from data. |
 | `exam-presenter.html` | Slide-show style presenter for exam corrections: load an `exam-bench-bank` JSON (drop or paste), click **Present**, then `Space`/`→` next, `←` previous, `R` hide/reveal answers, `F` fullscreen, `Esc` exit. Tailwind is inlined, so it works offline. |
 | `exam-bench-manual-v9.odt` | Manual for Exam Bench. |
-| `exam-template.odt` | Sample template for the ODT Template Filler: a cover page (title, version, student fields, instructions) followed by the multiple-choice and open questions, using the keys from Exam Bench's per-version JSON. |
+| `exam-template.odt` | Exam template for the ODT Template Filler (Cyber Warfare test): cover page with guidelines, case study, then the multiple-choice questions, filled from Exam Bench's per-version JSON. |
 
 Open any of the HTML files directly in a browser — no build step or server needed.
