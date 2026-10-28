@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" width="1400" height="860" font-family="'Avenir Next','Segoe UI',system-ui,sans-serif">
+  <title>ExamTools workflow</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 L2.5 5 Z" fill="#84A282"/>
+    </marker>
+    <marker id="arrPink" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 L2.5 5 Z" fill="#C98DA3"/>
+    </marker>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#465F44" flood-opacity=".14"/>
+    </filter>
+    <linearGradient id="tool" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FEFAF3"/>
+    </linearGradient>
+    <style>
+      .h  { font-weight: 800; fill: #2B3A2A; }
+      .t  { fill: #5B6F59; }
+      .m  { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; fill: #2B3A2A; }
+      .lane { font-weight: 800; font-size: 12px; letter-spacing: .22em; fill: #84A282; }
+      .flow { fill: none; stroke: #84A282; stroke-width: 2.6; stroke-linecap: round; }
+      .flowP { fill: none; stroke: #C98DA3; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 2 7; }
+      .lbl { font-size: 12.5px; fill: #5B6F59; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="1400" height="860" fill="#FEFAF3"/>
+  <circle cx="1330" cy="-40" r="300" fill="#F6E2E9" opacity=".85"/>
+  <circle cx="40" cy="900" r="260" fill="#B8CFB3" opacity=".45"/>
+
+  <!-- title -->
+  <circle cx="58" cy="62" r="9" fill="#84A282"/>
+  <text x="78" y="73" class="h" font-size="32" letter-spacing="-.5">ExamTools workflow</text>
+  <text x="80" y="102" class="t" font-size="16">From one question bank to printed exams, ZipGrade grades and the correction in class</text>
+
+  <!-- lanes -->
+  <g>
+    <rect x="590" y="132" width="790" height="196" rx="26" fill="#B8CFB3" opacity=".16"/>
+    <text x="614" y="158" class="lane">PRINT</text>
+    <rect x="590" y="346" width="790" height="226" rx="26" fill="#F6E2E9" opacity=".55"/>
+    <text x="614" y="372" class="lane">GRADE</text>
+    <rect x="590" y="590" width="790" height="220" rx="26" fill="#B8CFB3" opacity=".16"/>
+    <text x="614" y="616" class="lane">CORRECT</text>
+  </g>
+
+  <!-- ───────── flows (drawn under the cards) ───────── -->
+  <!-- bank → exam bench -->
+  <path class="flow" d="M250 420 L 294 420" marker-end="url(#arr)"/>
+  <!-- exam bench → version json -->
+  <path class="flow" d="M552 360 C 590 360, 590 236, 628 236" marker-end="url(#arr)"/>
+  <!-- exam bench → zipgrade csv -->
+  <path class="flow" d="M552 430 C 590 430, 590 452, 628 452" marker-end="url(#arr)"/>
+  <!-- exam bench → answer keys -->
+  <path class="flow" d="M552 480 C 590 480, 590 534, 628 534" marker-end="url(#arr)"/>
+  <!-- version json → filler -->
+  <path class="flow" d="M812 236 L 862 236" marker-end="url(#arr)"/>
+  <!-- template → filler -->
+  <path class="flow" d="M978 120 L 978 172" marker-end="url(#arr)" stroke-dasharray="1 6"/>
+  <!-- filler → printed -->
+  <path class="flow" d="M1098 236 L 1150 236" marker-end="url(#arr)"/>
+  <!-- csv → zipgrade -->
+  <path class="flow" d="M812 452 L 862 452" marker-end="url(#arr)"/>
+  <!-- printed → zipgrade (exam day) -->
+  <path class="flowP" d="M1262 298 C 1262 360, 1120 352, 1100 410" marker-end="url(#arrPink)"/>
+  <text x="1276" y="322" class="lbl">students answer</text>
+  <text x="1276" y="338" class="lbl">on ZipGrade sheets</text>
+  <!-- zipgrade → grades -->
+  <path class="flow" d="M1098 482 L 1150 482" marker-end="url(#arr)"/>
+  <!-- bank → presenter -->
+  <path class="flow" d="M140 500 C 140 700, 200 712, 294 712" marker-end="url(#arr)"/>
+  <!-- presenter → class -->
+  <path class="flow" d="M552 712 L 1150 712" marker-end="url(#arr)"/>
+  <text x="760" y="700" class="lbl">slides with answers &amp; justifications</text>
+  <!-- grades → class (after the test) -->
+  <path class="flowP" d="M1262 528 L 1262 646" marker-end="url(#arrPink)"/>
+  <text x="1274" y="594" class="lbl">after the test</text>
+
+  <!-- ───────── cards ───────── -->
+
+  <!-- question bank -->
+  <g filter="url(#sh)">
+    <rect x="40" y="300" width="210" height="200" rx="26" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2"/>
+  </g>
+  <g transform="translate(64 324)">
+    <path d="M0 0 h26 l10 10 v34 a4 4 0 0 1 -4 4 h-32 a4 4 0 0 1 -4 -4 v-40 a4 4 0 0 1 4 -4z" fill="#F6E2E9" stroke="#C98DA3" stroke-width="1.8" transform="translate(4 0)"/>
+    <text x="10" y="35" class="m" font-size="11" font-weight="700" fill="#8C4E66">{ }</text>
+  </g>
+  <text x="114" y="342" class="h" font-size="19">Question</text>
+  <text x="114" y="364" class="h" font-size="19">bank</text>
+  <text x="64" y="398" class="m" font-size="13">bank.json</text>
+  <g font-size="12.5" class="t">
+    <text x="64" y="426">• questions &amp; choices</text>
+    <text x="64" y="446">• tags &amp; symbols 🔷 Ψ</text>
+    <text x="64" y="466">• points &amp; penalties</text>
+    <text x="64" y="486">• justifications</text>
+  </g>
+
+  <!-- exam bench -->
+  <g filter="url(#sh)">
+    <rect x="300" y="300" width="250" height="236" rx="26" fill="url(#tool)" stroke="#84A282" stroke-width="2.5"/>
+  </g>
+  <rect x="324" y="322" width="64" height="22" rx="11" fill="#B8CFB3"/>
+  <text x="356" y="337.5" text-anchor="middle" font-size="11" font-weight="800" fill="#2B3A2A">BUILD</text>
+  <text x="324" y="376" class="h" font-size="23">Exam Bench</text>
+  <g font-size="13.5" class="t">
+    <g transform="translate(324 400)"><circle cx="9" cy="9" r="9" fill="#F6E2E9"/><text x="9" y="13.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">1</text><text x="28" y="14">Edit &amp; validate</text></g>
+    <g transform="translate(324 430)"><circle cx="9" cy="9" r="9" fill="#F6E2E9"/><text x="9" y="13.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">2</text><text x="28" y="14">Batch scoring</text></g>
+    <g transform="translate(324 460)"><circle cx="9" cy="9" r="9" fill="#F6E2E9"/><text x="9" y="13.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">3</text><text x="28" y="14">Shuffle versions A·B·C</text></g>
+    <g transform="translate(324 490)"><circle cx="9" cy="9" r="9" fill="#F6E2E9"/><text x="9" y="13.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">4</text><text x="28" y="14">Export one .zip</text></g>
+  </g>
+
+  <!-- version json stack -->
+  <g filter="url(#sh)">
+    <rect x="644" y="190" width="168" height="70" rx="16" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2"/>
+    <rect x="636" y="198" width="168" height="70" rx="16" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2"/>
+    <rect x="628" y="206" width="168" height="70" rx="16" fill="#FFFFFF" stroke="#84A282" stroke-width="2"/>
+  </g>
+  <text x="646" y="234" class="h" font-size="15">Version files</text>
+  <text x="646" y="258" class="m" font-size="11.5">version-A.json …</text>
+
+  <!-- template -->
+  <rect x="884" y="56" width="188" height="64" rx="16" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="904" y="82" class="h" font-size="14.5">Your ODT template</text>
+  <text x="904" y="104" class="m" font-size="11.5">exam-template.odt</text>
+
+  <!-- filler -->
+  <g filter="url(#sh)">
+    <rect x="862" y="176" width="236" height="120" rx="24" fill="url(#tool)" stroke="#84A282" stroke-width="2.5"/>
+  </g>
+  <rect x="884" y="194" width="46" height="22" rx="11" fill="#B8CFB3"/>
+  <text x="907" y="209.5" text-anchor="middle" font-size="11" font-weight="800" fill="#2B3A2A">FILL</text>
+  <text x="884" y="246" class="h" font-size="19">ODT Template Filler</text>
+  <text x="884" y="272" class="t" font-size="13">one .odt per version</text>
+
+  <!-- printed exams -->
+  <g transform="translate(1150 168)">
+    <g filter="url(#sh)">
+      <rect x="40" y="0" width="74" height="96" rx="8" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" transform="rotate(8 77 48)"/>
+      <rect x="20" y="4" width="74" height="96" rx="8" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" transform="rotate(-6 57 52)"/>
+      <rect x="30" y="8" width="74" height="96" rx="8" fill="#FFFFFF" stroke="#84A282" stroke-width="2"/>
+    </g>
+    <rect x="42" y="22" width="40" height="6" rx="3" fill="#B8CFB3"/>
+    <rect x="42" y="36" width="50" height="4" rx="2" fill="#E3EBDF"/>
+    <rect x="42" y="46" width="44" height="4" rx="2" fill="#E3EBDF"/>
+    <rect x="42" y="56" width="48" height="4" rx="2" fill="#E3EBDF"/>
+    <circle cx="46" cy="72" r="3.5" fill="none" stroke="#84A282" stroke-width="1.5"/>
+    <circle cx="58" cy="72" r="3.5" fill="#84A282"/>
+    <circle cx="70" cy="72" r="3.5" fill="none" stroke="#84A282" stroke-width="1.5"/>
+    <text x="126" y="50" class="h" font-size="17">Printed</text>
+    <text x="126" y="72" class="h" font-size="17">exams</text>
+    <text x="126" y="94" class="m" font-size="12">A · B · C</text>
+  </g>
+
+  <!-- zipgrade csv -->
+  <g filter="url(#sh)">
+    <rect x="628" y="418" width="184" height="70" rx="16" fill="#FFFFFF" stroke="#84A282" stroke-width="2"/>
+  </g>
+  <text x="646" y="446" class="h" font-size="15">Answer key</text>
+  <text x="646" y="470" class="m" font-size="11.5">zipgrade-keys.csv</text>
+
+  <!-- answer keys md -->
+  <rect x="628" y="504" width="184" height="58" rx="16" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="646" y="528" class="h" font-size="13.5">Key tables for you</text>
+  <text x="646" y="548" class="m" font-size="11">answer-keys.md</text>
+
+  <!-- zipgrade -->
+  <g filter="url(#sh)">
+    <rect x="862" y="410" width="236" height="126" rx="24" fill="#FFFFFF" stroke="#D9A9BA" stroke-width="2.5"/>
+  </g>
+  <rect x="884" y="428" width="76" height="22" rx="11" fill="#F6E2E9"/>
+  <text x="922" y="443.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">EXTERNAL</text>
+  <text x="884" y="480" class="h" font-size="19">ZipGrade app</text>
+  <text x="884" y="504" class="t" font-size="13">import key · scan sheets</text>
+  <text x="884" y="522" class="t" font-size="13">partial credit &amp; penalties</text>
+
+  <!-- grades -->
+  <g filter="url(#sh)">
+    <rect x="1150" y="436" width="224" height="92" rx="20" fill="#FFFFFF" stroke="#84A282" stroke-width="2"/>
+  </g>
+  <text x="1172" y="472" class="h" font-size="17">Grades</text>
+  <text x="1172" y="498" class="t" font-size="13">per-tag statistics</text>
+  <text x="1172" y="516" class="t" font-size="13">(e.g. per unit uc:)</text>
+
+  <!-- presenter -->
+  <g filter="url(#sh)">
+    <rect x="300" y="652" width="250" height="120" rx="24" fill="url(#tool)" stroke="#84A282" stroke-width="2.5"/>
+  </g>
+  <rect x="324" y="670" width="78" height="22" rx="11" fill="#B8CFB3"/>
+  <text x="363" y="685.5" text-anchor="middle" font-size="11" font-weight="800" fill="#2B3A2A">PRESENT</text>
+  <text x="324" y="722" class="h" font-size="19">Exam Presenter</text>
+  <text x="324" y="748" class="t" font-size="13">one slide per question</text>
+
+  <!-- correction in class -->
+  <g filter="url(#sh)">
+    <rect x="1150" y="652" width="224" height="120" rx="24" fill="#F6E2E9" stroke="#D9A9BA" stroke-width="2"/>
+  </g>
+  <text x="1172" y="694" class="h" font-size="17">Correction</text>
+  <text x="1172" y="716" class="h" font-size="17">in class</text>
+  <text x="1172" y="744" class="t" font-size="13">Space → · R reveal</text>
+
+  <!-- legend -->
+  <g transform="translate(40 820)" font-size="12.5" class="t">
+    <line x1="0" y1="-4" x2="34" y2="-4" class="flow"/><text x="44" y="0">file / data flow</text>
+    <line x1="170" y1="-4" x2="204" y2="-4" class="flowP"/><text x="214" y="0">exam day &amp; after</text>
+    <rect x="330" y="-14" width="34" height="20" rx="8" fill="#FFFFFF" stroke="#84A282" stroke-width="2"/><text x="374" y="0">ExamTools app</text>
+    <rect x="492" y="-14" width="34" height="20" rx="8" fill="#FFFFFF" stroke="#D9A9BA" stroke-width="2"/><text x="536" y="0">outside ExamTools</text>
+    <rect x="674" y="-14" width="34" height="20" rx="8" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" stroke-dasharray="5 4"/><text x="718" y="0">you provide / optional</text>
+  </g>
+</svg>
