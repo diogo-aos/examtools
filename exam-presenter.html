@@ -238,19 +238,10 @@ tailwind.config = {
   /* ---------- slide building ---------- */
   function build() {
     const d = data, out = [];
-    const groups = Object.fromEntries((d.groups || []).map((g) => [g.tag, g]));
     const qs = d.questions.filter((q) => $('#optInactive').checked || q.active !== false);
     const total = qs.length;
     out.push({ kind: 'title', total });
-    let n = 0, lastGroup = null;
-    for (const q of qs) {
-      const gtag = (q.tags || []).find((t) => t.startsWith('group:'));
-      const g = gtag ? groups[gtag] : null;
-      if (g && g !== lastGroup) out.push({ kind: 'group', g });
-      lastGroup = g || null;
-      n++;
-      out.push({ kind: 'q', q, n, total, g });
-    }
+    qs.forEach((q, i) => out.push({ kind: 'q', q, n: i + 1, total }));
     out.push({ kind: 'end', total });
     return out;
   }
@@ -269,28 +260,24 @@ tailwind.config = {
         <h1 class="text-[2.3em] font-bold leading-[1.1] tracking-tight">That's all!</h1>
         <div class="mt-4 text-[.8em] text-ink-soft">${s.total} question(s) reviewed — questions?</div></div>`;
     }
-    if (s.kind === 'group') {
-      const g = s.g;
-      return `<div class="${SLIDE} ${anim}"><div class="mb-[.6em] flex flex-wrap items-center gap-2 text-[.62em]"><span class="chip green">${esc(g.symbol || '🔷')} Case study</span></div>
-        <div class="body body-scroll min-h-0 flex-1 overflow-y-auto pr-1.5"><div class="mb-[.4em] text-[1.5em] font-extrabold leading-tight tracking-tight">${md(g.title || g.id)}</div>
-        <div class="text-[.85em] leading-[1.45]">${paras(g.intro)}</div></div></div>`;
-    }
     const q = s.q, sym = meta.symbols?.multiple || '☑';
     const uc = tagVal(q, 'uc')[0], topics = tagVal(q, 'topic');
-    const pts = q.score?.points ?? data.defaults?.points;
-    const disc = q.score?.wrong_discounts ?? data.defaults?.wrong_discounts;
+    const multi = q.type === 'multiple';
+    const pts = q.score?.points ?? data.defaults?.points ?? 1;
+    const pen = q.score?.penalty ?? data.defaults?.penalty?.[multi ? 'multiple' : 'single'] ?? (multi ? 0.25 : 0);
+    // defined tags (bank "tags") the question carries — shown with their symbol and title
+    const defs = Object.entries(data.tags || {}).filter(([t]) => (q.tags || []).includes(t));
     let chips = `<span class="chip green">Question ${s.n} / ${s.total}</span>`;
     if (q.type === 'multiple') chips += `<span class="chip">${esc(sym)} one or more correct</span>`;
-    if (q.type === 'open') chips += `<span class="chip">Open question</span>`;
-    if (s.g) chips += `<span class="chip">${esc(s.g.symbol || '🔷')} ${esc(s.g.title || '')}</span>`;
+    for (const [t, def] of defs) chips += `<span class="chip">${esc([def?.symbol, def?.title || t].filter(Boolean).join(' '))}</span>`;
     if (q.active === false) chips += `<span class="chip">inactive</span>`;
     if (uc) chips += `<span class="chip plain">${esc(uc)}</span>`;
     if (topics[0]) chips += `<span class="chip plain">${esc(topics[0])}</span>`;
-    if (pts != null) chips += `<span class="chip plain">${pts} pt${pts === 1 ? '' : 's'}${disc ? ' · wrong answer penalised' : ''}</span>`;
+    if (pts != null) chips += `<span class="chip plain">${pts} pt${pts === 1 ? '' : 's'}${pen ? ` · −${pen} ${multi ? 'per wrong option' : 'if wrong'}` : ''}</span>`;
 
     let body;
-    if (q.type === 'open' || !q.choices) {
-      body = `<div class="grid min-h-[40vh] place-items-center rounded-3xl border-[3px] border-dashed border-sage bg-sagel/15 text-[.9em] text-ink-soft">Open question${q.answer_lines ? ` — ${q.answer_lines} answer lines` : ''}</div>`;
+    if (!q.choices?.length) {
+      body = `<div class="grid min-h-[40vh] place-items-center rounded-3xl border-[3px] border-dashed border-sage bg-sagel/15 text-[.9em] text-ink-soft">No choices</div>`;
     } else {
       body = `<div class="flex flex-col gap-[.45em]">` + q.choices.map((c, i) => {
         const ok = c.correct;
@@ -332,7 +319,7 @@ tailwind.config = {
     host.innerHTML = renderSlide(s, back, animate);
     fit(host.firstElementChild);
     $('#bar').style.width = (idx / (slides.length - 1) * 100) + '%';
-    $('#tbCount').textContent = s.kind === 'q' ? `${s.n} / ${s.total}` : (s.kind === 'title' ? 'Start' : s.kind === 'end' ? 'End' : 'Case study');
+    $('#tbCount').textContent = s.kind === 'q' ? `${s.n} / ${s.total}` : (s.kind === 'title' ? 'Start' : 'End');
     $('#tbTitle').textContent = (data.meta?.title || '');
     const r = $('#tbReveal');
     r.classList.toggle('on', reveal);

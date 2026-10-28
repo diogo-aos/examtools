@@ -80,31 +80,26 @@
 
     <div id="help" class="hidden px-4 py-3 border-b edge-soft surface-deep text-[12px] leading-relaxed text-slate-600 dark:text-slate2 font-mono max-h-40 overflow-auto scroll-thin">
       <div class="text-ink-900 dark:text-paper mb-1.5">Bank</div>
-<pre class="text-[11.5px] whitespace-pre-wrap">{ "format": "exam-bench-bank", "format_version": 1,
-  "meta":     { "title", "presentation", "front_page": [], "answer_sheet": [],
-               "symbols": { "multiple": "Ψ", "penalty": "" } },
-  "defaults": { "points": 1, "wrong_discounts": false, "penalty_fraction": 0.5, "penalty_per_option": false },
-  "taxonomy": { … },            // optional, documents / checks uc: values
-  "groups":   [ { "id", "tag", "symbol", "title", "intro", "outro", "keep_together", "order" } ],
+<pre class="text-[11.5px] whitespace-pre-wrap">{ "format": "exam-bench-bank",
+  "meta":     { "title": "…", "symbols": { "multiple": "Ψ" } },
+  "defaults": { "points": 1, "penalty": { "single": 0, "multiple": 0.25 } },
+  "tags":     { "case:ubiquiti": { "symbol": "🔷", "title": "Ubiquiti case study", "keep_together": true } },
   "questions": [ … ] }</pre>
       <div class="text-ink-900 dark:text-paper mt-3 mb-1.5">Question</div>
-<pre class="text-[11.5px] whitespace-pre-wrap">{ "id": "def-threat", "type": "single",        // single | multiple | open
+<pre class="text-[11.5px] whitespace-pre-wrap">{ "id": "def-threat", "type": "single",        // single | multiple
   "active": true,                              // false = kept, never exported
-  "tags": ["uc:defensive", "topic:threat-concepts"],
-  "group": "case-1",                           // optional: join a group by id
+  "tags": ["uc:defensive", "case:ubiquiti"],
   "text": "…",
-  "score": { "points": 1, "wrong_discounts": true, "penalty": 0.5 },
-  "choices": [ { "text": "…", "correct": true, "justification": "" },
-               { "text": "None of the others.", "correct": false, "fixed": true } ],
-  "notes": "author-only, never printed" }</pre>
+  "score": { "points": 1, "penalty": 0.5 },    // both optional — see defaults
+  "choices": [ { "text": "…", "correct": true, "justification": "optional" },
+               { "text": "None of the others.", "correct": false, "fixed": true } ] }</pre>
       <ul class="space-y-1 text-[11.5px] mt-3">
-        <li><span class="text-signal-deep dark:text-signal">score.wrong_discounts</span> — a wrong answer costs <span class="text-signal-deep dark:text-signal">penalty</span> points (default: points × defaults.penalty_fraction)</li>
-        <li><span class="text-signal-deep dark:text-signal">score.penalty_per_option</span> — on a <span class="text-signal-deep dark:text-signal">multiple</span> question, charge the penalty for each wrong option marked instead of once; the ZipGrade key then lists every combination of options with its points</li>
-        <li><span class="text-signal-deep dark:text-signal">tags</span> — lowercase, <span class="text-signal-deep dark:text-signal">namespace:value</span>. Questions sharing a group's tag, or a tag ticked in Versions → "Keep together by tag", are never separated</li>
-        <li><span class="text-signal-deep dark:text-signal">groups[].symbol</span> — optional mark (e.g. ★) exported as <span class="text-signal-deep dark:text-signal">group_symbol</span> on every member, for the template to append to the question</li>
+        <li><span class="text-signal-deep dark:text-signal">score.penalty</span> — single: deducted once for a wrong answer; multiple: deducted for each incorrect option marked. Default 0 (single) and 0.25 (multiple)</li>
+        <li><span class="text-signal-deep dark:text-signal">tags</span> — lowercase, <span class="text-signal-deep dark:text-signal">namespace:value</span>. Questions sharing a tag with <span class="text-signal-deep dark:text-signal">keep_together</span>, or a tag ticked in Versions → "Keep together by tag", are never separated</li>
+        <li><span class="text-signal-deep dark:text-signal">tags{}.symbol</span> — printed next to the number of every question carrying that tag (exported in <span class="text-signal-deep dark:text-signal">question_symbols</span>, with Ψ for multiple)</li>
         <li><span class="text-signal-deep dark:text-signal">fixed</span> — choice keeps its place (last) when choices are shuffled; "None of the others/above" is fixed automatically</li>
-        <li><span class="text-signal-deep dark:text-signal">open</span> questions have <span class="text-signal-deep dark:text-signal">answer_lines</span>, <span class="text-signal-deep dark:text-signal">expected_answer</span>, <span class="text-signal-deep dark:text-signal">rubric</span> and no choices; they are not on the ZipGrade sheet</li>
-        <li>Full reference: exam-bank-spec.md</li>
+        <li><span class="text-signal-deep dark:text-signal">justification</span> — shown here and in the Presenter, never exported to the printed versions</li>
+        <li>Full reference: the manual (manual.html)</li>
       </ul>
     </div>
 
@@ -150,12 +145,12 @@
           <label class="toggle-row"><input id="in-shuffle-c" type="checkbox" checked class="accent-signal w-3.5 h-3.5"> shuffle choices</label>
         </div>
       </div>
-      <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2">"Shuffle questions &amp; groups" reorders standalone questions and bound blocks relative to each other — a block always stays together. "Shuffle within groups" additionally reorders the questions inside each block (unless the group says <span class="text-ink-900 dark:text-paper">"order": "fixed"</span>). Choices marked fixed (e.g. "None of the others") stay last.</p>
+      <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2">"Shuffle questions &amp; groups" reorders standalone questions and bound blocks relative to each other — a block always stays together. "Shuffle within groups" additionally reorders the questions inside each block. Choices marked fixed (e.g. "None of the others") stay last.</p>
 
       <div>
         <div class="field-label mb-2">KEEP TOGETHER BY TAG</div>
         <div id="bind-tags" class="flex flex-wrap gap-1.5"></div>
-        <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2 mt-2">Questions that share a ticked tag are never separated (🔒 = already bound by a bank group). Only tags shared by two or more ready questions are listed.</p>
+        <p class="font-mono text-[10.5px] text-slate-500 dark:text-slate2 mt-2">Questions that share a ticked tag are never separated (🔒 = bound by <span class="text-ink-900 dark:text-paper">"keep_together": true</span> in the bank's tags). Only tags shared by two or more ready questions are listed.</p>
       </div>
 
       <label class="block">
@@ -210,13 +205,11 @@
       <div class="edge border-t"></div>
 
       <section class="space-y-2.5">
-        <span class="field-label">WRONG-ANSWER DISCOUNT</span>
-        <label class="flex gap-2 font-mono text-[11px] text-slate-500 dark:text-slate2" style="align-items:flex-start;cursor:pointer">
-          <input id="penalty-per-option" type="checkbox" class="mt-0.5">
-          <span>Charge the penalty for each incorrect option marked (multi questions only). Unticked: charged once per question, however many wrong options are marked.</span>
-        </label>
-        <div class="grid grid-cols-3 gap-2">
-          <button class="btn-neutral" data-penalty-pct="0">No discount</button>
+        <span class="field-label">WRONG-ANSWER PENALTY</span>
+        <p class="font-mono text-[11px] text-slate-500 dark:text-slate2">Single questions: deducted once if the answer is wrong. Multi questions: deducted for each incorrect option marked.</p>
+        <div class="grid grid-cols-2 gap-2">
+          <button class="btn-neutral" data-penalty-pct="default">Bank default</button>
+          <button class="btn-neutral" data-penalty-pct="0">No penalty</button>
           <button class="btn-neutral" data-penalty-pct="0.25">25% of score</button>
           <button class="btn-neutral" data-penalty-pct="0.5">50% of score</button>
         </div>
@@ -259,7 +252,7 @@
     </div>
     <div class="p-5 space-y-3">
       <div id="drop-summary" class="font-mono text-[12px] text-slate-600 dark:text-slate2 space-y-1"></div>
-      <p class="font-mono text-[11px] text-slate-500 dark:text-slate2"><b>Append</b> adds the dropped questions (and groups) after the current ones; questions whose id already exists are skipped. <b>Replace</b> discards the current text.</p>
+      <p class="font-mono text-[11px] text-slate-500 dark:text-slate2"><b>Append</b> adds the dropped questions (and tag definitions) after the current ones; questions whose id already exists are skipped. <b>Replace</b> discards the current text.</p>
       <div class="flex items-center gap-2.5 flex-wrap pt-1">
         <button id="btn-drop-append" class="btn-primary">Append questions</button>
         <button id="btn-drop-replace" class="btn-neutral">Replace entire text</button>
@@ -274,16 +267,18 @@
 <script>
 /* ════════════════════════════════════════════════════════════════════
    1. BankParser — JSON question bank → normalised question objects
-   Format: see exam-bank-spec.md (format "exam-bench-bank", version 1)
+   Format: see manual.md, section 2 (format "exam-bench-bank")
    ════════════════════════════════════════════════════════════════════ */
 const BankParser = (() => {
   const MAX_CHOICES = 5;                       // ZipGrade standard forms go A–E
-  const TYPES = ['single', 'multiple', 'open'];
+  const TYPES = ['single', 'multiple'];
   const TAG_RE = /^[a-z0-9][a-z0-9_-]*(:[a-z0-9][a-z0-9_.-]*)?$/;
   const NONE_RE = /^none of the (others|above)\.?$/i;
+  const TAG_DEF_KEYS = ['symbol', 'title', 'keep_together'];
   const esc = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   const isNum = v => typeof v === 'number' && Number.isFinite(v);
+  const isObj = v => !!v && typeof v === 'object' && !Array.isArray(v);
   const str = v => (typeof v === 'string' ? v : v == null ? '' : String(v));
 
   function jsonError(err) {
@@ -292,7 +287,7 @@ const BankParser = (() => {
   }
 
   function parse(text) {
-    const res = { meta: {}, defaults: {}, taxonomy: {}, groups: [], questions: [], problems: [], ok: true, bank: null };
+    const res = { meta: {}, defaults: {}, tagDefs: {}, questions: [], problems: [], ok: true, bank: null };
     const problem = (line, level, msg) => { res.problems.push({ line, level, msg }); if (level === 'error') res.ok = false; };
     if (!(text || '').trim()) return res;
 
@@ -309,31 +304,45 @@ const BankParser = (() => {
       problem(j.m ? text.slice(0, Number(j.m[1])).split('\n').length : 1, 'error', j.msg);
       return res;
     }
-    if (!bank || typeof bank !== 'object' || Array.isArray(bank)) { problem(1, 'error', 'The root must be a JSON object with a "questions" array.'); return res; }
+    if (!isObj(bank)) { problem(1, 'error', 'The root must be a JSON object with a "questions" array.'); return res; }
     if (bank.format && bank.format !== 'exam-bench-bank') problem(1, 'warn', `Unknown format "${bank.format}" — expected "exam-bench-bank".`);
     if (!Array.isArray(bank.questions)) { problem(1, 'error', 'Missing "questions" array.'); return res; }
+    ['groups', 'taxonomy'].filter(k => k in bank)
+      .forEach(k => problem(1, 'warn', `"${k}" is no longer supported and is ignored${k === 'groups' ? ' — define the tag under "tags" (symbol, title, keep_together)' : ''}.`));
 
     res.bank = bank;
-    res.meta = bank.meta && typeof bank.meta === 'object' ? bank.meta : {};
-    res.taxonomy = bank.taxonomy && typeof bank.taxonomy === 'object' ? bank.taxonomy : {};
-    const d = bank.defaults || {};
+    res.meta = isObj(bank.meta) ? bank.meta : {};
+    const d = isObj(bank.defaults) ? bank.defaults : {};
+    const dp = isObj(d.penalty) ? d.penalty : {};
     res.defaults = {
       points: isNum(d.points) && d.points > 0 ? d.points : 1,
-      wrong_discounts: d.wrong_discounts === true,
-      penalty_fraction: isNum(d.penalty_fraction) && d.penalty_fraction >= 0 ? d.penalty_fraction : 0.5,
-      penalty_per_option: d.penalty_per_option === true
+      penalty: {
+        single: isNum(dp.single) && dp.single >= 0 ? dp.single : 0,
+        multiple: isNum(dp.multiple) && dp.multiple >= 0 ? dp.multiple : 0.25
+      }
     };
+    if (d.penalty != null && !isObj(d.penalty)) problem(1, 'error', 'defaults.penalty must be an object, e.g. {"single": 0, "multiple": 0.25}.');
 
     const syms = res.meta.symbols;
-    if (syms != null && (typeof syms !== 'object' || Array.isArray(syms) || Object.values(syms).some(v => typeof v !== 'string')))
+    if (syms != null && (!isObj(syms) || Object.values(syms).some(v => typeof v !== 'string')))
       problem(1, 'error', 'meta.symbols must be an object of strings, e.g. {"multiple": "Ψ"}.');
-    else Object.keys(syms || {}).filter(k => !['multiple', 'penalty'].includes(k))
-      .forEach(k => problem(1, 'warn', `meta.symbols.${k} is not a known symbol (known: multiple, penalty).`));
+    else Object.keys(syms || {}).filter(k => k !== 'multiple')
+      .forEach(k => problem(1, 'warn', `meta.symbols.${k} is not used (only "multiple" is; tag symbols go under "tags").`));
+
+    // Tag definitions: tag → { symbol, title, keep_together }
+    if (bank.tags != null && !isObj(bank.tags)) problem(1, 'error', '"tags" must be an object: { "tag": { "symbol", "title", "keep_together" } }.');
+    Object.entries(isObj(bank.tags) ? bank.tags : {}).forEach(([tag, def]) => {
+      if (!TAG_RE.test(tag)) problem(1, 'warn', `tags."${tag}": should be lowercase [a-z0-9_-], optionally "namespace:value".`);
+      if (!isObj(def)) { problem(1, 'error', `tags."${tag}" must be an object.`); return; }
+      Object.keys(def).filter(k => !TAG_DEF_KEYS.includes(k))
+        .forEach(k => problem(1, 'warn', `tags."${tag}".${k} is not used (known: ${TAG_DEF_KEYS.join(', ')}).`));
+      res.tagDefs[tag] = { symbol: str(def.symbol), title: str(def.title), keepTogether: def.keep_together === true };
+    });
 
     const seen = new Set();
     bank.questions.forEach((raw, idx) => {
       const n = idx + 1;
-      raw = raw && typeof raw === 'object' ? raw : {};
+      raw = isObj(raw) ? raw : {};
       let id = str(raw.id).trim();
       const line = lineOf(id);
       if (!id) { id = `q${n}`; problem(1, 'warn', `Q${n} has no "id" — using "${id}".`); }
@@ -341,80 +350,54 @@ const BankParser = (() => {
       seen.add(id);
 
       const type = raw.type == null ? 'single' : raw.type;
-      if (!TYPES.includes(type)) problem(line, 'error', `${id}: type "${type}" must be one of ${TYPES.join(', ')}.`);
+      if (type === 'open') problem(line, 'error', `${id}: open questions are not supported — write them directly in the ODT template.`);
+      else if (!TYPES.includes(type)) problem(line, 'error', `${id}: type "${type}" must be one of ${TYPES.join(', ')}.`);
 
-      const sc = raw.score && typeof raw.score === 'object' ? raw.score : {};
+      const sc = isObj(raw.score) ? raw.score : {};
       const points = sc.points == null ? res.defaults.points : sc.points;
       if (!isNum(points) || points <= 0) problem(line, 'error', `${id}: score.points must be a positive number.`);
-      const wd = sc.wrong_discounts == null ? res.defaults.wrong_discounts : sc.wrong_discounts === true;
-      if (sc.wrong_discounts != null && typeof sc.wrong_discounts !== 'boolean') problem(line, 'warn', `${id}: score.wrong_discounts should be true or false.`);
-      const pen = wd && isNum(points) ? -Math.abs(isNum(sc.penalty) ? sc.penalty : points * res.defaults.penalty_fraction) : 0;
-      if (sc.penalty_per_option != null && typeof sc.penalty_per_option !== 'boolean') problem(line, 'warn', `${id}: score.penalty_per_option should be true or false.`);
-      // per-option penalties only make sense where several options can be marked
-      const perOpt = type === 'multiple' && !!pen && (sc.penalty_per_option == null ? res.defaults.penalty_per_option : sc.penalty_per_option === true);
+      const penalty = sc.penalty == null ? (type === 'multiple' ? res.defaults.penalty.multiple : res.defaults.penalty.single) : sc.penalty;
+      if (!isNum(penalty) || penalty < 0) problem(line, 'error', `${id}: score.penalty must be 0 or a positive number.`);
+      ['wrong_discounts', 'penalty_per_option'].filter(k => k in sc)
+        .forEach(k => problem(line, 'warn', `${id}: score.${k} is no longer used — score.penalty alone sets the penalty.`));
 
       const tags = Array.isArray(raw.tags) ? raw.tags.map(str) : [];
       if (raw.tags != null && !Array.isArray(raw.tags)) problem(line, 'error', `${id}: "tags" must be an array of strings.`);
       tags.forEach(t => { if (!TAG_RE.test(t)) problem(line, 'warn', `${id}: tag "${t}" should be lowercase [a-z0-9_-], optionally "namespace:value".`); });
       if (!tags.length) problem(line, 'warn', `${id}: no tags — it will not appear in any category.`);
-      const ucTax = res.taxonomy.uc && Array.isArray(res.taxonomy.uc.values) ? res.taxonomy.uc.values : null;
-      if (ucTax) tags.filter(t => t.startsWith('uc:') && !ucTax.includes(t.slice(3)))
-        .forEach(t => problem(line, 'warn', `${id}: "${t}" is not in taxonomy.uc.values.`));
 
       const qText = str(raw.text).trim();
       if (!qText) problem(line, 'error', `${id}: empty "text".`);
 
       const q = {
         number: n, line, id, type, active: raw.active !== false, tags,
-        text: qText, points: isNum(points) ? points : 1, wrongDiscounts: wd, penalty: pen, penaltyPerOption: perOpt,
-        notes: str(raw.notes), choices: [], groupId: null, valid: true,
-        answerLines: isNum(raw.answer_lines) ? raw.answer_lines : null,
-        expected: str(raw.expected_answer), rubric: str(raw.rubric), groupRef: str(raw.group).trim()
+        text: qText, points: isNum(points) ? points : 1,
+        penalty: isNum(penalty) && penalty > 0 ? -penalty : 0,          // stored negative: points lost
+        choices: [], valid: true
       };
 
-      if (type !== 'open') {
-        const arr = Array.isArray(raw.choices) ? raw.choices : [];
-        if (!arr.length) problem(line, 'error', `${id}: no choices.`);
-        q.choices = arr.map(c => {
-          c = c && typeof c === 'object' ? c : { text: c };
-          const t = str(c.text).trim();
-          return { text: t, correct: c.correct === true, justification: str(c.justification), fixed: c.fixed === true || NONE_RE.test(t) };
-        });
-        q.choices.forEach((c, i) => { if (!c.text) problem(line, 'error', `${id}: choice ${i + 1} is empty.`); });
-        const nc = q.choices.filter(c => c.correct).length;
-        if (arr.length && nc === 0) problem(line, 'error', `${id}: no correct choice.`);
-        if (type === 'single' && nc > 1) problem(line, 'error', `${id}: type "single" has ${nc} correct choices — use "multiple".`);
-        if (q.choices.length > MAX_CHOICES) problem(line, 'error', `${id}: ${q.choices.length} choices — ZipGrade standard forms hold ${MAX_CHOICES}.`);
-        if (type === 'single' && q.choices.length && q.choices.length < 2) problem(line, 'warn', `${id}: only one choice.`);
-        if (type === 'multiple' && nc === 1) problem(line, 'warn', `${id}: type "multiple" with a single correct choice (fine if intentional).`);
-      }
+      const arr = Array.isArray(raw.choices) ? raw.choices : [];
+      if (!arr.length) problem(line, 'error', `${id}: no choices.`);
+      q.choices = arr.map(c => {
+        c = isObj(c) ? c : { text: c };
+        const t = str(c.text).trim();
+        return { text: t, correct: c.correct === true, justification: str(c.justification), fixed: c.fixed === true || NONE_RE.test(t) };
+      });
+      q.choices.forEach((c, i) => { if (!c.text) problem(line, 'error', `${id}: choice ${i + 1} is empty.`); });
+      const nc = q.choices.filter(c => c.correct).length;
+      if (arr.length && nc === 0) problem(line, 'error', `${id}: no correct choice.`);
+      if (type === 'single' && nc > 1) problem(line, 'error', `${id}: type "single" has ${nc} correct choices — use "multiple".`);
+      if (q.choices.length > MAX_CHOICES) problem(line, 'error', `${id}: ${q.choices.length} choices — ZipGrade standard forms hold ${MAX_CHOICES}.`);
+      if (type === 'single' && q.choices.length === 1) problem(line, 'warn', `${id}: only one choice.`);
+      if (type === 'multiple' && nc === 1) problem(line, 'warn', `${id}: type "multiple" with a single correct choice (fine if intentional).`);
       res.questions.push(q);
     });
 
-    // Groups: a group is a tag + metadata. Members = questions carrying that tag.
-    const gs = Array.isArray(bank.groups) ? bank.groups : [];
-    gs.forEach((g, i) => {
-      g = g && typeof g === 'object' ? g : {};
-      const grp = {
-        id: str(g.id) || `g${i + 1}`, tag: str(g.tag), title: str(g.title), symbol: str(g.symbol), intro: str(g.intro), outro: str(g.outro),
-        keepTogether: g.keep_together !== false, order: g.order === 'fixed' ? 'fixed' : 'free', members: []
-      };
-      if (!grp.tag) { problem(1, 'error', `Group "${grp.id}" has no "tag".`); return; }
-      // membership: carries the group's tag, or names the group in "group"; the tag is then added so binding sees it
-      grp.members = res.questions.filter(q => q.tags.includes(grp.tag) || q.groupRef === grp.id);
-      grp.members.forEach(q => { if (!q.tags.includes(grp.tag)) q.tags.push(grp.tag); });
-      if (!grp.members.length) problem(1, 'warn', `Group "${grp.id}": no question carries tag "${grp.tag}" or names this group.`);
-      grp.members.forEach(q => { if (!q.groupId) q.groupId = grp.id; });
-      res.groups.push(grp);
-    });
+    Object.keys(res.tagDefs).filter(t => !res.questions.some(q => q.tags.includes(t)))
+      .forEach(t => problem(1, 'warn', `tags."${t}": no question carries this tag.`));
 
     res.questions.forEach(q => {
-      if (q.groupRef && !res.groups.some(g => g.id === q.groupRef)) problem(q.line, 'warn', `${q.id}: "group" refers to unknown group "${q.groupRef}".`);
-      q.valid = !res.problems.some(p => p.level === 'error' && p.msg.startsWith(q.id + ':'))
-        && !!q.text && (q.type === 'open' || (q.choices.length > 0 && q.choices.length <= MAX_CHOICES
-          && q.choices.every(c => c.text) && q.choices.some(c => c.correct)
-          && !(q.type === 'single' && q.choices.filter(c => c.correct).length > 1)))
-        && TYPES.includes(q.type) && q.points > 0;
+      q.valid = !res.problems.some(p => p.level === 'error' && p.msg.startsWith(q.id + ':'));
     });
     return res;
   }
@@ -491,18 +474,18 @@ const Rand = (() => {
 /* ════════════════════════════════════════════════════════════════════
    4. Versions — build shuffled variants of a question set
    Blocks = units that are shuffled as a whole. A block is either one
-   question, or several questions bound together by a shared tag (a bank
-   group's tag, or any tag ticked under "Keep together by tag").
+   question, or several questions bound together by a shared tag (one with
+   "keep_together" in the bank, or any tag ticked under "Keep together by tag").
    ════════════════════════════════════════════════════════════════════ */
 const Versions = (() => {
   const LETTERS = 'ABCDEFGHIJKL'.split('');
 
-  /* Union-find over the ready MCQ questions: any two that share a bound
-     tag end up in the same block, transitively. Bank order is preserved. */
+  /* Union-find over the ready questions: any two that share a bound tag
+     (keep_together in the bank, or ticked in the panel) end up in the same
+     block, transitively. Bank order is preserved. */
   function makeBlocks(parsed, bindTags = []) {
-    const qs = parsed.questions.filter(q => q.valid && q.active && q.type !== 'open');
-    const bank = parsed.groups.filter(g => g.keepTogether);
-    const bound = new Set([...bindTags, ...bank.map(g => g.tag)]);
+    const qs = parsed.questions.filter(q => q.valid && q.active);
+    const bound = new Set([...bindTags, ...Object.keys(parsed.tagDefs).filter(t => parsed.tagDefs[t].keepTogether)]);
     const parent = qs.map((_, i) => i);
     const find = i => (parent[i] === i ? i : (parent[i] = find(parent[i])));
     const first = new Map();
@@ -514,18 +497,9 @@ const Versions = (() => {
     qs.forEach((q, i) => { const r = find(i); if (!byRoot.has(r)) byRoot.set(r, []); byRoot.get(r).push(q); });
 
     return [...byRoot.values()].map(members => {
-      const gs = bank.filter(g => members.some(q => q.tags.includes(g.tag)));
-      if (members.length === 1 && !gs.length) return { type: 'q', q: members[0] };
+      if (members.length === 1) return { type: 'q', q: members[0] };
       const shared = [...bound].filter(t => members.filter(q => q.tags.includes(t)).length > 1);
-      return {
-        type: 'group', questions: members,
-        id: gs.length ? gs.map(g => g.id).join('+') : (shared.join(', ') || 'bound'),
-        title: gs.map(g => g.title).filter(Boolean).join(' / '),
-        symbol: gs.map(g => g.symbol).filter(Boolean).join(' '),
-        intro: gs.map(g => g.intro).filter(Boolean).join('\n\n'),
-        outro: gs.map(g => g.outro).filter(Boolean).join('\n\n'),
-        fixedOrder: gs.some(g => g.order === 'fixed')
-      };
+      return { type: 'group', questions: members, id: shared.join(', ') || 'bound' };
     });
   }
 
@@ -533,62 +507,57 @@ const Versions = (() => {
   const shuffleChoicesOf = (choices, rng) =>
     Rand.shuffled(choices.filter(c => !c.fixed), rng).concat(choices.filter(c => c.fixed));
 
-  /* Question symbols. One rule per symbol, printed in this order next to the
-     question number. A rule applies when its test is true AND a symbol is
-     defined for it (meta.symbols[key]; the group rule uses the group's own
-     symbol). To add a new kind of mark, add a rule here and a key to
-     meta.symbols — the export and the template field need no other change. */
-  const SYMBOL_RULES = [
-    { key: 'group',    symbol: (q, block) => block.symbol || '' },
-    { key: 'multiple', symbol: (q, block, syms) => (q.type === 'multiple' ? syms.multiple || '' : '') },
-    { key: 'penalty',  symbol: (q, block, syms) => (q.penalty ? syms.penalty || '' : '') }
-  ];
+  /* Marks printed next to the question number, in this order: the symbol of
+     each defined tag the question carries (in the order of bank.tags), then
+     meta.symbols.multiple for multiple-answer questions. */
+  const symbolsOf = (q, parsed) => {
+    const syms = parsed.meta.symbols && typeof parsed.meta.symbols === 'object' ? parsed.meta.symbols : {};
+    const out = Object.entries(parsed.tagDefs).filter(([t, d]) => d.symbol && q.tags.includes(t)).map(([, d]) => d.symbol);
+    if (q.type === 'multiple' && syms.multiple) out.push(syms.multiple);
+    return out;
+  };
 
-  function makeItem(q, n, choices, block, pos, size, syms) {
+  function makeItem(q, n, choices, block, parsed) {
     const letters = choices.map((c, i) => c.correct ? LETTERS[i] : null).filter(Boolean);
     return {
-      number: n, source: q, id: q.id, text: q.text, tags: q.tags,
-      symbols: Object.fromEntries(SYMBOL_RULES.map(r => [r.key, r.symbol(q, block, syms)])),
-      points: q.points, penalty: q.penalty, penaltyPerOption: q.penaltyPerOption, multiple: q.type === 'multiple', choices,
+      number: n, source: q, id: q.id, text: q.text, tags: q.tags, symbols: symbolsOf(q, parsed),
+      points: q.points, penalty: q.penalty, multiple: q.type === 'multiple', choices,
       answerLetters: letters, answerLetter: letters.join(''), answerKey: letters.join(','),
-      group: block.type === 'group' ? { id: block.id, title: block.title, symbol: block.symbol, intro: block.intro, outro: block.outro, first: pos === 0, last: pos === size - 1 } : null
+      block: block.type === 'group' ? block.id : null
     };
   }
 
   function build(parsed, { count = 3, seed = '1', shuffleQuestions = true, shuffleWithinGroups = true, shuffleChoices = true,
                            bindTags = [] } = {}) {
     const blocks = makeBlocks(parsed, bindTags);
-    const open = parsed.questions.filter(q => q.valid && q.active && q.type === 'open');
     return LETTERS.slice(0, count).map((letter, v) => {
       const rng = Rand.mulberry32(Rand.hash(`${seed}::${letter}::${v}`));
       const order = shuffleQuestions ? Rand.shuffled(blocks, rng) : blocks.slice();
       const items = [];
       order.forEach(block => {
         const inner = block.type === 'q' ? [block.q]
-          : (shuffleWithinGroups && !block.fixedOrder ? Rand.shuffled(block.questions, rng) : block.questions.slice());
-        inner.forEach((q, pos) => {
+          : (shuffleWithinGroups ? Rand.shuffled(block.questions, rng) : block.questions.slice());
+        inner.forEach(q => {
           const choices = shuffleChoices ? shuffleChoicesOf(q.choices, rng) : q.choices.slice();
-          items.push(makeItem(q, items.length + 1, choices, block, pos, inner.length, parsed.meta.symbols || {}));
+          items.push(makeItem(q, items.length + 1, choices, block, parsed));
         });
       });
-      const openItems = open.map((q, i) => ({ number: i + 1, source: q, id: q.id, text: q.text, tags: q.tags,
-        points: q.points, answerLines: q.answerLines }));
-      return { letter, items, open: openItems };
+      return { letter, items };
     });
   }
 
-  return { build, makeBlocks, LETTERS };
+  return { build, makeBlocks, symbolsOf, LETTERS };
 })();
 
 
 /* ════════════════════════════════════════════════════════════════════
    4b. ScoreOps — batch-edit scores in the JSON source
    Source text stays the single source of truth: these parse the bank,
-   change score.points / score.wrong_discounts / score.penalty on the
-   in-scope active questions, and write the JSON back (2-space indent).
+   change score.points / score.penalty on the in-scope active questions,
+   and write the JSON back (2-space indent).
    scope = list of groups; a question is in scope when it belongs to at
-   least one. A group is a tag, or '@single' / '@multiple' / '@open' for a
-   question type. An empty list (or '') means all questions.
+   least one. A group is a tag, or '@single' / '@multiple' for a question
+   type. An empty list (or '') means all questions.
    ════════════════════════════════════════════════════════════════════ */
 const ScoreOps = (() => {
   const round = n => Math.round(n * 10000) / 10000;
@@ -610,23 +579,14 @@ const ScoreOps = (() => {
 
   const setScore = (text, scope, value) => apply(text, scope, s => { s.points = round(value); });
 
-  /* perOption: the penalty is charged for each wrong option marked (multiple-answer
-     questions only) instead of once per question. Stored as score.penalty_per_option. */
-  const setMode = (s, q, on, perOption) => {
-    if (on && perOption && q.type === 'multiple') s.penalty_per_option = true; else delete s.penalty_per_option;
-  };
-
-  const setPenaltyPct = (text, scope, pct, perOption = false) => apply(text, scope, (s, pts, q) => {
-    s.wrong_discounts = pct > 0;
-    if (pct > 0) s.penalty = round(pts * pct); else delete s.penalty;
-    setMode(s, q, pct > 0, perOption);
+  /* pct: fraction of each question's points; null = back to the bank default
+     (score.penalty removed). 0 is written explicitly, as it overrides a
+     non-zero default. */
+  const setPenaltyPct = (text, scope, pct) => apply(text, scope, (s, pts) => {
+    if (pct == null) delete s.penalty; else s.penalty = round(pts * pct);
   });
 
-  const setPenaltyFixed = (text, scope, value, perOption = false) => apply(text, scope, (s, pts, q) => {
-    s.wrong_discounts = value > 0;
-    if (value > 0) s.penalty = round(value); else delete s.penalty;
-    setMode(s, q, value > 0, perOption);
-  });
+  const setPenaltyFixed = (text, scope, value) => apply(text, scope, s => { s.penalty = round(value); });
 
   /* Rescale in-scope points so they sum to target (explicit penalties scale too). */
   function normalizeToSum(text, scope, target) {
@@ -670,18 +630,16 @@ const Exporters = (() => {
      Columns: Key Letter, Question Number, Response/Mapping, Point Value, Tags
      ZipGrade matches the whole marked response against the mapping rows, so
      every combination that should score needs its own row.
-     Single answer:    one row, the correct letter, full points.
-     Several correct:  one row per combination of correct letters, worth
-                       points × (correct marked / n) — all n = full points.
-     Penalty, once:    one extra row whose response is the literal [a&i] —
-                       ZipGrade's "attempted but incorrect" value, charged a
-                       single time however many wrong options are marked.
-     Penalty, per option (multiple-answer questions): no [a&i]; instead one
-                       row for every combination of options, worth the partial
-                       credit minus the penalty × wrong options marked.
+     Single answer:    one row, the correct letter, full points; with a
+                       penalty, one extra row whose response is the literal
+                       [a&i] — ZipGrade's "attempted but incorrect" value.
+     Multiple answer:  the penalty is charged per incorrect option marked, so
+                       there is one row for every combination of options,
+                       worth points × (correct marked / n) minus the penalty ×
+                       incorrect marked. Without a penalty, only combinations
+                       of correct letters are listed (anything else scores 0).
      Each question's first row is always the full-score response; partial
-     credit and penalties follow.
-     Open questions have no bubbles and are not part of the CSV.         */
+     credit and penalties follow.                                        */
   const r4 = n => Math.round(n * 10000) / 10000;
   const subsets = arr => {                       // non-empty, smallest first, then alphabetical
     const out = [];
@@ -692,7 +650,7 @@ const Exporters = (() => {
     const correct = it.answerLetters, n = correct.length, full = correct.join('');
     const fullFirst = rows => [...rows.filter(r => r[0] === full), ...rows.filter(r => r[0] !== full)];
     const credit = k => (k === n ? it.points : r4(it.points * k / n));
-    if (it.penaltyPerOption) {
+    if (it.multiple && it.penalty) {
       const letters = it.choices.map((_, i) => Versions.LETTERS[i]);
       return fullFirst(subsets(letters).map(sub => {
         const k = sub.filter(l => correct.includes(l)).length;
@@ -711,9 +669,8 @@ const Exporters = (() => {
     return rows.map(r => r.map(csvField).join(',')).join('\r\n') + '\r\n';
   }
 
-  /* One JSON document per version (consumed by the ODT builder).
-     The v8 keys are unchanged; v9 only adds keys. The correct answer is
-     deliberately NOT included.                                          */
+  /* One JSON document per version (consumed by the ODT Template Filler).
+     The correct answer and the justifications are deliberately NOT included. */
   function versionJson(version, meta) {
     const mcq = version.items.map(it => ({
       question_number: it.number,
@@ -721,38 +678,23 @@ const Exporters = (() => {
       question_text: it.text,
       question_score: it.points,
       question_penalty: Math.abs(it.penalty),      // positive magnitude — templates print the minus sign
-      penalty_per_option: it.penaltyPerOption,     // true = charged for each wrong option marked
-      multiple: it.multiple,
+      question_symbols: it.symbols.join(' '),
       tags: it.tags,
-      group_id: it.group ? it.group.id : '',
-      group_title: it.group ? it.group.title : '',
-      group_symbol: it.symbols.group,
-      multiple_symbol: it.symbols.multiple,
-      penalty_symbol: it.symbols.penalty,
-      question_symbols: Object.values(it.symbols).filter(Boolean).join(' '),
-      group_intro: it.group ? it.group.intro : '',
-      group_outro: it.group ? it.group.outro : '',
-      group_first: it.group ? it.group.first : false,
-      group_last: it.group ? it.group.last : false,
-      options: it.choices.map((c, i) => ({ option_index: i + 1, option_number: Versions.LETTERS[i], option_text: c.text }))
-    }));
-    const open = version.open.map(it => ({
-      question_number: it.number, question_id: it.id, question_text: it.text,
-      question_score: it.points, answer_lines: it.answerLines, tags: it.tags
+      options: it.choices.map((c, i) => ({ option_number: Versions.LETTERS[i], option_text: c.text }))
     }));
     return JSON.stringify({
       version: version.letter,
-      title: meta.title || '', presentation: meta.presentation || '', symbols: meta.symbols || {},
-      front_page: meta.front_page || [], answer_sheet: meta.answer_sheet || [],
-      mcq, open
+      title: meta.title || '',
+      symbols: meta.symbols && typeof meta.symbols === 'object' ? meta.symbols : {},
+      mcq
     }, null, 2) + '\n';
   }
 
   const keyTable = version => ([
-    '| # | Id | Answer | Points | Penalty | Group | Tags |',
-    '|---|----|--------|--------|---------|-------|------|',
+    '| # | Id | Answer | Points | Penalty | Tags |',
+    '|---|----|--------|--------|---------|------|',
     ...version.items.map(it =>
-      `| ${it.number} | ${it.id} | ${it.answerKey}${it.multiple ? ' (multi)' : ''} | ${num(it.points)} | ${it.penalty ? num(it.penalty) + (it.penaltyPerOption ? ' per wrong option' : '') : '—'} | ${it.group ? it.group.id : '—'} | ${it.tags.join(' ')} |`)
+      `| ${it.number} | ${it.id} | ${it.answerKey}${it.multiple ? ' (multi)' : ''} | ${num(it.points)} | ${it.penalty ? num(it.penalty) + (it.multiple ? ' per wrong option' : '') : '—'} | ${it.tags.join(' ')} |`)
   ]);
 
   /* One combined key document for the instructor (Markdown). */
@@ -764,7 +706,6 @@ const Exporters = (() => {
     ];
     versions.forEach(v => {
       out.push(`## Version ${v.letter}`, '', ...keyTable(v), '');
-      if (v.open.length) out.push(`Open questions (not on the answer sheet): ${v.open.map(o => `${o.id} (${num(o.points)} pt)`).join(', ')}`, '');
     });
     return out.join('\n');
   }
@@ -923,59 +864,34 @@ const Preview = (() => {
   }
 
   function render(parsed) {
-    currentSyms = parsed.meta.symbols && typeof parsed.meta.symbols === 'object' ? parsed.meta.symbols : {};
     const qs = parsed.questions;
     if (!qs.length) return empty(parsed.ok ? '' : 'Nothing to show yet — see the problems below the editor.');
 
     const ready = qs.filter(q => q.valid && q.active);
     const total = ready.reduce((s, q) => s + q.points, 0);
     const inactive = qs.filter(q => !q.active).length;
-    metaEl.textContent = `${ready.length} q${parsed.groups.length ? ` · ${parsed.groups.length} group${parsed.groups.length === 1 ? '' : 's'}` : ''}${inactive ? ` · ${inactive} inactive` : ''} · ${Exporters.num(total)} pts`;
+    metaEl.textContent = `${ready.length} q${inactive ? ` · ${inactive} inactive` : ''} · ${Exporters.num(total)} pts`;
 
     const m = parsed.meta;
-    const header = m.title ? `
+    const defs = Object.entries(parsed.tagDefs);
+    const legend = defs.length ? `
+        <div class="flex flex-wrap gap-1 mt-2.5">${defs.map(([t, d]) =>
+          `<span class="chip">${esc([d.symbol, d.title || t].filter(Boolean).join(' '))}${d.keepTogether ? ' · kept together' : ''}</span>`).join('')}</div>` : '';
+    const header = m.title || defs.length ? `
       <div>
-        <h1 class="font-display font-bold text-[19px] tracking-tight">${esc(m.title)}</h1>
-        ${m.presentation ? `<p class="font-serif text-[13.5px] text-ink-500 dark:text-slate2 mt-1 leading-snug">${esc(m.presentation)}</p>` : ''}
+        ${m.title ? `<h1 class="font-display font-bold text-[19px] tracking-tight">${esc(m.title)}</h1>` : ''}
+        ${legend}
         <div class="rule mt-3"></div>
       </div>` : '';
 
-    const byId = new Map(parsed.groups.map(g => [g.id, g]));
-    const done = new Set();
-    const body = [];
-    qs.forEach(q => {
-      if (q.groupId && byId.has(q.groupId)) {
-        if (done.has(q.groupId)) return;
-        done.add(q.groupId);
-        body.push(groupBox(byId.get(q.groupId), qs));
-      } else body.push(card(q));
-    });
-    el.innerHTML = header + body.join('');
-  }
-
-  function groupBox(g, all) {
-    const members = all.filter(q => q.groupId === g.id);
-    return `
-      <section class="rounded-xl border-2 border-teal/40 dark:border-teal/30 bg-teal/5 dark:bg-teal/10 p-4 space-y-3">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-teal/20 text-teal-deep font-semibold tracking-[0.14em]">GROUP</span>
-          <span class="font-mono text-[10px] text-ink-400 dark:text-slate2">${esc(g.id)} · ${esc(g.tag)}${g.keepTogether ? '' : ' · not bound'}${g.order === 'fixed' ? ' · fixed order' : ''}</span>
-        </div>
-        ${g.title || g.symbol ? `<h2 class="font-display font-semibold text-[14px]">${esc((g.symbol ? g.symbol + ' ' : '') + g.title)}</h2>` : ''}
-        ${g.intro ? `<p class="font-serif text-[13.5px] italic text-ink-700 dark:text-paper/80 leading-snug whitespace-pre-wrap">${esc(g.intro)}</p>`
-                  : '<p class="font-mono text-[11px] text-ink-400 dark:text-ink-500">no intro text</p>'}
-        <div class="space-y-3">${members.map(card).join('')}</div>
-        ${g.outro ? `<p class="font-serif text-[12.5px] italic text-ink-500 dark:text-slate2 leading-snug border-t edge-soft pt-3 whitespace-pre-wrap">${esc(g.outro)}</p>` : ''}
-      </section>`;
+    el.innerHTML = header + qs.map(q => card(q, parsed)).join('');
   }
 
   const badge = (t, cls = '') => `<span class="font-mono text-[10px] px-1.5 py-0.5 rounded ${cls || 'bg-paper-edge text-ink-500 dark:bg-ink-600 dark:text-slate2'}">${esc(t)}</span>`;
 
-  let currentSyms = {};
-
-  function card(q) {
+  function card(q, parsed) {
     const bad = !q.valid;
-    const isOpen = q.type === 'open';
+    const syms = Versions.symbolsOf(q, parsed).join(' ');
 
     const gutter = q.choices.map((c, i) =>
       `<div class="bubble ${c.correct && !bad ? 'bubble-on' : ''}">${L[i] || '?'}</div>`).join('');
@@ -990,30 +906,22 @@ const Preview = (() => {
       </li>`).join('');
 
     const score = q.penalty
-      ? `${Exporters.num(q.points)} pt · ${Exporters.num(q.penalty)} ${q.penaltyPerOption ? 'per wrong option' : 'if wrong'}`
+      ? `${Exporters.num(q.points)} pt · ${Exporters.num(q.penalty)} ${q.type === 'multiple' ? 'per wrong option' : 'if wrong'}`
       : `${Exporters.num(q.points)} pt`;
-
-    const openBody = isOpen ? `
-      <div class="font-mono text-[11px] text-ink-400 dark:text-slate2 space-y-1">
-        ${q.answerLines ? `<div>answer space: ${q.answerLines} lines</div>` : ''}
-        ${q.expected ? `<div><b>expected:</b> ${esc(q.expected)}</div>` : ''}
-        ${q.rubric ? `<div><b>rubric:</b> ${esc(q.rubric)}</div>` : ''}
-      </div>` : `<ul class="space-y-1.5">${choices}</ul>`;
 
     return `
       <article class="qcard ${bad ? 'qcard-bad' : ''}" ${q.active ? '' : 'style="opacity:.55"'}>
         <div class="flex items-center gap-2 px-4 h-8 border-b edge-soft surface-deep/60">
-          <span class="font-mono text-[11px] font-semibold">${String(q.number).padStart(2, '0')}</span>
+          <span class="font-mono text-[11px] font-semibold">${String(q.number).padStart(2, '0')}${syms ? ' ' + esc(syms) : ''}</span>
           <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-teal/15 text-teal-deep truncate">${esc(q.id)}</span>
-          ${q.type === 'multiple' ? badge('multi' + (currentSyms.multiple ? ' ' + currentSyms.multiple : '')) : ''}${isOpen ? badge('open') : ''}${q.active ? '' : badge('inactive', 'bg-rust/20 text-rust')}
+          ${q.type === 'multiple' ? badge('multi') : ''}${q.active ? '' : badge('inactive', 'bg-rust/20 text-rust')}
           <span class="ml-auto font-mono text-[10px] text-slate-500 dark:text-slate2 shrink-0">${score}</span>
         </div>
         <div class="flex gap-4 px-4 py-3.5">
-          ${isOpen ? '' : `<div class="flex flex-col gap-1.5 pt-0.5 shrink-0">${gutter}</div>`}
+          <div class="flex flex-col gap-1.5 pt-0.5 shrink-0">${gutter}</div>
           <div class="min-w-0 flex-1">
             <p class="font-serif text-[15px] leading-snug mb-2.5">${esc(q.text) || '<em class="text-rust not-italic">no question text</em>'}</p>
-            ${openBody}
-            ${q.notes ? `<p class="font-mono text-[10.5px] text-ink-400 dark:text-slate2 mt-2.5 italic">note: ${esc(q.notes)}</p>` : ''}
+            <ul class="space-y-1.5">${choices}</ul>
             <div class="flex flex-wrap gap-1 mt-3">${q.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
           </div>
         </div>
@@ -1049,35 +957,29 @@ const App = (() => {
   const $ = id => document.getElementById(id);
   const editor = $('editor');
 
-  let parsed = { meta: {}, questions: [], groups: [], problems: [], ok: true };
+  let parsed = { meta: {}, tagDefs: {}, questions: [], problems: [], ok: true };
   let versions = [];
   let bindTags = [];               // tags ticked under "Keep together by tag"
   let scoreScope = [];             // groups highlighted in Scoring → "Apply to" (empty = all active)
   let saveTimer = null;
 
   const SAMPLE = JSON.stringify({
-    format: 'exam-bench-bank', format_version: 1,
-    meta: { title: 'Cyber Warfare — Mid-term', presentation: '6 questions, 45 minutes, no materials.' },
-    defaults: { points: 1, wrong_discounts: false, penalty_fraction: 0.5 },
-    groups: [{ id: 'enigma', tag: 'group:enigma', title: 'Enigma', intro: 'Questions about the Enigma machine.', outro: '', keep_together: true, order: 'free' }],
+    format: 'exam-bench-bank',
+    meta: { title: 'Cyber Warfare — Mid-term', symbols: { multiple: 'Ψ' } },
+    defaults: { points: 1, penalty: { single: 0, multiple: 0.25 } },
+    tags: { 'case:enigma': { symbol: '🔷', title: 'Enigma case study', keep_together: true } },
     questions: [
       { id: 'osi-tls', type: 'single', tags: ['uc:fundamentals', 'topic:osi'], text: 'At which OSI layer does a TLS session terminate?',
-        score: { points: 2, wrong_discounts: true },
-        choices: [{ text: 'Presentation', correct: true, justification: '' }, { text: 'Network', correct: false }, { text: 'Data link', correct: false }, { text: 'None of the others.', correct: false }] },
+        score: { points: 2, penalty: 0.5 },
+        choices: [{ text: 'Presentation', correct: true, justification: 'TLS sits above TCP and below the application protocol.' }, { text: 'Network', correct: false }, { text: 'Data link', correct: false }, { text: 'None of the others.', correct: false }] },
       { id: 'passive-recon', type: 'single', tags: ['uc:tools-tactics', 'topic:reconnaissance'], text: 'Which technique gathers information without touching the target?',
-        score: { points: 1, wrong_discounts: false },
         choices: [{ text: 'Passive reconnaissance', correct: true }, { text: 'Port scanning', correct: false }, { text: 'Banner grabbing', correct: false }] },
       { id: 'cia-triad', type: 'multiple', tags: ['uc:fundamentals', 'topic:cia-triad'], text: 'Which of the following belong to the CIA triad?',
-        score: { points: 1, wrong_discounts: false },
         choices: [{ text: 'Confidentiality', correct: true }, { text: 'Integrity', correct: true }, { text: 'Authenticity', correct: false }, { text: 'Availability', correct: true }] },
-      { id: 'enigma-device', type: 'single', tags: ['uc:setting-environment', 'topic:crypto-history', 'group:enigma'], text: 'What kind of cipher device was the Enigma?',
-        score: { points: 1, wrong_discounts: false },
+      { id: 'enigma-device', type: 'single', tags: ['uc:setting-environment', 'case:enigma'], text: 'What kind of cipher device was the Enigma?',
         choices: [{ text: 'Electromechanical rotor cipher', correct: true }, { text: 'Digital block cipher', correct: false }, { text: 'One-time pad generator', correct: false }] },
-      { id: 'enigma-bletchley', type: 'single', tags: ['uc:setting-environment', 'topic:crypto-history', 'group:enigma'], text: 'Who led the British effort to break Enigma at Bletchley Park?',
-        score: { points: 1, wrong_discounts: false },
-        choices: [{ text: 'Alan Turing', correct: true }, { text: 'Winston Churchill', correct: false }, { text: 'Claude Shannon', correct: false }] },
-      { id: 'osint-open', type: 'open', active: false, tags: ['uc:open-questions', 'topic:osint'], text: 'Write what OSINT means, and briefly explain what it is.',
-        score: { points: 2, wrong_discounts: false }, answer_lines: 5, rubric: '0: does not know; 1: meaning OR explanation; 2: both.' }
+      { id: 'enigma-bletchley', type: 'single', tags: ['uc:setting-environment', 'case:enigma'], text: 'Who led the British effort to break Enigma at Bletchley Park?',
+        choices: [{ text: 'Alan Turing', correct: true }, { text: 'Winston Churchill', correct: false }, { text: 'Claude Shannon', correct: false }] }
     ]
   }, null, 2) + '\n';
 
@@ -1125,14 +1027,13 @@ const App = (() => {
 
   /* ── tags: "keep together" chips + scoring scope ── */
   function renderBindTags() {
-    const mcq = q => q.type !== 'open';
-    const counts = BankParser.tagCounts(parsed.questions, mcq);
-    const bankTags = new Set(parsed.groups.filter(g => g.keepTogether).map(g => g.tag));
+    const counts = BankParser.tagCounts(parsed.questions);
+    const bankTags = new Set(Object.keys(parsed.tagDefs).filter(t => parsed.tagDefs[t].keepTogether));
     bindTags = bindTags.filter(t => counts.get(t) > 1 && !bankTags.has(t));
     const tags = [...counts].filter(([t, n]) => n > 1 || bankTags.has(t)).sort((a, b) => a[0].localeCompare(b[0]));
     $('bind-tags').innerHTML = tags.length ? tags.map(([t, n]) => {
       const locked = bankTags.has(t), on = locked || bindTags.includes(t);
-      return `<button class="mini-btn ${on ? 'bubble-on' : ''}" data-tag="${t}" ${locked ? 'disabled title="Bound by a bank group"' : ''}>${t} · ${n}${locked ? ' 🔒' : ''}</button>`;
+      return `<button class="mini-btn ${on ? 'bubble-on' : ''}" data-tag="${t}" ${locked ? 'disabled title="keep_together in the bank"' : ''}>${t} · ${n}${locked ? ' 🔒' : ''}</button>`;
     }).join('') : '<span class="font-mono text-[11px] text-slate-500 dark:text-slate2">No tag is shared by two or more ready questions.</span>';
     $('bind-tags').querySelectorAll('button[data-tag]').forEach(b => b.onclick = () => {
       const t = b.dataset.tag;
@@ -1143,7 +1044,7 @@ const App = (() => {
 
   function renderScope() {
     const box = $('score-scope'), syms = (parsed.bank && parsed.bank.meta && parsed.bank.meta.symbols) || {};
-    const typeLabels = { single: 'single', multiple: 'multi' + (syms.multiple ? ' ' + syms.multiple : ''), open: 'open' };
+    const typeLabels = { single: 'single', multiple: 'multi' + (syms.multiple ? ' ' + syms.multiple : '') };
     const groups = Object.keys(typeLabels).map(t => ['@' + t, typeLabels[t], ready().filter(q => q.type === t).length]).filter(g => g[2])
       .concat([...BankParser.tagCounts(parsed.questions)].sort((a, b) => a[0].localeCompare(b[0])).map(([t, n]) => [t, t, n]));
     scoreScope = scoreScope.filter(k => groups.some(g => g[0] === k));
@@ -1192,7 +1093,7 @@ const App = (() => {
       <div class="rounded-lg border edge surface-sunk overflow-hidden">
         <div class="flex items-center gap-3 px-4 h-9 border-b edge-soft">
           <span class="font-display font-bold text-[13px]">Version ${v.letter}</span>
-          <span class="ml-auto font-mono text-[10.5px] text-slate-500 dark:text-slate2">${v.items.length} q${v.open.length ? ` + ${v.open.length} open` : ''} · ${Exporters.num(v.items.reduce((s, i) => s + i.points, 0) + v.open.reduce((s, i) => s + i.points, 0))} pts</span>
+          <span class="ml-auto font-mono text-[10.5px] text-slate-500 dark:text-slate2">${v.items.length} q · ${Exporters.num(v.items.reduce((s, i) => s + i.points, 0))} pts</span>
         </div>
         <div class="px-4 py-3 flex flex-wrap gap-1.5">
           ${v.items.map(chipFor).join('')}
@@ -1205,7 +1106,7 @@ const App = (() => {
     const seg = (content, extra = '') => `<span class="${extra}">${content}</span>`;
     const div = '<span class="w-px self-stretch bg-paper-edge dark:bg-ink-600"></span>';
     const parts = [];
-    if (it.group) parts.push(seg(it.group.id, 'text-teal-deep dark:text-teal'));
+    if (it.block) parts.push(seg(it.block, 'text-teal-deep dark:text-teal'));
     parts.push(seg(`Q${it.source.number}`));
     parts.push(seg(it.answerLetter, 'text-signal-deep dark:text-signal font-semibold'));
     return `<span class="chip inline-flex items-center gap-1.5">${parts.join(div)}</span>`;
@@ -1273,17 +1174,15 @@ const App = (() => {
   /* ── drag & drop of .json files onto the editor ── */
   let pendingDrop = null;               // { files: [{ name, bank }] }
 
-  /* Append the questions and groups of `incoming` to `base` (both parsed banks).
-     Existing ids win: duplicates are skipped and counted. */
+  /* Append the questions and tag definitions of `incoming` to `base` (both
+     parsed banks). Existing ids and tags win: duplicates are skipped. */
   function mergeBanks(base, incoming) {
-    const out = { ...base, questions: [...(base.questions || [])], groups: [...(base.groups || [])] };
+    const out = { ...base, questions: [...(base.questions || [])], tags: { ...(incoming.tags || {}), ...(base.tags || {}) } };
     const qIds = new Set(out.questions.map(q => q && q.id));
-    const gIds = new Set(out.groups.map(g => g && g.id));
-    let added = 0, skipped = 0, groups = 0;
+    let added = 0, skipped = 0;
     (incoming.questions || []).forEach(q => { if (q && qIds.has(q.id)) skipped++; else { out.questions.push(q); qIds.add(q && q.id); added++; } });
-    (incoming.groups || []).forEach(g => { if (g && !gIds.has(g.id)) { out.groups.push(g); gIds.add(g.id); groups++; } });
-    if (!out.groups.length) delete out.groups;
-    return { bank: out, added, skipped, groups };
+    if (!Object.keys(out.tags).length) delete out.tags;
+    return { bank: out, added, skipped };
   }
 
   const closeDrop = () => { $('drop-modal').classList.add('hidden'); pendingDrop = null; };
@@ -1387,17 +1286,16 @@ const App = (() => {
       applyScoring(t => ScoreOps.setScore(t, scope(), v), `Score set to ${v} pt on ${where()}.`);
     };
 
-    const perOption = () => $('penalty-per-option').checked;
-    const how = () => (perOption() ? ' per wrong option (multi questions; once elsewhere)' : ', once per question,');
     document.querySelectorAll('[data-penalty-pct]').forEach(btn => btn.onclick = () => {
-      const pct = Number(btn.dataset.penaltyPct);
-      applyScoring(t => ScoreOps.setPenaltyPct(t, scope(), pct, perOption()),
-        pct === 0 ? `Wrong answers no longer discount on ${where()}.` : `Wrong answers discount ${pct * 100}% of the score${how()} on ${where()}.`);
+      const raw = btn.dataset.penaltyPct, pct = raw === 'default' ? null : Number(raw);
+      applyScoring(t => ScoreOps.setPenaltyPct(t, scope(), pct),
+        pct == null ? `Penalty back to the bank default on ${where()}.`
+          : pct === 0 ? `No penalty on ${where()}.` : `Penalty set to ${pct * 100}% of the score on ${where()}.`);
     });
     $('btn-penalty-apply').onclick = () => {
       const v = Number($('penalty-value').value);
       if (!isFinite(v) || v < 0) { toast('Enter a penalty of 0 or more.'); return; }
-      applyScoring(t => ScoreOps.setPenaltyFixed(t, scope(), v, perOption()), `Penalty set to ${v}${v > 0 ? how() : ''} on ${where()}.`);
+      applyScoring(t => ScoreOps.setPenaltyFixed(t, scope(), v), `Penalty set to ${v} on ${where()}.`);
     };
 
     const doNormalize = target => {

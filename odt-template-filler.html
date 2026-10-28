@@ -455,7 +455,7 @@
 </main>
 
 <footer>
-  Built for a template shaped like <code>{#mcq}…{/mcq}</code> with a nested <code>{#options}…{/options}</code> loop — but works with any odf-kit-compatible .odt template.
+  Built for a template shaped like <code>{#mcq}…{/mcq}</code> with a nested <code>{#options}…{/options}</code> loop — but works with any odf-kit-compatible .odt template. Placeholders and fields: <a href="manual.html#7-printing-with-the-odt-template-filler">manual, section 7</a>.
 </footer>
 
 <script type="module">
@@ -493,15 +493,16 @@
   const mockData = {
     version: "A",
     title: "Sample Exam",
-    presentation: "4 questions, 30 minutes, no materials.",
-    symbols: { multiple: "Ψ", penalty: "" },
+    symbols: { multiple: "Ψ" },
     mcq: [
       {
         question_number: 1,
+        question_id: "si-resistance",
+        question_text: "What is the SI unit of electrical resistance?",
         question_score: 2,
         question_penalty: 0.5,
-        question_text: "What is the SI unit of electrical resistance?",
         question_symbols: "",
+        tags: ["uc:fundamentals"],
         options: [
           { option_number: "A", option_text: "Ampere" },
           { option_number: "B", option_text: "Ohm" },
@@ -511,10 +512,12 @@
       },
       {
         question_number: 2,
-        question_score: 3,
-        question_penalty: 0,
+        question_id: "uav-altitude",
         question_text: "Which sensors can estimate UAV altitude in GNSS-denied environments?",
-        question_symbols: "Ψ",
+        question_score: 1,
+        question_penalty: 0.25,
+        question_symbols: "🔷 Ψ",
+        tags: ["uc:sensors", "case:uav-crash"],
         options: [
           { option_number: "A", option_text: "Barometric altimeter" },
           { option_number: "B", option_text: "Magnetometer" },
@@ -524,10 +527,12 @@
       },
       {
         question_number: 3,
+        question_id: "ohm-current",
+        question_text: "In Ohm's Law, V = I × R, what does 'I' represent?",
         question_score: 1,
         question_penalty: 0,
-        question_text: "In Ohm's Law, V = I × R, what does 'I' represent?",
-        question_symbols: "",
+        question_symbols: "🔷",
+        tags: ["uc:fundamentals", "case:uav-crash"],
         options: [
           { option_number: "A", option_text: "Voltage" },
           { option_number: "B", option_text: "Current" },
@@ -535,9 +540,6 @@
           { option_number: "D", option_text: "Impedance" }
         ]
       }
-    ],
-    open: [
-      { question_number: 4, question_score: 4, question_text: "Explain why a multimeter in current mode must be connected in series." }
     ]
   };
 

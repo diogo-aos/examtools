@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExamTools — User Manual</title>
+<!-- Generated from manual.md by render-manual.py — edit the Markdown, then re-run the script. -->
+<style>
+:root { --pink:#F6E2E9; --cream:#FEFAF3; --sagel:#B8CFB3; --sage:#84A282; --ink:#2B3A2A; --soft:#5B6F59;
+        --card:rgba(254,250,243,.92); --code:#F3EFE6; --line:#DCE6D8; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+body { margin: 0; background: var(--cream); color: var(--ink); font: 16px/1.6 "Avenir Next","Segoe UI",system-ui,sans-serif; overflow-x: hidden; }
+.blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.a { width: 46vmax; height: 46vmax; background: var(--pink); top: -18vmax; right: -14vmax; opacity: .7; }
+.b { width: 38vmax; height: 38vmax; background: var(--sagel); bottom: -20vmax; left: -12vmax; opacity: .45; }
+.layout { position: relative; z-index: 1; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px;
+          max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+nav { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto;
+      background: var(--card); border: 2px solid var(--sagel); border-radius: 20px; padding: 18px 14px; font-size: .88rem; }
+nav .home { display: inline-block; margin: 0 6px 10px; color: var(--sage); font-weight: 700; text-decoration: none; }
+nav .home:hover { color: var(--ink); }
+nav ul { list-style: none; margin: 0; padding: 0; }
+nav summary { display: none; }
+td code { white-space: nowrap; }
+nav li a { display: block; padding: 4px 8px; border-radius: 10px; color: var(--ink); text-decoration: none; }
+nav li.sub a { padding-left: 22px; color: var(--soft); font-size: .84rem; }
+nav li a:hover, nav li a.on { background: var(--pink); color: var(--ink); }
+main { background: var(--card); border: 2px solid var(--sagel); border-radius: 28px; padding: 40px 48px;
+       box-shadow: 0 8px 24px rgba(70,95,68,.1); min-width: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -.03em; line-height: 1.1; margin: 0 0 10px;
+     display: flex; align-items: center; gap: 12px; }
+h1::before { content: ""; flex: none; width: 16px; height: 16px; border-radius: 50%; background: var(--sage); }
+.lead { color: var(--soft); font-size: 1.12rem; margin: 0 0 8px; }
+h2 { font-size: 1.55rem; letter-spacing: -.02em; margin: 48px 0 12px; padding-top: 20px; border-top: 2px dashed var(--line); }
+h3 { font-size: 1.15rem; margin: 30px 0 8px; }
+h2, h3 { position: relative; }
+.anchor { position: absolute; left: -22px; color: var(--sagel); text-decoration: none; opacity: 0; transition: opacity .15s; }
+h2:hover .anchor, h3:hover .anchor { opacity: 1; }
+p, li { color: #34452F; }
+ul, ol { padding-left: 1.4em; }
+li { margin: 4px 0; }
+li > ul, li > ol { margin: 4px 0; }
+strong { color: var(--ink); }
+a { color: #5E7F5C; }
+code { font: .86em/1.4 "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; background: var(--code);
+       border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; }
+.code { position: relative; margin: 14px 0; }
+.code .lang { position: absolute; top: 8px; right: 12px; font: 700 .68rem/1 system-ui, sans-serif;
+              letter-spacing: .08em; text-transform: uppercase; color: var(--sage); }
+pre { margin: 0; background: #2B3A2A; color: #EAF1E6; border-radius: 16px; padding: 18px 20px; overflow-x: auto; }
+pre code { background: none; border: 0; padding: 0; color: inherit; font-size: .84rem; line-height: 1.55; }
+.table { overflow-x: auto; margin: 14px 0; border: 2px solid var(--line); border-radius: 16px; }
+table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+th { background: var(--sagel); text-align: left; font-weight: 700; }
+th, td { padding: 9px 14px; vertical-align: top; }
+tbody tr:nth-child(even) { background: rgba(184,207,179,.16); }
+tbody tr + tr td { border-top: 1px solid var(--line); }
+blockquote { margin: 18px 0; padding: 14px 18px; background: var(--pink); border-radius: 16px; border-left: 6px solid #D9A9BA; }
+blockquote p { margin: 0; }
+footer { margin-top: 48px; padding-top: 16px; border-top: 2px dashed var(--line); font-size: .85rem; color: var(--soft); }
+footer a { color: var(--soft); }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+  nav { position: static; max-height: none; display: flex; flex-direction: column; }
+  nav summary { display: block; cursor: pointer; font-weight: 700; padding: 4px 8px; margin-bottom: 4px; }
+  nav .home { margin-bottom: 4px; }
+  main { padding: 26px 18px; border-radius: 22px; }
+  .anchor { display: none; }
+  th, td { min-width: 9.5rem; padding: 8px 10px; }
+}
+@media print {
+  .blob, nav { display: none; }
+  .layout { display: block; padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+<div class="blob a"></div><div class="blob b"></div>
+<div class="layout">
+<nav><a class="home" href="index.html">← ExamTools</a><details class="toc" open><summary>Contents</summary><ul><li class=""><a href="#1-overview">1. Overview</a></li><li class=""><a href="#2-the-question-bank">2. The question bank</a></li><li class="sub"><a href="#2-1-a-complete-bank">2.1 A complete bank</a></li><li class="sub"><a href="#2-2-questions">2.2 Questions</a></li><li class="sub"><a href="#2-3-scoring-and-penalties">2.3 Scoring and penalties</a></li><li class="sub"><a href="#2-4-tags-and-tag-definitions">2.4 Tags and tag definitions</a></li><li class="sub"><a href="#2-5-metadata">2.5 Metadata</a></li><li class="sub"><a href="#2-6-what-the-format-does-not-support">2.6 What the format does not support</a></li><li class="sub"><a href="#2-7-the-problems-panel">2.7 The Problems panel</a></li><li class="sub"><a href="#2-8-dropping-json-files-onto-the-editor">2.8 Dropping JSON files onto the editor</a></li><li class=""><a href="#3-scoring-panel">3. Scoring panel</a></li><li class=""><a href="#4-generating-versions">4. Generating versions</a></li><li class=""><a href="#5-exporting">5. Exporting</a></li><li class=""><a href="#6-zipgrade-answer-key">6. ZipGrade answer key</a></li><li class=""><a href="#7-printing-with-the-odt-template-filler">7. Printing with the ODT Template Filler</a></li><li class="sub"><a href="#7-1-the-version-json">7.1 The version JSON</a></li><li class="sub"><a href="#7-2-writing-the-template">7.2 Writing the template</a></li><li class="sub"><a href="#7-3-filling">7.3 Filling</a></li><li class=""><a href="#8-correcting-with-the-exam-presenter">8. Correcting with the Exam Presenter</a></li><li class=""><a href="#9-converting-an-existing-bank-with-an-ai-assistant">9. Converting an existing bank with an AI assistant</a></li></ul></details></nav>
+<main>
+<h1>ExamTools — User Manual</h1>
+<p class="lead">From a JSON question bank to printed exam versions, ZipGrade answer keys and a correction slide show.</p>
+<h2 id="1-overview"><a class="anchor" href="#1-overview">#</a>1. Overview</h2>
+<p>ExamTools is three single-file web apps. Each one runs entirely in your browser, and nothing is uploaded.</p>
+<div class="table"><table><thead><tr><th>Tool</th><th>What it does</th></tr></thead><tbody><tr><td><strong>Exam Bench</strong> (<code>exam-bench-v9.html</code>)</td><td>Edit the question bank, batch-edit scores, generate shuffled versions, export the ZipGrade key and one JSON file per version.</td></tr><tr><td><strong>ODT Template Filler</strong> (<code>odt-template-filler.html</code>)</td><td>Fill an ODT template (made in LibreOffice Writer) with each version's JSON, producing one printable <code>.odt</code> per version.</td></tr><tr><td><strong>Exam Presenter</strong> (<code>exam-presenter.html</code>)</td><td>Show the bank as slides to go through the correction with students, with answers and justifications.</td></tr></tbody></table></div>
+<p>The workflow, in order:</p>
+<ol><li>Open your bank in <strong>Exam Bench</strong> (<strong>Open</strong>, drag a <code>.json</code> file onto the editor, or paste it). The format is in Section 2.</li><li>Fix every error (red) in the Problems panel under the editor. Warnings (amber) do not block anything.</li><li>Optionally batch-edit scores and penalties in <strong>Scoring</strong> (Section 3).</li><li>Open <strong>Versions</strong>, choose how many versions and how they are shuffled, and generate them (Section 4).</li><li>Click <strong>Export</strong> to download one <code>.zip</code> with the ZipGrade key, one JSON file per version and an answer-key table (Section 5).</li><li>Import the CSV into ZipGrade as the quiz's answer key (Section 6).</li><li>Load your ODT template and the version JSON files into the <strong>ODT Template Filler</strong> to produce the printable exams (Section 7).</li><li>After the test, load the bank into the <strong>Exam Presenter</strong> to correct it in class (Section 8).</li><li>Use <strong>Save</strong> to keep the bank as a <code>.json</code> file under version control.</li></ol>
+<h2 id="2-the-question-bank"><a class="anchor" href="#2-the-question-bank">#</a>2. The question bank</h2>
+<p>The bank is one JSON object. The editor in Exam Bench is the single source of truth: the preview, the scoring tools and every export read from it.</p>
+<h3 id="2-1-a-complete-bank"><a class="anchor" href="#2-1-a-complete-bank">#</a>2.1 A complete bank</h3>
+<div class="code"><span class="lang">json</span><pre><code>{
+  &quot;format&quot;: &quot;exam-bench-bank&quot;,
+  &quot;meta&quot;: {
+    &quot;title&quot;: &quot;Cyber Warfare A 2026/27&quot;,
+    &quot;symbols&quot;: { &quot;multiple&quot;: &quot;Ψ&quot; }
+  },
+  &quot;defaults&quot;: {
+    &quot;points&quot;: 1,
+    &quot;penalty&quot;: { &quot;single&quot;: 0, &quot;multiple&quot;: 0.25 }
+  },
+  &quot;tags&quot;: {
+    &quot;case:ubiquiti&quot;: { &quot;symbol&quot;: &quot;🔷&quot;, &quot;title&quot;: &quot;Ubiquiti case study&quot;, &quot;keep_together&quot;: true }
+  },
+  &quot;questions&quot;: [
+    {
+      &quot;id&quot;: &quot;ubq-root-access&quot;,
+      &quot;type&quot;: &quot;single&quot;,
+      &quot;tags&quot;: [&quot;uc:defensive&quot;, &quot;case:ubiquiti&quot;],
+      &quot;text&quot;: &quot;Which access did Sharp hold to Ubiquiti&#x27;s AWS environment?&quot;,
+      &quot;score&quot;: { &quot;points&quot;: 2, &quot;penalty&quot;: 0.5 },
+      &quot;choices&quot;: [
+        { &quot;text&quot;: &quot;Root-level access&quot;, &quot;correct&quot;: true, &quot;justification&quot;: &quot;He led the cloud team.&quot; },
+        { &quot;text&quot;: &quot;Read-only access&quot;, &quot;correct&quot;: false },
+        { &quot;text&quot;: &quot;None of the others.&quot;, &quot;correct&quot;: false }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;cia-triad&quot;,
+      &quot;type&quot;: &quot;multiple&quot;,
+      &quot;tags&quot;: [&quot;uc:fundamentals&quot;],
+      &quot;text&quot;: &quot;Which of the following belong to the CIA triad?&quot;,
+      &quot;choices&quot;: [
+        { &quot;text&quot;: &quot;Confidentiality&quot;, &quot;correct&quot;: true },
+        { &quot;text&quot;: &quot;Integrity&quot;, &quot;correct&quot;: true },
+        { &quot;text&quot;: &quot;Authenticity&quot;, &quot;correct&quot;: false },
+        { &quot;text&quot;: &quot;Availability&quot;, &quot;correct&quot;: true }
+      ]
+    }
+  ]
+}</code></pre></div>
+<p>Only <code>questions</code> is required. Every other top-level field is optional.</p>
+<h3 id="2-2-questions"><a class="anchor" href="#2-2-questions">#</a>2.2 Questions</h3>
+<div class="table"><table><thead><tr><th>Field</th><th>Required</th><th>Meaning</th></tr></thead><tbody><tr><td><code>id</code></td><td>yes</td><td>Unique, stable name (kebab-case). It identifies the question in the Problems panel, the answer-key table and the exports.</td></tr><tr><td><code>type</code></td><td>no</td><td><code>single</code> (exactly one correct choice, the default) or <code>multiple</code> (one or more correct choices).</td></tr><tr><td><code>text</code></td><td>yes</td><td>The question, as printed.</td></tr><tr><td><code>tags</code></td><td>no</td><td>Categories, see Section 2.4. A question without tags gets a warning.</td></tr><tr><td><code>score</code></td><td>no</td><td><code>points</code> and <code>penalty</code>, see Section 2.3. Missing values come from <code>defaults</code>.</td></tr><tr><td><code>choices</code></td><td>yes</td><td>2 to 5 choices. Each has <code>text</code> and <code>correct</code>, plus optional <code>justification</code> and <code>fixed</code>.</td></tr><tr><td><code>active</code></td><td>no</td><td><code>false</code> keeps the question in the bank but leaves it out of totals, versions and exports.</td></tr></tbody></table></div>
+<p>About choices:</p>
+<ul><li>At most <strong>5 choices</strong>, because ZipGrade's standard answer sheet holds A–E. A question with more is an error and is left out of the versions.</li><li><code>justification</code> is optional. It is shown in the Exam Bench preview and in the Presenter, and is <strong>never</strong> exported to the printed versions.</li><li>Choices such as "None of the others." and "None of the above." are marked <code>fixed</code> automatically: when choices are shuffled they stay last. You can set <code>&quot;fixed&quot;: true</code> on any other choice.</li></ul>
+<h3 id="2-3-scoring-and-penalties"><a class="anchor" href="#2-3-scoring-and-penalties">#</a>2.3 Scoring and penalties</h3>
+<p>Each question has <code>points</code> (for a fully correct answer) and <code>penalty</code> (points lost for wrong answers). A blank answer never costs points.</p>
+<div class="table"><table><thead><tr><th>Type</th><th>Points</th><th>Penalty</th></tr></thead><tbody><tr><td><code>single</code></td><td>All points for the correct choice.</td><td>Deducted <strong>once</strong> if the answer is wrong. Default <strong>0</strong>.</td></tr><tr><td><code>multiple</code></td><td>Split equally between the correct choices: with 3 correct, each one marked earns a third.</td><td>Deducted <strong>for each incorrect option marked</strong>. Default <strong>0.25</strong>.</td></tr></tbody></table></div>
+<p>So a <code>multiple</code> question worth 1 point with correct choices A, C and D scores:</p>
+<ul><li>A + C + D → 1</li><li>A + C → 0.67</li><li>A + B → 0.33 − 0.25 = 0.08</li><li>B alone → −0.25</li></ul>
+<p>The defaults can be changed for the whole bank in <code>defaults</code>, and any question can override them in <code>score</code>:</p>
+<div class="code"><span class="lang">json</span><pre><code>&quot;defaults&quot;: { &quot;points&quot;: 1, &quot;penalty&quot;: { &quot;single&quot;: 0, &quot;multiple&quot;: 0.25 } }</code></pre></div>
+<div class="code"><span class="lang">json</span><pre><code>&quot;score&quot;: { &quot;points&quot;: 2, &quot;penalty&quot;: 0.5 }</code></pre></div>
+<p>Write <code>&quot;penalty&quot;: 0</code> to turn the penalty off for a <code>multiple</code> question.</p>
+<h3 id="2-4-tags-and-tag-definitions"><a class="anchor" href="#2-4-tags-and-tag-definitions">#</a>2.4 Tags and tag definitions</h3>
+<p>Tags are lowercase strings, optionally written as <code>namespace:value</code> — for example <code>uc:defensive</code>, <code>topic:ransomware</code> or <code>case:ubiquiti</code>. You can invent any namespaces. Tags are used in four places:</p>
+<ul><li>the <strong>Scoring</strong> panel can act on the questions carrying one or more tags (Section 3);</li><li>the <strong>Versions</strong> panel can keep the questions sharing a tag together (Section 4);</li><li>the <strong>ZipGrade</strong> CSV can carry them in its Tags column, for per-category statistics (Section 6);</li><li>the <strong>version JSON</strong> carries each question's tags, and its symbols (below).</li></ul>
+<p>A tag can be given extra meaning in the bank's <code>tags</code> object:</p>
+<div class="code"><span class="lang">json</span><pre><code>&quot;tags&quot;: {
+  &quot;case:ubiquiti&quot;: { &quot;symbol&quot;: &quot;🔷&quot;, &quot;title&quot;: &quot;Ubiquiti case study&quot;, &quot;keep_together&quot;: true }
+}</code></pre></div>
+<div class="table"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>symbol</code></td><td>Printed next to the number of every question carrying the tag (via <code>question_symbols</code>, Section 7). Use one per case study, so students can tell which text a question refers to.</td></tr><tr><td><code>title</code></td><td>A readable name, shown in the Exam Bench preview and as a chip on the Presenter's slides.</td></tr><tr><td><code>keep_together</code></td><td><code>true</code> = questions carrying the tag are never separated when versions are shuffled. They are printed one after the other, in any order.</td></tr></tbody></table></div>
+<p>The text of a case study itself is not part of the bank: write it in the ODT template.</p>
+<h3 id="2-5-metadata"><a class="anchor" href="#2-5-metadata">#</a>2.5 Metadata</h3>
+<div class="code"><span class="lang">json</span><pre><code>&quot;meta&quot;: { &quot;title&quot;: &quot;Cyber Warfare A 2026/27&quot;, &quot;symbols&quot;: { &quot;multiple&quot;: &quot;Ψ&quot; } }</code></pre></div>
+<ul><li><code>title</code> names the exported files, and is copied into every version JSON as <code>title</code>.</li><li><code>symbols.multiple</code> is the mark printed next to <code>multiple</code> questions (in <code>question_symbols</code>). It is also copied to the version JSON, so the template can explain it ("Questions marked with Ψ may have more than one correct answer").</li></ul>
+<h3 id="2-6-what-the-format-does-not-support"><a class="anchor" href="#2-6-what-the-format-does-not-support">#</a>2.6 What the format does not support</h3>
+<ul><li><strong>Open (free-text) questions.</strong> Write them directly in the ODT template. The bank, the versions and ZipGrade only handle questions with choices.</li><li><strong>More than 5 choices</strong> per question.</li><li><strong>Unequal credit</strong> between the correct choices of a <code>multiple</code> question (points are always split equally).</li><li><strong>Images, tables or LaTeX</strong> inside a question.</li></ul>
+<p>Older banks may still contain <code>groups</code>, <code>taxonomy</code>, <code>score.wrong_discounts</code> or <code>score.penalty_per_option</code>. Exam Bench ignores them and shows a warning, so you can move each one to the new fields (<code>tags</code> definitions, <code>score.penalty</code>).</p>
+<h3 id="2-7-the-problems-panel"><a class="anchor" href="#2-7-the-problems-panel">#</a>2.7 The Problems panel</h3>
+<p>Each message shows the line of the offending question.</p>
+<ul><li><strong>Errors</strong> make the question not ready: it is shown in red, left out of the totals in the header and left out of versions and exports. Examples: invalid JSON, duplicate <code>id</code>, empty text, no correct choice, several correct choices in a <code>single</code> question, more than five choices, an open question.</li><li><strong>Warnings</strong> do not block anything. Examples: missing <code>id</code>, no tags, a malformed tag, a tag definition that no question carries, a field that is no longer used.</li></ul>
+<h3 id="2-8-dropping-json-files-onto-the-editor"><a class="anchor" href="#2-8-dropping-json-files-onto-the-editor">#</a>2.8 Dropping JSON files onto the editor</h3>
+<p>Drag one or more <code>.json</code> banks onto the editor. If the editor is empty, the file is loaded. Otherwise a dialog asks what to do:</p>
+<ul><li><strong>Append questions</strong> adds the dropped questions after the current ones, plus any tag definitions not already in the bank. A question whose <code>id</code> already exists is skipped, so the current text always wins.</li><li><strong>Replace entire text</strong> discards the current text and loads the dropped file. With several files, the first becomes the bank and the others are appended to it.</li><li><strong>Cancel</strong> (or Esc) changes nothing.</li></ul>
+<p>A file that is not valid JSON, or has no <code>questions</code> array, is rejected and the current text is left untouched. After an append or a replace, the generated versions are cleared.</p>
+<h2 id="3-scoring-panel"><a class="anchor" href="#3-scoring-panel">#</a>3. Scoring panel</h2>
+<p><strong>Scoring</strong> edits many questions at once by rewriting their <code>score</code> objects in the editor.</p>
+<p><strong>Apply to</strong> chooses the questions: click one or more chips — a question type (<code>single</code>, <code>multi</code>) or a tag. A question is changed when it belongs to at least one highlighted chip. With none highlighted, every active question is changed. The panel header shows how many questions are in scope and their total points.</p>
+<ul><li><strong>Score</strong> sets <code>score.points</code>.</li><li><strong>Wrong-answer penalty</strong> sets <code>score.penalty</code>:<ul><li><strong>Bank default</strong> removes it, so the question falls back to <code>defaults.penalty</code>.</li><li><strong>No penalty</strong> writes <code>0</code>.</li><li><strong>25% / 50% of score</strong> write that fraction of each question's points.</li><li><strong>Fixed</strong> writes one amount.</li></ul></li><li><strong>Normalize total</strong> rescales the points so the questions in scope add up to a target (20, 100 or a custom value). Explicit penalties are rescaled too.</li></ul>
+<p>Inactive questions are never changed. Any change clears the generated versions, since their scores would be stale.</p>
+<h2 id="4-generating-versions"><a class="anchor" href="#4-generating-versions">#</a>4. Generating versions</h2>
+<p><strong>Versions</strong> builds shuffled variants of the bank, lettered A, B, C…</p>
+<div class="table"><table><thead><tr><th>Setting</th><th>Effect</th></tr></thead><tbody><tr><td>How many</td><td>Number of versions (up to 12).</td></tr><tr><td>Shuffle seed</td><td>The same seed always rebuilds the same versions. Change it to get a different shuffle.</td></tr><tr><td>Shuffle questions &amp; groups</td><td>Reorders questions — and blocks of questions kept together — relative to each other. A block always stays together.</td></tr><tr><td>Shuffle within groups</td><td>Reorders the questions inside each block.</td></tr><tr><td>Shuffle choices</td><td>Reorders each question's choices independently per version. <code>fixed</code> choices stay last.</td></tr><tr><td>Keep together by tag</td><td>Every tag shared by two or more questions is listed. Tick one and its questions are never separated. Tags with <code>keep_together</code> in the bank are ticked and locked (🔒).</td></tr><tr><td>ZipGrade tag namespaces</td><td>Which tag namespaces go into the CSV's Tags column (default <code>uc</code>). Empty = the question <code>id</code> is used instead.</td></tr></tbody></table></div>
+<p>Binding is transitive: if Q1 and Q2 share one bound tag and Q2 and Q3 share another, all three stay together.</p>
+<p>Each version is shown as a row of chips such as <code>case:ubiquiti │ Q12 │ B</code> — the block (if any), the question's number in the bank and the correct letter(s) in that version — so you can check the shuffle at a glance.</p>
+<h2 id="5-exporting"><a class="anchor" href="#5-exporting">#</a>5. Exporting</h2>
+<p><strong>Export</strong> downloads one <code>.zip</code> with:</p>
+<ul><li><code>&lt;title&gt;-zipgrade-keys.csv</code> — the answer key of every version, in ZipGrade's import format (Section 6);</li><li><code>&lt;title&gt;-version-A.json</code>, <code>-B.json</code>, … — one JSON file per version, for the ODT Template Filler (Section 7);</li><li><code>&lt;title&gt;-answer-keys.md</code> — a table per version with the answer, points, penalty and tags of each question, for your own reference.</li></ul>
+<p>If the browser blocks the download, the <strong>Files</strong> list in the Versions panel lets you save, view or copy each file on its own.</p>
+<h2 id="6-zipgrade-answer-key"><a class="anchor" href="#6-zipgrade-answer-key">#</a>6. ZipGrade answer key</h2>
+<p>The CSV has one row per accepted response: <code>Key Letter, Question Number, Response/Mapping, Point Value, Tags</code>. ZipGrade compares the whole response a student marked against these rows, so every response that should score needs its own row. Each question's first row is always the fully correct response, and only that row carries the tags.</p>
+<ul><li><strong>Single, no penalty</strong>: one row — the correct letter, full points. Anything else scores 0.</li><li><strong>Single with a penalty</strong>: the same row, plus a row whose response is the literal <code>[a&amp;i]</code> ("attempted but incorrect") with the negative penalty.</li><li><strong>Multiple, no penalty</strong>: one row for every combination of correct letters, worth its share of the points.</li><li><strong>Multiple with a penalty</strong>: one row for <strong>every</strong> combination of options, worth the share of correct letters minus the penalty for each incorrect letter.</li></ul>
+<p>Example: a 1-point <code>multiple</code> question with correct answers A, C, D and the default 0.25 penalty is written as:</p>
+<div class="code"><pre><code>A,1,ACD,1,fundamentals
+A,1,A,0.3333,
+A,1,B,-0.25,
+A,1,C,0.3333,
+A,1,D,0.3333,
+A,1,AB,0.0833,
+A,1,AC,0.6667,
+…
+A,1,ABCD,0.75,</code></pre></div>
+<p>The file always holds every version's key. Importing it replaces the quiz's whole answer key, so import all versions together rather than one at a time.</p>
+<h2 id="7-printing-with-the-odt-template-filler"><a class="anchor" href="#7-printing-with-the-odt-template-filler">#</a>7. Printing with the ODT Template Filler</h2>
+<h3 id="7-1-the-version-json"><a class="anchor" href="#7-1-the-version-json">#</a>7.1 The version JSON</h3>
+<p>Each <code>-version-X.json</code> file looks like this:</p>
+<div class="code"><span class="lang">json</span><pre><code>{
+  &quot;version&quot;: &quot;A&quot;,
+  &quot;title&quot;: &quot;Cyber Warfare A 2026/27&quot;,
+  &quot;symbols&quot;: { &quot;multiple&quot;: &quot;Ψ&quot; },
+  &quot;mcq&quot;: [
+    {
+      &quot;question_number&quot;: 1,
+      &quot;question_id&quot;: &quot;cia-triad&quot;,
+      &quot;question_text&quot;: &quot;Which of the following belong to the CIA triad?&quot;,
+      &quot;question_score&quot;: 1,
+      &quot;question_penalty&quot;: 0.25,
+      &quot;question_symbols&quot;: &quot;Ψ&quot;,
+      &quot;tags&quot;: [&quot;uc:fundamentals&quot;],
+      &quot;options&quot;: [
+        { &quot;option_number&quot;: &quot;A&quot;, &quot;option_text&quot;: &quot;Integrity&quot; },
+        { &quot;option_number&quot;: &quot;B&quot;, &quot;option_text&quot;: &quot;Authenticity&quot; }
+      ]
+    }
+  ]
+}</code></pre></div>
+<div class="table"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>version</code></td><td>The version letter.</td></tr><tr><td><code>title</code>, <code>symbols</code></td><td>Copied from the bank's <code>meta</code>.</td></tr><tr><td><code>question_number</code></td><td>1, 2, 3… in this version's order.</td></tr><tr><td><code>question_score</code></td><td>The question's points.</td></tr><tr><td><code>question_penalty</code></td><td>The penalty as a positive number — the template prints the minus sign. <code>0</code> when there is none.</td></tr><tr><td><code>question_symbols</code></td><td>The symbols of the question's defined tags, then the <code>multiple</code> symbol, separated by spaces. Empty when none apply.</td></tr><tr><td><code>option_number</code></td><td>The option's letter (A, B, C…), ready to print.</td></tr></tbody></table></div>
+<p>The JSON deliberately contains <strong>no correct answers and no justifications</strong>, so a printed version can never leak the key. The answers are in the CSV and in <code>answer-keys.md</code>.</p>
+<h3 id="7-2-writing-the-template"><a class="anchor" href="#7-2-writing-the-template">#</a>7.2 Writing the template</h3>
+<p>Make the template in LibreOffice Writer and save it as <code>.odt</code>. Placeholders are written in curly braces:</p>
+<div class="table"><table><thead><tr><th>Syntax</th><th>Effect</th></tr></thead><tbody><tr><td><code>{version}</code></td><td>Replaced by the field's value. <code>{symbols.multiple}</code> reads a nested field.</td></tr><tr><td><code>{#mcq} … {/mcq}</code></td><td>Repeats everything in between once per question. Inside, the question's fields are available directly.</td></tr><tr><td><code>{#options} … {/options}</code></td><td>Inside the question loop: repeats once per option.</td></tr><tr><td><code>{#field} … {/field}</code></td><td>When <code>field</code> is not a list: keeps the content only if the field has a value (not empty, <code>0</code> or <code>false</code>).</td></tr></tbody></table></div>
+<p>A loop marker alone in a paragraph removes that paragraph, so each marker can sit on its own line. Placeholders work in the page header and footer too.</p>
+<p>The included <code>exam-template.odt</code> prints each question like this:</p>
+<div class="code"><pre><code>{#mcq}
+Q {question_number}{#question_symbols} {question_symbols}{/question_symbols} [{question_score} points, -{question_penalty} penalty]. {question_text}
+{#options}
+{option_number}. {option_text}
+{/options}
+{/mcq}</code></pre></div>
+<p>The conditional around <code>question_symbols</code> avoids a stray space on questions without a symbol. The case-study text, the guidelines and any open questions are written directly in the template.</p>
+<blockquote><p>Keep the printed rules consistent with the bank. For example, if the guidelines say a penalty applies "for each wrong answer" on multiple-answer questions, that is the default behaviour (Section 2.3). If you change <code>defaults.penalty</code>, update the guidelines to match.</p></blockquote>
+<h3 id="7-3-filling"><a class="anchor" href="#7-3-filling">#</a>7.3 Filling</h3>
+<ol><li>Open the <strong>ODT Template Filler</strong> and load the template (step 1). No template yet? Download <code>exam-template.odt</code> from the same page.</li><li>Drop the <code>-version-*.json</code> files from the export (step 2). Each one becomes one filled document. The tool starts with a sample version, so you can try a template before you have a bank.</li><li>Click <strong>Fill all versions</strong>, then download each <code>.odt</code>, or all of them as one <code>.zip</code>.</li></ol>
+<h2 id="8-correcting-with-the-exam-presenter"><a class="anchor" href="#8-correcting-with-the-exam-presenter">#</a>8. Correcting with the Exam Presenter</h2>
+<p>Load the <strong>bank</strong> JSON (the same file Exam Bench saves — not a version JSON) by dropping it on the page or pasting it, then click <strong>Present</strong>.</p>
+<p>Each question becomes one slide, in bank order, with:</p>
+<ul><li>chips for the question number, the <code>multiple</code> symbol, the title and symbol of its defined tags, its <code>uc:</code> and <code>topic:</code> tags, and the points and penalty;</li><li>the choices, with correct ones in green and wrong ones in pink;</li><li>each choice's <code>justification</code>, when answers are shown.</li></ul>
+<p>Keys: <code>Space</code> or <code>→</code> next, <code>←</code> previous, <code>R</code> hide or show the answers, <code>F</code> full screen, <code>Esc</code> exit. Inactive questions are skipped unless you tick the option to include them.</p>
+<h2 id="9-converting-an-existing-bank-with-an-ai-assistant"><a class="anchor" href="#9-converting-an-existing-bank-with-an-ai-assistant">#</a>9. Converting an existing bank with an AI assistant</h2>
+<p>An AI assistant can usually convert questions from a Word document, spreadsheet or PDF into this format. To get a clean result:</p>
+<ul><li><strong>Give it the format, not just an example.</strong> Paste Sections 2.1–2.4 of this manual. A model shown only one example tends to invent fields that look plausible.</li><li><strong>Be explicit</strong> about the rules that do not show up in an example: at most 5 choices; a <code>single</code> question has exactly one <code>&quot;correct&quot;: true</code>; tags are lowercase <code>namespace:value</code>; text kept verbatim; no open questions.</li></ul>
+<p>A prompt that works well:</p>
+<blockquote><p>Convert the attached questions into the JSON bank format described below. Output one JSON object with a <code>questions</code> array only. For every question: a unique kebab-case <code>id</code>; <code>type</code> (<code>single</code>, or <code>multiple</code> when several answers are correct); <code>tags</code> with exactly one <code>uc:</code> tag from this list — [your units] — and one or two <code>topic:</code> tags; and <code>choices</code> with <code>text</code> and <code>correct</code>. Leave out <code>score</code> unless the source gives points. Keep all text verbatim. Add a <code>justification</code> only if the source explains the answer. If a question has more than five choices, is open-ended, or depends on an image or a table, list it at the end under "COULD NOT CONVERT" instead of guessing.</p></blockquote>
+<p>Then always:</p>
+<ol><li>Paste the result into Exam Bench and fix every error in the Problems panel.</li><li>Skim the preview: a wrong choice marked correct, or a truncated choice, is easy to miss.</li><li>Check the choice count of questions that had more than five options in the source.</li><li>Check the tag counts in the Scoring panel's chips against what you expect.</li></ol>
+<footer>Generated from <a href="manual.md">manual.md</a> · <a href="index.html">ExamTools</a> · <a href="https://github.com/diogo-aos/examtools">Source on GitHub</a></footer>
+</main>
+</div>
+<script>
+const links = [...document.querySelectorAll('nav a[href^="#"]')];
+const heads = links.map(a => document.getElementById(a.getAttribute('href').slice(1)));
+const mark = () => {
+  let cur = 0;
+  heads.forEach((h, i) => { if (h.getBoundingClientRect().top < 120) cur = i; });
+  links.forEach((a, i) => a.classList.toggle('on', i === cur));
+};
+addEventListener('scroll', mark, { passive: true }); mark();
+// phones: the contents list starts collapsed so the manual is visible first
+if (matchMedia('(max-width: 860px)').matches) document.querySelector('details.toc').removeAttribute('open');
+</script>
+</body>
+</html>
