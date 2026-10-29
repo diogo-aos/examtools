@@ -29,6 +29,14 @@
   .ai button { flex: none; border: 0; border-radius: 999px; padding: 11px 20px; background: var(--sage); color: #fff; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(70,95,68,.18); transition: transform .15s, background .15s; }
   .ai button:hover, .ai button:focus-visible { background: var(--ink); transform: translateY(-2px); outline: none; }
   .ai template { display: none; }
+  .flow { margin: 28px 0 0 50%; transform: translateX(-50%); width: min(1240px, calc(100vw - 32px)); background: rgba(254,250,243,.9); border: 2px solid var(--sagel); border-radius: 24px; padding: 20px 22px 16px; box-shadow: 0 8px 24px rgba(70,95,68,.1); }
+  .flow-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-bottom: 12px; }
+  .flow-head h2 { font-size: 1.3rem; }
+  .flow-head a { color: var(--soft); font-size: .9rem; }
+  .flow-scroll { overflow-x: auto; border-radius: 16px; }
+  .flow-scroll img { display: block; width: 100%; min-width: 860px; height: auto; }
+  .flow-hint { display: none; margin-top: 8px; font-size: .85rem; }
+  @media (max-width: 900px) { .flow-hint { display: block; } }
   footer { margin-top: 28px; font-size: .85rem; color: var(--soft); }
   footer a { color: var(--soft); }
 </style>
@@ -118,6 +126,16 @@ THE TEST
 [attach or paste the test here]</template>
     <!-- ai-prompt:end -->
   </section>
+  <figure class="flow">
+    <div class="flow-head">
+      <h2>How it fits together</h2>
+      <a href="workflow.svg" target="_blank" rel="noopener">Open full size ↗</a>
+    </div>
+    <div class="flow-scroll">
+      <img src="workflow.svg" width="1700" height="860" alt="ExamTools workflow: write a question bank by hand or convert an existing test with AI; Exam Bench turns it into version files for the ODT Template Filler, which prints the exams, and a ZipGrade answer key, which grades the scanned answer sheets; the Exam Presenter shows the bank as slides for the correction in class.">
+    </div>
+    <p class="flow-hint">Scroll sideways to see the whole diagram.</p>
+  </figure>
   <footer><a href="manual.html">Manual</a> · Sample template: <a href="exam-template.odt" download>exam-template.odt</a> · <a href="https://github.com/diogo-aos/examtools">Source on GitHub</a></footer>
 </main>
 <script>
