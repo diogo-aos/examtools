@@ -22,6 +22,13 @@
   h2 { font-size: 1.3rem; }
   p { color: var(--soft); line-height: 1.4; }
   .go { margin-top: auto; padding-top: 8px; font-weight: 700; color: var(--sage); }
+  .ai { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; background: var(--pink); border: 2px solid var(--pinkdeep); border-radius: 24px; padding: 20px 22px; }
+  .ai div { flex: 1 1 280px; }
+  .ai h2 { font-size: 1.15rem; margin-bottom: 4px; }
+  .ai a { color: var(--soft); }
+  .ai button { flex: none; border: 0; border-radius: 999px; padding: 11px 20px; background: var(--sage); color: #fff; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(70,95,68,.18); transition: transform .15s, background .15s; }
+  .ai button:hover, .ai button:focus-visible { background: var(--ink); transform: translateY(-2px); outline: none; }
+  .ai template { display: none; }
   footer { margin-top: 28px; font-size: .85rem; color: var(--soft); }
   footer a { color: var(--soft); }
 </style>
@@ -53,7 +60,74 @@
       <span class="go">Read →</span>
     </a>
   </div>
+  <section class="ai">
+    <div>
+      <h2>Have an existing test? Convert it with AI</h2>
+      <p>Copy the ready-made prompt, paste it into an AI assistant such as Claude, then attach your Word, PDF or spreadsheet test. It returns a bank you can paste into Exam Bench. <a href="manual.html#9-converting-an-existing-test-with-an-ai-assistant">How it works</a></p>
+    </div>
+    <button id="copy-prompt" type="button">Copy AI prompt</button>
+    <!-- ai-prompt:start (generated from manual.md section 9.1 by render-manual.py — do not edit here) -->
+    <template id="ai-prompt">Convert the test I attach below into a JSON question bank for Exam Bench.
+Output a single JSON object and nothing else.
+
+FORMAT
+{
+  "format": "exam-bench-bank",
+  "meta": { "title": "&lt;test title&gt;", "symbols": { "multiple": "Ψ" } },
+  "tags": {
+    "&lt;tag&gt;": { "symbol": "&lt;one character or emoji&gt;", "title": "&lt;readable name&gt;", "keep_together": true }
+  },
+  "questions": [
+    {
+      "id": "&lt;unique-kebab-case-id&gt;",
+      "type": "single",
+      "tags": ["&lt;tag&gt;"],
+      "text": "&lt;question text&gt;",
+      "score": { "points": 1, "penalty": 0 },
+      "choices": [
+        { "text": "&lt;choice&gt;", "correct": true, "justification": "&lt;why&gt;" },
+        { "text": "&lt;choice&gt;", "correct": false }
+      ]
+    }
+  ]
+}
+
+RULES
+- "type" is "single" (exactly one correct choice) or "multiple" (one or more correct choices).
+- Each question has 2 to 5 choices, and at least one with "correct": true.
+- Keep question and choice text verbatim: do not fix typos, reword or translate.
+- "id": short, unique, lowercase, words joined by hyphens, based on the question.
+- "tags" are optional. Use lowercase "namespace:value" strings, e.g. "topic:ransomware".
+  [Tag each question with exactly one of these units: uc:..., uc:..., ...]
+- Questions that belong to the same case study or text share one tag, e.g. "case:ubiquiti".
+  Define that tag under "tags" with a symbol, a title and "keep_together": true.
+  Leave out the "tags" object if there are no case studies.
+- Leave out "score" unless the source gives points or penalties for that question.
+  [Points/penalties to use, if the source has none: ...]
+- Add a "justification" only when the source explains why a choice is right or wrong.
+  Never invent one.
+- Do not add fields that are not in the format above.
+
+DO NOT CONVERT
+List these after the JSON, under the heading COULD NOT CONVERT, with their number in the source:
+- open-ended questions (write those in the exam template instead);
+- questions with more than 5 choices;
+- questions that need an image, a table or a formula to be understood.
+
+THE TEST
+[attach or paste the test here]</template>
+    <!-- ai-prompt:end -->
+  </section>
   <footer><a href="manual.html">Manual</a> · Sample template: <a href="exam-template.odt" download>exam-template.odt</a> · <a href="https://github.com/diogo-aos/examtools">Source on GitHub</a></footer>
 </main>
+<script>
+  const btn = document.getElementById('copy-prompt');
+  btn.addEventListener('click', async () => {
+    const text = document.getElementById('ai-prompt').content.textContent;
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied ✓'; }
+    catch { btn.textContent = 'Copy failed — see the manual'; }
+    setTimeout(() => (btn.textContent = 'Copy AI prompt'), 2000);
+  });
+</script>
 </body>
 </html>

@@ -3,6 +3,9 @@
 
 Usage:  python3 render-manual.py [manual.md] [manual.html]
 
+Also copies the AI conversion prompt (the ```text block of section 9.1)
+into index.html, for the landing page's "Copy AI prompt" button.
+
 Supports the Markdown subset the manual uses: headings, paragraphs, bullet
 and numbered lists (nested by 4 spaces), fenced code blocks, tables,
 blockquotes, **bold**, *italic*, `code` and [links](url).
@@ -246,9 +249,30 @@ def page(title, toc, body):
 '''
 
 
+def sync_ai_prompt(md, index='index.html'):
+    """Copy the prompt of section 9.1 into the landing page's Copy button."""
+    m = re.search(r'^### 9\.1 .*?^```text\n(.*?)^```', md, re.S | re.M)
+    if not m:
+        print('warning: no ```text block under "### 9.1" — landing-page prompt not updated')
+        return
+    with open(index, encoding='utf-8') as f:
+        page_html = f.read()
+    new, n = re.subn(r'(<template id="ai-prompt">).*?(</template>)',
+                     lambda t: t.group(1) + html.escape(m.group(1).rstrip('\n'), quote=False) + t.group(2),
+                     page_html, flags=re.S)
+    if n != 1:
+        print(f'warning: <template id="ai-prompt"> not found once in {index} — not updated')
+        return
+    with open(index, 'w', encoding='utf-8') as f:
+        f.write(new)
+    print(f'AI prompt → {index}')
+
+
 if __name__ == '__main__':
     with open(SRC, encoding='utf-8') as f:
-        title, toc, body = render(f.read())
+        md = f.read()
+    title, toc, body = render(md)
+    sync_ai_prompt(md)
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(page(title or 'Manual', toc, body))
     print(f'{SRC} → {OUT} ({len(toc)} sections)')
