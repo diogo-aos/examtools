@@ -14,7 +14,7 @@ ExamTools is three single-file web apps. Each one runs entirely in your browser,
 
 The workflow, in order:
 
-1. Open your bank in **Exam Bench** (**Open**, drag a `.json` file onto the editor, or paste it). On a first visit the editor holds a small sample bank to start from; **Load sample** brings it back. The format is in Section 2.
+1. Open your bank in **Exam Bench** (**Open**, drag a `.json` file onto the editor, or paste it). On a first visit the editor holds a small sample bank to start from; **Load sample** brings it back. The format is in Section 2. To convert an existing test, use the ready-made AI prompt in Section 9.
 2. Fix every error (red) in the Problems panel under the editor. Warnings (amber) do not block anything.
 3. Optionally batch-edit scores and penalties in **Scoring** (Section 3).
 4. Open **Versions**, choose how many versions and how they are shuffled, and generate them (Section 4).
@@ -337,20 +337,71 @@ Each question becomes one slide, in bank order, with:
 
 Keys: `Space` or `→` next, `←` previous, `R` hide or show the answers, `F` full screen, `Esc` exit. Inactive questions are skipped unless you tick the option to include them.
 
-## 9. Converting an existing bank with an AI assistant
+## 9. Converting an existing test with an AI assistant
 
-An AI assistant can usually convert questions from a Word document, spreadsheet or PDF into this format. To get a clean result:
+There are two ways to get a bank: write the JSON yourself (from scratch, or by editing the sample Exam Bench opens with), or convert an existing test — a Word document, a PDF, a spreadsheet — with an AI assistant such as Claude.
 
-- **Give it the format, not just an example.** Paste Sections 2.1–2.4 of this manual. A model shown only one example tends to invent fields that look plausible.
-- **Be explicit** about the rules that do not show up in an example: at most 5 choices; a `single` question has exactly one `"correct": true`; tags are lowercase `namespace:value`; text kept verbatim; no open questions.
+### 9.1 The ready-made prompt
 
-A prompt that works well:
+Copy the whole block below into the assistant, attach or paste your test after it, and fill in the two lines in square brackets (or delete them). The prompt already contains the format, so you do not need to paste anything else from this manual.
 
-> Convert the attached questions into the JSON bank format described below. Output one JSON object with a `questions` array only. For every question: a unique kebab-case `id`; `type` (`single`, or `multiple` when several answers are correct); `tags` with exactly one `uc:` tag from this list — [your units] — and one or two `topic:` tags; and `choices` with `text` and `correct`. Leave out `score` unless the source gives points. Keep all text verbatim. Add a `justification` only if the source explains the answer. If a question has more than five choices, is open-ended, or depends on an image or a table, list it at the end under "COULD NOT CONVERT" instead of guessing.
+```text
+Convert the test I attach below into a JSON question bank for Exam Bench.
+Output a single JSON object and nothing else.
 
-Then always:
+FORMAT
+{
+  "format": "exam-bench-bank",
+  "meta": { "title": "<test title>", "symbols": { "multiple": "Ψ" } },
+  "tags": {
+    "<tag>": { "symbol": "<one character or emoji>", "title": "<readable name>", "keep_together": true }
+  },
+  "questions": [
+    {
+      "id": "<unique-kebab-case-id>",
+      "type": "single",
+      "tags": ["<tag>"],
+      "text": "<question text>",
+      "score": { "points": 1, "penalty": 0 },
+      "choices": [
+        { "text": "<choice>", "correct": true, "justification": "<why>" },
+        { "text": "<choice>", "correct": false }
+      ]
+    }
+  ]
+}
 
-1. Paste the result into Exam Bench and fix every error in the Problems panel.
-2. Skim the preview: a wrong choice marked correct, or a truncated choice, is easy to miss.
-3. Check the choice count of questions that had more than five options in the source.
+RULES
+- "type" is "single" (exactly one correct choice) or "multiple" (one or more correct choices).
+- Each question has 2 to 5 choices, and at least one with "correct": true.
+- Keep question and choice text verbatim: do not fix typos, reword or translate.
+- "id": short, unique, lowercase, words joined by hyphens, based on the question.
+- "tags" are optional. Use lowercase "namespace:value" strings, e.g. "topic:ransomware".
+  [Tag each question with exactly one of these units: uc:..., uc:..., ...]
+- Questions that belong to the same case study or text share one tag, e.g. "case:ubiquiti".
+  Define that tag under "tags" with a symbol, a title and "keep_together": true.
+  Leave out the "tags" object if there are no case studies.
+- Leave out "score" unless the source gives points or penalties for that question.
+  [Points/penalties to use, if the source has none: ...]
+- Add a "justification" only when the source explains why a choice is right or wrong.
+  Never invent one.
+- Do not add fields that are not in the format above.
+
+DO NOT CONVERT
+List these after the JSON, under the heading COULD NOT CONVERT, with their number in the source:
+- open-ended questions (write those in the exam template instead);
+- questions with more than 5 choices;
+- questions that need an image, a table or a formula to be understood.
+
+THE TEST
+[attach or paste the test here]
+```
+
+### 9.2 Checking the result
+
+Models make mistakes that are easy to miss in a quick read. After every conversion:
+
+1. Paste the JSON into Exam Bench and fix every error in the Problems panel.
+2. Skim the preview: a wrong choice marked correct, or a truncated choice, is the most common slip.
+3. Compare the number of questions with the source, and read the COULD NOT CONVERT list.
 4. Check the tag counts in the Scoring panel's chips against what you expect.

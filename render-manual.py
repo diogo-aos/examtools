@@ -71,7 +71,8 @@ def render(md):
                 j += 1
             code = html.escape('\n'.join(lines[i + 1:j]))
             label = f'<span class="lang">{html.escape(lang)}</span>' if lang and lang != 'text' else ''
-            body.append(f'<div class="code">{label}<pre><code>{code}</code></pre></div>')
+            wrap = ' wrap' if lang == 'text' else ''                # prose-like blocks (the AI prompt) wrap
+            body.append(f'<div class="code{wrap}">{label}<pre><code>{code}</code></pre></div>')
             i = j + 1
         elif m := re.match(r'^(#{1,3}) +(.*)$', line):
             level, text = len(m.group(1)), m.group(2).strip()
@@ -161,8 +162,12 @@ a { color: #5E7F5C; }
 code { font: .86em/1.4 "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; background: var(--code);
        border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; }
 .code { position: relative; margin: 14px 0; }
-.code .lang { position: absolute; top: 8px; right: 12px; font: 700 .68rem/1 system-ui, sans-serif;
+.code .lang { position: absolute; top: 8px; right: 78px; font: 700 .68rem/1 system-ui, sans-serif;
               letter-spacing: .08em; text-transform: uppercase; color: var(--sage); }
+.code .copy { position: absolute; top: 6px; right: 8px; border: 0; border-radius: 999px; padding: 3px 11px;
+              background: var(--sagel); color: var(--ink); font: 700 .7rem/1.4 system-ui, sans-serif; cursor: pointer; }
+.code .copy:hover { background: var(--pink); }
+.code.wrap pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 pre { margin: 0; background: #2B3A2A; color: #EAF1E6; border-radius: 16px; padding: 18px 20px; overflow-x: auto; }
 pre code { background: none; border: 0; padding: 0; color: inherit; font-size: .84rem; line-height: 1.55; }
 .table { overflow-x: auto; margin: 14px 0; border: 2px solid var(--line); border-radius: 16px; }
@@ -201,6 +206,16 @@ const mark = () => {
   links.forEach((a, i) => a.classList.toggle('on', i === cur));
 };
 addEventListener('scroll', mark, { passive: true }); mark();
+// a Copy button on every code block (the AI prompt, JSON examples)
+document.querySelectorAll('.code').forEach(box => {
+  const btn = Object.assign(document.createElement('button'), { className: 'copy', type: 'button', textContent: 'Copy' });
+  btn.onclick = async () => {
+    try { await navigator.clipboard.writeText(box.querySelector('code').textContent); btn.textContent = 'Copied ✓'; }
+    catch { btn.textContent = 'Select & copy'; }
+    setTimeout(() => (btn.textContent = 'Copy'), 1800);
+  };
+  box.appendChild(btn);
+});
 // phones: the contents list starts collapsed so the manual is visible first
 if (matchMedia('(max-width: 860px)').matches) document.querySelector('details.toc').removeAttribute('open');
 '''

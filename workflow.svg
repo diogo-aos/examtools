@@ -45,6 +45,9 @@
   </g>
 
   <!-- ───────── flows (drawn under the cards) ───────── -->
+  <!-- sources → bank -->
+  <path class="flow" d="M150 262 L 150 294" marker-end="url(#arr)"/>
+  <path class="flow" d="M424 262 C 424 290, 236 270, 226 294" marker-end="url(#arr)"/>
   <!-- bank → exam bench -->
   <path class="flow" d="M250 420 L 294 420" marker-end="url(#arr)"/>
   <!-- exam bench → version json -->
@@ -77,6 +80,22 @@
   <text x="1274" y="594" class="lbl">after the test</text>
 
   <!-- ───────── cards ───────── -->
+
+  <!-- sources of the bank -->
+  <text x="42" y="132" class="lane">START FROM</text>
+  <rect x="40" y="144" width="220" height="118" rx="20" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="60" y="160" width="74" height="22" rx="11" fill="#B8CFB3"/>
+  <text x="97" y="175.5" text-anchor="middle" font-size="11" font-weight="800" fill="#2B3A2A">BY HAND</text>
+  <text x="60" y="208" class="h" font-size="15.5">Write the JSON</text>
+  <text x="60" y="230" class="t" font-size="12.5">from scratch, or edit the</text>
+  <text x="60" y="248" class="t" font-size="12.5">sample in Exam Bench</text>
+
+  <rect x="284" y="144" width="266" height="118" rx="20" fill="#FFFFFF" stroke="#B8CFB3" stroke-width="2" stroke-dasharray="6 5"/>
+  <rect x="304" y="160" width="84" height="22" rx="11" fill="#F6E2E9"/>
+  <text x="346" y="175.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8C4E66">WITH AI ★</text>
+  <text x="304" y="208" class="h" font-size="15.5">Convert an existing test</text>
+  <text x="304" y="230" class="t" font-size="12.5">Word, PDF or spreadsheet → JSON</text>
+  <text x="304" y="248" class="t" font-size="12.5">with an AI assistant</text>
 
   <!-- question bank -->
   <g filter="url(#sh)">
@@ -198,6 +217,9 @@
   <text x="1172" y="694" class="h" font-size="17">Correction</text>
   <text x="1172" y="716" class="h" font-size="17">in class</text>
   <text x="1172" y="744" class="t" font-size="13">Space → · R reveal</text>
+
+  <!-- footnote -->
+  <text x="1374" y="820" text-anchor="end" font-size="12.5" class="t"><tspan fill="#8C4E66" font-weight="800">★</tspan> A ready-made AI prompt is in the manual, section 9</text>
 
   <!-- legend -->
   <g transform="translate(40 820)" font-size="12.5" class="t">
